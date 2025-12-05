@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home.jsx';
 import Shorts from './pages/Shorts.jsx';
-import ArticleViewer from './pages/ArticleViewer.jsx';
+import ShortForm from './pages/ShortForm.jsx';
 import OnboardingModal from './components/OnboardingModal.jsx';
 import { AuthProvider } from './contexts/AuthContext.jsx';
 import { BookmarkProvider } from './contexts/BookmarkContext.jsx';
@@ -24,8 +24,8 @@ export default function App() {
 							element={<Shorts />}
 						/>
 						<Route
-							path="/article-viewer"
-							element={<ArticleViewer />}
+							path="/shortform"
+							element={<ShortForm />}
 						/>
 					</Routes>
 						<OnboardingModal />

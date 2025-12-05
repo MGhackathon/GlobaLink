@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function NewsFeedGrid({ onToggleView }) {
+	const navigate = useNavigate();
 	// 간단한 목업 데이터 (12개 카드)
 	const mockCards = Array.from({ length: 12 }, (_, i) => ({
 		id: i + 1,
@@ -36,7 +38,7 @@ export default function NewsFeedGrid({ onToggleView }) {
 				{mockCards.map((card) => (
 					<article
 						key={card.id}
-						onClick={() => alert('뉴스 상세 페이지로 이동')}
+						onClick={() => navigate('/shortform', { state: { article: card } })}
 						className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden group hover:shadow-md hover:-translate-y-0.5 transition-all ease-in-out duration-150 h-full flex flex-col cursor-pointer"
 					>
 						{/* 이미지 플레이스홀더 */}
