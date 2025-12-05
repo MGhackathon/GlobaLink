@@ -1,0 +1,120 @@
+{
+  "success": true,
+  "date": "2025-12-06",
+  "videos": [
+    {
+      "id": "vs-11485397",
+      "title": "AI인재 처우 주요국 꼴찌수준… 1만1000명 해외로 떠났다",
+      "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "thumbnailUrl": "https://pimg.mk.co.kr/news/cms/202512/06/20251206_01110102000004_L00.jpg",
+      "source": "매일경제",
+      "category": "경제",
+      "publishedAt": "2025-12-05T17:21:04+09:00",
+      "duration": 45,
+      "url": "https://www.mk.co.kr/news/economy/11485397"
+    },
+    {
+      "id": "vs-11485490",
+      "title": "AI 넘어 ASI 가리킨 손정의…이재명 대통령과 70분간 협력논의",
+      "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      "thumbnailUrl": "https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.5e5a70c5b4c34ccaa3800383e6206c39_R.jpg",
+      "source": "매일경제",
+      "category": "정치",
+      "publishedAt": "2025-12-05T18:09:10+09:00",
+      "duration": 52,
+      "url": "https://www.mk.co.kr/news/politics/11485490"
+    },
+    {
+      "id": "vs-11485059",
+      "title": "AWS, 차세대 컴퓨팅칩 '그래비톤5' 공개…성능 25%↑",
+      "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+      "thumbnailUrl": "https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.ea5d1370fe9a49c097ffc1dc01e6952d_R.jpg",
+      "source": "매일경제",
+      "category": "IT",
+      "publishedAt": "2025-12-05T13:37:51+09:00",
+      "duration": 38,
+      "url": "https://www.mk.co.kr/news/it/11485059"
+    },
+    {
+      "id": "vs-11485458",
+      "title": "젠슨 황 소형원전, 저커버그 메타버스→AI, 머스크 휴머노이드",
+      "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+      "thumbnailUrl": "https://static.mk.co.kr/facebook_mknews.jpg",
+      "source": "매일경제",
+      "category": "IT",
+      "publishedAt": "2025-12-05T17:32:29+09:00",
+      "duration": 41,
+      "url": "https://www.mk.co.kr/news/it/11485458"
+    },
+    {
+      "id": "vs-11485582",
+      "title": "넷플릭스, 122조원에 워너브러더스 품었다",
+      "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+      "thumbnailUrl": "https://pimg.mk.co.kr/news/cms/202512/06/20251206_01170106000004_M00.jpg",
+      "source": "매일경제",
+      "category": "국제",
+      "publishedAt": "2025-12-05T22:23:47+09:00",
+      "duration": 48,
+      "url": "https://www.mk.co.kr/news/world/11485582"
+    },
+    {
+      "id": "vs-11485396",
+      "title": "최태원 \"AI 3강 되려면 데이터센터에 1400조 투자를\"",
+      "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+      "thumbnailUrl": "https://pimg.mk.co.kr/news/cms/202512/06/20251206_01160102000002_L00.jpg",
+      "source": "매일경제",
+      "category": "경제",
+      "publishedAt": "2025-12-05T17:21:04+09:00",
+      "duration": 55,
+      "url": "https://www.mk.co.kr/news/economy/11485396"
+    },
+    {
+      "id": "vs-11485596",
+      "title": "대만방어 최우선, 한국 국방지출 늘려야…트럼프 행정부 새 국가안보전략",
+      "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+      "thumbnailUrl": "https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.0f6fc29dff9b4d69b0be5faa8932a17c_R.jpeg",
+      "source": "매일경제",
+      "category": "정치",
+      "publishedAt": "2025-12-05T23:08:05+09:00",
+      "duration": 43,
+      "url": "https://www.mk.co.kr/news/politics/11485596"
+    },
+    {
+      "id": "vs-11485576",
+      "title": "조진웅, 소년범 인정·성폭행 부인",
+      "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+      "thumbnailUrl": "https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.f9be9f52eed247e1b9349a89772dfca3_R.jpeg",
+      "source": "매일경제",
+      "category": "핫이슈",
+      "publishedAt": "2025-12-05T22:01:51+09:00",
+      "duration": 36,
+      "url": "https://www.mk.co.kr/news/hot-issues/11485576"
+    },
+    {
+      "id": "vs-dummy1",
+      "title": "글로벌 경제 전망: 2025년 성장률 예측",
+      "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "thumbnailUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/TearsOfSteel.jpg",
+      "source": "매일경제",
+      "category": "경제",
+      "publishedAt": "2025-12-05T20:00:00+09:00",
+      "duration": 47,
+      "url": "https://example.com/global-economy"
+    },
+    {
+      "id": "vs-dummy2",
+      "title": "기후 변화 대응: 세계 정상회의 주요 합의사항",
+      "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4",
+      "thumbnailUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/VolkswagenGTIReview.jpg",
+      "source": "매일경제",
+      "category": "국제",
+      "publishedAt": "2025-12-05T19:00:00+09:00",
+      "duration": 39,
+      "url": "https://example.com/climate-summit"
+    }
+  ],
+  "metadata": {
+    "total_videos": 10,
+    "created_at": "2025-12-06T04:00:00Z"
+  }
+}

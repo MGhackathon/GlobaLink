@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DateHeader from '../components/DateHeader.jsx';
 import VideoShortCard from '../components/VideoShortCard.jsx';
-import { MOCK_VIDEO_SHORTS } from '../utils/mockVideoData.js';
+import { fetchVideoShorts } from '../api/contentAPI.js';
 
 export default function Shorts() {
 	const [videos, setVideos] = useState([]);
@@ -16,10 +16,12 @@ export default function Shorts() {
 		const loadVideos = async () => {
 			setLoading(true);
 			try {
-				// Load mock video data (already limited to 10 videos)
-				setVideos(MOCK_VIDEO_SHORTS);
+				// Load video data from API (최대 10개)
+				const data = await fetchVideoShorts();
+				setVideos(data.slice(0, 10)); // TOP 10만 가져오기
 			} catch (error) {
-				console.error('Error loading videos:', error);
+				console.error('비디오 로드 오류:', error);
+				setVideos([]);
 			} finally {
 				setLoading(false);
 			}

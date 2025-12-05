@@ -1,72 +1,82 @@
 // Mock data for ShortForm page
+// 실제 크롤링된 매일경제 뉴스 데이터 사용
 
 // 숏글 (Card News) 데이터
 export const MOCK_SHORTGEUL_DATA = [
 	{
-		id: 'sg-1',
+		id: 'sg-11485397',
 		type: 'shortgeul',
-		title: 'AI 기술, 의료 분야 혁신 주도',
-		summary: 'AI 기술이 의료 진단의 정확도를 크게 향상시키고 있습니다. 최신 AI 진단 시스템은 95% 이상의 정확도를 보이며, 의료진의 업무 효율을 높이고 있습니다. 전문가들은 AI가 의료 분야의 핵심 도구가 될 것으로 전망합니다.',
+		title: 'AI인재 처우 주요국 꼴찌수준… 1만1000명 해외로 떠났다',
+		summary: '한국 AI 인재 1만1000명 해외로 이탈. 임금 프리미엄 미국 25%에 비해 한국 6%. 패턴인식, 뇌과학 등에서 높은 임금. 딥러닝, 머신러닝은 낮음.',
 		pages: [
 			{
 				type: 'cover',
-				title: 'AI 기술, 의료 분야 혁신 주도',
-				summary: 'AI 기술이 의료 진단의 정확도를 크게 향상시키고 있습니다. 최신 AI 진단 시스템은 95% 이상의 정확도를 보이며, 의료진의 업무 효율을 높이고 있습니다. 전문가들은 AI가 의료 분야의 핵심 도구가 될 것으로 전망합니다.',
-				source: 'TechHealth Daily',
-				publishedAt: '3시간 전'
+				title: 'AI인재 처우 주요국 꼴찌수준… 1만1000명 해외로 떠났다',
+				summary: '한국 AI 인재 1만1000명 해외로 이탈. 임금 프리미엄 미국 25%에 비해 한국 6%',
+				source: '매일경제',
+				publishedAt: '2025-12-05T17:21:04+09:00',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01110102000004_L00.jpg'
 			},
 			{
 				type: 'content',
-				content: 'AI 기반 진단 시스템은 의료 영상 분석에서 탁월한 성능을 보이고 있습니다. CT, MRI, X-ray 이미지를 분석하여 질병을 조기에 발견하고 있습니다.',
-				caption: '주요 포인트 1'
+				content: '인공지능(AI) 붐으로 세계 각국이 인재 유치 경쟁에 나선 가운데 국외에서 근무하는 한국의 AI 인력이 1만명을 넘어섰습니다.',
+				caption: '현황',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01110102000004_L00.jpg'
 			},
 			{
 				type: 'content',
-				content: '전 세계 주요 병원들이 AI 시스템을 도입하고 있으며, 환자 진료 대기 시간이 평균 40% 단축되었습니다.',
-				caption: '주요 포인트 2'
+				content: '국내 AI 인력이 받는 임금 프리미엄은 6%로 미국(25%), 캐나다(18%), 영국·프랑스·호주(15%)에 비해 크게 낮습니다.',
+				caption: '임금 비교',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01110102000004_L00.jpg'
 			},
 			{
 				type: 'content',
-				content: '전문가들은 2030년까지 대부분의 의료 기관이 AI 보조 진단 시스템을 필수적으로 사용할 것으로 예상하고 있습니다.',
-				caption: '향후 전망'
+				content: '해외 근무 국가 중에서는 미국이 6300여 명으로 가장 많았으며, 캐나다와 싱가포르 등이 뒤를 이었습니다.',
+				caption: '인재 유출',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01110102000004_L00.jpg'
 			}
+
 		],
-		source: 'TechHealth Daily',
-		publishedAt: '3시간 전',
-		url: 'https://example.com/ai-healthcare'
+		source: '매일경제',
+		publishedAt: '2025-12-05T17:21:04+09:00',
+		url: 'https://www.mk.co.kr/news/economy/11485397'
 	},
 	{
-		id: 'sg-2',
+		id: 'sg-11485490',
 		type: 'shortgeul',
-		title: '전기차 시장, 2025년 폭발적 성장 예상',
-		summary: '글로벌 전기차 시장이 급성장하고 있습니다. 2025년에는 전년 대비 150% 성장이 예상되며, 주요 자동차 제조사들이 전기차 라인업을 대폭 확대하고 있습니다. 배터리 기술 발전으로 주행거리도 크게 늘어날 전망입니다.',
+		title: 'AI 넘어 ASI 가리킨 손정의…이재명 대통령과 70분간 협력논의',
+		summary: '손정의 소프트뱅크 회장과 이재명 대통령이 AI 협력 논의. 손 회장은 ASI 개념 강조, 인간 두뇌의 1만배 뛰어난 초인공지능으로 AI 발전 주장.',
 		pages: [
 			{
 				type: 'cover',
-				title: '전기차 시장, 2025년 폭발적 성장 예상',
-				summary: '글로벌 전기차 시장이 급성장하고 있습니다. 2025년에는 전년 대비 150% 성장이 예상되며, 주요 자동차 제조사들이 전기차 라인업을 대폭 확대하고 있습니다. 배터리 기술 발전으로 주행거리도 크게 늘어날 전망입니다.',
-				source: 'Auto World',
-				publishedAt: '5시간 전'
+				title: 'AI 넘어 ASI 가리킨 손정의…이재명 대통령과 70분간 협력논의',
+				summary: '손정의 회장이 이재명 대통령과 만나 초인공지능(ASI) 시대를 강조했습니다',
+				source: '매일경제',
+				publishedAt: '2025-12-05T18:09:10+09:00',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.5e5a70c5b4c34ccaa3800383e6206c39_R.jpg'
 			},
 			{
 				type: 'content',
-				content: '테슬라, 현대차, BMW 등 주요 제조사들이 2025년에 신형 전기차 20여 종을 출시할 계획입니다.',
-				caption: '시장 동향'
+				content: '손정의 회장은 "인간의 두뇌보다 1만배 더 뛰어난 초인공지능(ASI)이 다음번에 임박한 기술"이라고 강조했습니다.',
+				caption: 'ASI 시대',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.5e5a70c5b4c34ccaa3800383e6206c39_R.jpg'
 			},
 			{
 				type: 'content',
-				content: '차세대 배터리 기술로 1회 충전 주행거리가 800km를 넘어서며, 충전 시간도 20분 이내로 단축될 예정입니다.',
-				caption: '기술 혁신'
+				content: '이재명 대통령은 "AI를 상수도·하수도·도로처럼 모든 국민이 함께 누리는 인프라로 활용하겠다"고 밝혔습니다.',
+				caption: 'AI 기본사회',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.5e5a70c5b4c34ccaa3800383e6206c39_R.jpg'
 			},
 			{
 				type: 'content',
-				content: '정부의 친환경차 보조금 정책과 충전 인프라 확대로 전기차 보급이 더욱 가속화될 것으로 전망됩니다.',
-				caption: '정책 지원'
+				content: '소프트뱅크의 Arm이 한국에 암스쿨을 설치하고 향후 5년간 1400명의 반도체 설계 인력을 양성하기로 했습니다.',
+				caption: '협력 합의',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.5e5a70c5b4c34ccaa3800383e6206c39_R.jpg'
 			}
 		],
-		source: 'Auto World',
-		publishedAt: '5시간 전',
-		url: 'https://example.com/ev-market'
+		source: '매일경제',
+		publishedAt: '2025-12-05T18:09:10+09:00',
+		url: 'https://www.mk.co.kr/news/politics/11485490'
 	},
 	{
 		id: 'sg-3',
@@ -134,38 +144,27 @@ export const MOCK_SHORTGEUL_DATA = [
 		publishedAt: '6시간 전',
 		url: 'https://example.com/crypto-regulation'
 	},
+	// ⚠️ 5번째 자리: 광고 슬롯 (AD SLOT)
+	// 이 자리는 광고용으로 예약되어 있습니다
+	// 광고 컴포넌트를 여기에 삽입하세요
 	{
-		id: 'sg-5',
-		type: 'shortgeul',
-		title: '우주 관광 시대 본격화, 2025년 상업 운영 시작',
-		summary: '민간 우주 기업들이 2025년부터 본격적인 우주 관광 서비스를 시작합니다. 초기 비용은 25만 달러 수준이지만, 향후 10년 내 대중화가 가능할 것으로 예상됩니다. 우주 호텔 건설 계획도 발표되었습니다.',
+		id: 'ad-slot-1',
+		type: 'advertisement',
+		title: '[광고]',
+		summary: '광고가 표시될 위치입니다',
 		pages: [
 			{
 				type: 'cover',
-				title: '우주 관광 시대 본격화, 2025년 상업 운영 시작',
-				summary: '민간 우주 기업들이 2025년부터 본격적인 우주 관광 서비스를 시작합니다. 초기 비용은 25만 달러 수준이지만, 향후 10년 내 대중화가 가능할 것으로 예상됩니다. 우주 호텔 건설 계획도 발표되었습니다.',
-				source: 'Space Today',
-				publishedAt: '2일 전'
-			},
-			{
-				type: 'content',
-				content: 'SpaceX, Blue Origin 등이 준궤도 우주 관광 서비스를 상업화하며, 일반인도 우주를 경험할 수 있게 되었습니다.',
-				caption: '서비스 개시'
-			},
-			{
-				type: 'content',
-				content: '3박 4일 우주 정거장 체류 프로그램도 개발 중이며, 2027년부터 운영될 예정입니다.',
-				caption: '미래 계획'
-			},
-			{
-				type: 'content',
-				content: '전문가들은 기술 발전과 규모의 경제로 2035년에는 비용이 현재의 10분의 1 수준으로 낮아질 것으로 전망합니다.',
-				caption: '가격 전망'
+				title: '광고',
+				summary: '여기에 광고가 표시됩니다',
+				source: 'GlobaLink AD',
+				publishedAt: new Date().toISOString()
 			}
 		],
-		source: 'Space Today',
-		publishedAt: '2일 전',
-		url: 'https://example.com/space-tourism'
+		source: 'GlobaLink AD',
+		publishedAt: new Date().toISOString(),
+		url: '#',
+		isAd: true // 광고 식별용 플래그
 	},
 	{
 		id: 'sg-6',
