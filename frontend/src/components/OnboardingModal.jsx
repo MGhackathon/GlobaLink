@@ -2,41 +2,58 @@ import React, { useState, useRef } from 'react';
 import TinderCard from 'react-tinder-card';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import { useOnboarding } from '../contexts/OnboardingContext.jsx';
+import { MOCK_SHORTGEUL_DATA } from '../utils/mockShortFormData.js';
 
-// Mock news articles data (시연용 - 3개)
-const MOCK_ARTICLES = [
-	{
-		id: 1,
-		title: 'Global Tech Giants Announce New AI Partnership',
-		source: 'Tech News',
-		snippet: 'Major technology companies join forces to develop next-generation AI solutions.',
-		category: 'technology'
-	},
-	{
-		id: 2,
-		title: 'Climate Summit Reaches Historic Agreement',
-		source: 'Environmental Times',
-		snippet: 'World leaders commit to ambitious carbon reduction targets.',
-		category: 'science'
-	},
-	{
-		id: 3,
-		title: 'Space Exploration Milestone Achieved',
-		source: 'Science Daily',
-		snippet: 'New mission successfully lands on distant planet, opening possibilities.',
-		category: 'science'
-	}
-];
+// Transform news data for onboarding cards (시연용 3개 - 각기 다른 카테고리)
+const transformNewsToOnboardingCards = (newsData) => {
+	const nonAdArticles = newsData.filter(item => !item.isAd);
 
-// Category color utility function
+	// 시연용: 카테고리별로 1개씩 선택 (경제, 정치, IT)
+	const selectedCategories = ['경제', '정치', 'IT'];
+	const selectedArticles = selectedCategories
+		.map(category => nonAdArticles.find(article => article.category === category))
+		.filter(article => article); // undefined 제거
+
+	return selectedArticles.map(article => {
+		// Extract snippet from summary page
+		const summaryPage = article.pages?.find(p => p.type === 'summary');
+		const snippet = summaryPage?.summary?.split('\n').slice(0, 2).join(' ') ||
+			article.title.substring(0, 100);
+
+		// Extract image from cover page
+		const coverPage = article.pages?.find(p => p.type === 'cover');
+		const imageUrl = coverPage?.image || article.pages?.[0]?.image;
+
+		return {
+			id: article.id,
+			title: article.title,
+			source: article.source,
+			snippet: snippet,
+			category: article.category,
+			image: imageUrl
+		};
+	});
+};
+
+// Category color utility function (updated with Korean categories)
 const getCategoryColor = (category) => {
 	const colors = {
+		// English categories
 		technology: 'bg-cyan-100 text-cyan-800 border border-cyan-200',
 		business: 'bg-blue-100 text-blue-800 border border-blue-200',
 		entertainment: 'bg-purple-100 text-purple-800 border border-purple-200',
 		health: 'bg-green-100 text-green-800 border border-green-200',
 		science: 'bg-indigo-100 text-indigo-800 border border-indigo-200',
 		sports: 'bg-orange-100 text-orange-800 border border-orange-200',
+		// Korean categories (from MOCK_SHORTGEUL_DATA)
+		'경제': 'bg-blue-100 text-blue-800 border border-blue-200',
+		'정치': 'bg-purple-100 text-purple-800 border border-purple-200',
+		'사회': 'bg-green-100 text-green-800 border border-green-200',
+		'국제': 'bg-indigo-100 text-indigo-800 border border-indigo-200',
+		'문화': 'bg-pink-100 text-pink-800 border border-pink-200',
+		'IT': 'bg-cyan-100 text-cyan-800 border border-cyan-200',
+		'IT/과학': 'bg-cyan-100 text-cyan-800 border border-cyan-200',
+		'스포츠': 'bg-orange-100 text-orange-800 border border-orange-200',
 		general: 'bg-gray-100 text-gray-800 border border-gray-200'
 	};
 	return colors[category] || colors.general;
@@ -45,12 +62,16 @@ const getCategoryColor = (category) => {
 export default function OnboardingModal() {
 	const { showOnboardingModal, closeOnboardingModal } = useAuth();
 	const { addInterest } = useOnboarding();
-	const [currentIndex, setCurrentIndex] = useState(MOCK_ARTICLES.length - 1);
+
+	// Transform news data on component mount
+	const articles = transformNewsToOnboardingCards(MOCK_SHORTGEUL_DATA);
+
+	const [currentIndex, setCurrentIndex] = useState(articles.length - 1);
 	const currentIndexRef = useRef(currentIndex);
 	const [swipeDirection, setSwipeDirection] = useState(null); // 'left' | 'right' | null
 
 	const childRefs = useRef(
-		Array(MOCK_ARTICLES.length)
+		Array(articles.length)
 			.fill(0)
 			.map(() => ({ current: null }))
 	);
@@ -60,7 +81,7 @@ export default function OnboardingModal() {
 		currentIndexRef.current = val;
 	};
 
-	const canGoBack = currentIndex < MOCK_ARTICLES.length - 1;
+	const canGoBack = currentIndex < articles.length - 1;
 	const canSwipe = currentIndex >= 0;
 
 	const swiped = (direction, articleId, index) => {
@@ -109,7 +130,7 @@ export default function OnboardingModal() {
 	};
 
 	const swipe = async (dir) => {
-		if (canSwipe && currentIndex < MOCK_ARTICLES.length) {
+		if (canSwipe && currentIndex < articles.length) {
 			await childRefs.current[currentIndex].current?.swipe(dir);
 		}
 	};
@@ -128,26 +149,25 @@ export default function OnboardingModal() {
 	if (!showOnboardingModal) return null;
 
 	return (
-		<div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-			<div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg h-[90vh] flex flex-col overflow-hidden animate-toss-scale">
-				{/* Header with Close Button */}
-				<div className="flex items-center justify-between p-4 border-b border-gray-200 flex-shrink-0">
-					<h2 className="text-lg font-semibold text-gray-900">
-						관심있는 뉴스를 선택해주세요
-					</h2>
-					<button
-						onClick={handleClose}
-						className="text-gray-400 hover:text-gray-600 transition-colors p-1.5 hover:bg-gray-100 rounded-lg active:scale-95"
-						title="닫기"
-					>
-						<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-							<path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-						</svg>
-					</button>
-				</div>
+		<div className="fixed inset-0 bg-white z-50 flex flex-col overflow-hidden">
+			{/* Header with Close Button */}
+			<div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200 flex-shrink-0">
+				<h2 className="text-xl sm:text-2xl font-bold text-gray-900">
+					관심있는 뉴스를 선택해주세요
+				</h2>
+				<button
+					onClick={handleClose}
+					className="text-gray-400 hover:text-gray-600 transition-colors p-2 hover:bg-gray-100 rounded-lg active:scale-95"
+					title="닫기"
+				>
+					<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+						<path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+					</svg>
+				</button>
+			</div>
 
-				{/* Card Stack Container */}
-				<div className="relative flex-1 flex items-center justify-center py-10 px-12">
+			{/* Card Stack Container */}
+			<div className="relative flex-1 flex items-center justify-center py-8 px-4 sm:px-6">
 					{/* 되돌리기 버튼 - 좌상단 */}
 					<button
 						onClick={goBack}
@@ -193,7 +213,7 @@ export default function OnboardingModal() {
 						</div>
 					</div>
 
-					{MOCK_ARTICLES.map((article, index) => {
+					{articles.map((article, index) => {
 						const isVisible = index >= currentIndex - 2 && index <= currentIndex;
 						const position = currentIndex - index;
 
@@ -216,15 +236,14 @@ export default function OnboardingModal() {
 								preventSwipe={['up', 'down']}
 								className="absolute"
 								style={{
-									zIndex: MOCK_ARTICLES.length - index,
+									zIndex: articles.length - index,
 									pointerEvents: index === currentIndex ? 'auto' : 'none'
 								}}
 							>
 								<div
-									className="bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden flex flex-col cursor-grab active:cursor-grabbing relative select-none"
+									className="bg-white border border-gray-200 rounded-2xl shadow-2xl overflow-hidden flex flex-col cursor-grab active:cursor-grabbing relative select-none w-full max-w-sm"
 									style={{
-										width: '320px',
-										height: '440px',
+										height: 'min(500px, 65vh)',
 										transform: `scale(${1 - position * 0.04}) translateY(${position * 15}px) translateX(${translateX}px) rotate(${rotateAngle}deg)`,
 										transition: index === currentIndex
 											? 'none'
@@ -247,15 +266,25 @@ export default function OnboardingModal() {
 											: 'transparent'
 									}}
 								/>
-								{/* 이미지 영역 - 스켈레톤만 */}
-								<div className="relative h-48 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
-									{/* 이미지 아이콘 */}
-									<div className="w-full h-full flex items-center justify-center">
-										<svg className="w-16 h-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-											<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-												d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-										</svg>
-									</div>
+								{/* 이미지 영역 */}
+								<div className="relative h-64 sm:h-72 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
+									{article.image ? (
+										<img
+											src={article.image}
+											alt={article.title}
+											className="w-full h-full object-cover"
+											onError={(e) => {
+												e.target.style.display = 'none';
+											}}
+										/>
+									) : (
+										<div className="w-full h-full flex items-center justify-center">
+											<svg className="w-16 h-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+													d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+											</svg>
+										</div>
+									)}
 
 									{/* 그라디언트 오버레이 */}
 									<div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
@@ -291,20 +320,19 @@ export default function OnboardingModal() {
 						</TinderCard>
 						);
 					})}
-				</div>
+			</div>
 
-				{/* Progress Indicator */}
-				<div className="px-4 pb-4 flex-shrink-0">
-					<div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-						<div
-							className="h-full bg-primary-500 transition-all duration-300 ease-out"
-							style={{ width: `${((MOCK_ARTICLES.length - currentIndex - 1) / MOCK_ARTICLES.length) * 100}%` }}
-						/>
-					</div>
-					<p className="text-xs text-center text-gray-500 mt-2">
-						{currentIndex + 1} / {MOCK_ARTICLES.length}
-					</p>
+			{/* Progress Indicator */}
+			<div className="px-6 py-4 sm:px-8 sm:py-6 flex-shrink-0 border-t border-gray-100">
+				<div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+					<div
+						className="h-full bg-primary-500 transition-all duration-300 ease-out"
+						style={{ width: `${((articles.length - currentIndex - 1) / articles.length) * 100}%` }}
+					/>
 				</div>
+				<p className="text-sm text-center text-gray-600 mt-3 font-medium">
+					{currentIndex + 1} / {articles.length}
+				</p>
 			</div>
 		</div>
 	);
