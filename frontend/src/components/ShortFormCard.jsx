@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ShortFormActionBar from './ShortFormActionBar.jsx';
 
-export default function ShortFormCard({ article, isActive, onViewOriginal }) {
+export default function ShortFormCard({ article, isActive }) {
 	const [currentPage, setCurrentPage] = useState(0);
 	const [touchStartX, setTouchStartX] = useState(0);
 	const [touchEndX, setTouchEndX] = useState(0);
@@ -11,6 +11,15 @@ export default function ShortFormCard({ article, isActive, onViewOriginal }) {
 
 	const pages = article.pages || [];
 	const totalPages = pages.length;
+
+	// 현재 카드의 원문 보기
+	const handleViewOriginal = () => {
+		if (article.url) {
+			window.open(article.url, '_blank');
+		} else {
+			alert('원문 링크가 없습니다.');
+		}
+	};
 
 	// Cleanup timeout on unmount
 	useEffect(() => {
@@ -196,9 +205,9 @@ export default function ShortFormCard({ article, isActive, onViewOriginal }) {
 	);
 
 	return (
-		<div className="h-screen snap-start snap-always flex flex-col justify-center bg-black pt-16 pb-24">
-			{/* 4:5 Aspect Ratio Container */}
-			<div className="relative aspect-[4/5] w-full bg-white overflow-hidden mx-auto">
+		<div className="h-screen snap-start snap-always flex flex-col justify-center bg-black pt-24 pb-28 relative">
+			{/* 9:16 Aspect Ratio Container (TikTok/Reels Standard) */}
+			<div className="relative aspect-[9/16] w-full bg-white overflow-hidden mx-auto">
 				{/* Carousel Wrapper */}
 				<div
 					ref={carouselRef}
@@ -261,11 +270,28 @@ export default function ShortFormCard({ article, isActive, onViewOriginal }) {
 				)}
 			</div>
 
+			{/* 원문보기 플로팅 버튼 (우측 하단) */}
+			<button
+				onClick={handleViewOriginal}
+				className="absolute bottom-20 right-6 z-30 w-12 h-12 rounded-full bg-primary-500 hover:bg-primary-600 text-white shadow-lg flex items-center justify-center transition-all duration-300 active:scale-95"
+			>
+				<svg
+					className="w-6 h-6"
+					fill="none"
+					stroke="currentColor"
+					strokeWidth={2}
+					viewBox="0 0 24 24"
+				>
+					<path
+						strokeLinecap="round"
+						strokeLinejoin="round"
+						d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+					/>
+				</svg>
+			</button>
+
 			{/* Action Bar (Below Content) */}
-			<ShortFormActionBar
-				articleId={article.id}
-				onViewOriginal={onViewOriginal}
-			/>
+			<ShortFormActionBar articleId={article.id} />
 		</div>
 	);
 }

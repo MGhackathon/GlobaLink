@@ -53,16 +53,6 @@ export default function ShortForm() {
 		navigate(-1);
 	};
 
-	// 원문 보기
-	const handleViewOriginal = () => {
-		const currentArticle = articles[currentArticleIndex];
-		if (currentArticle?.url) {
-			window.open(currentArticle.url, '_blank');
-		} else {
-			alert('원문 링크가 없습니다.');
-		}
-	};
-
 	return (
 		<div className="h-screen w-full overflow-hidden bg-black relative">
 			{/* Vertical Scroll Container (CSS Snap) */}
@@ -76,13 +66,12 @@ export default function ShortForm() {
 						key={article.id}
 						article={article}
 						isActive={index === currentArticleIndex}
-						onViewOriginal={handleViewOriginal}
 					/>
 				))}
 			</div>
 
 			{/* Circular Emoji Tab Buttons (Top Center Overlay) */}
-			<div className="fixed top-16 left-1/2 -translate-x-1/2 z-50 flex gap-3">
+			<div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 flex gap-3">
 				<button
 					onClick={() => setActiveTab('shortgeul')}
 					className={`
