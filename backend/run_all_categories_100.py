@@ -29,7 +29,7 @@ def main():
     print()
     
     crawler = MKCrawler(delay=0.2)
-    storage = DataStorage(output_dir="crawled_data")
+    storage = DataStorage(output_dir="../DB/crawling")
     
     # 경제는 이미 완료했으므로 제외
     categories_to_crawl = [
