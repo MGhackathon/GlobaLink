@@ -3,7 +3,7 @@ import TinderCard from 'react-tinder-card';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import { useOnboarding } from '../contexts/OnboardingContext.jsx';
 
-// Mock news articles data (기존 OnboardingSwipe와 동일)
+// Mock news articles data (시연용 - 3개)
 const MOCK_ARTICLES = [
 	{
 		id: 1,
@@ -25,125 +25,6 @@ const MOCK_ARTICLES = [
 		source: 'Science Daily',
 		snippet: 'New mission successfully lands on distant planet, opening possibilities.',
 		category: 'science'
-	},
-	{
-		id: 4,
-		title: 'Economic Markets Show Strong Recovery',
-		source: 'Financial Review',
-		snippet: 'Global markets surge as economic indicators point to sustained growth.',
-		category: 'business'
-	},
-	{
-		id: 5,
-		title: 'Breakthrough in Medical Research',
-		source: 'Health Journal',
-		snippet: 'Scientists discover potential treatment for previously incurable disease.',
-		category: 'health'
-	},
-	{
-		id: 6,
-		title: 'Sports Championship Breaks Viewing Records',
-		source: 'Sports Network',
-		snippet: 'Historic final match attracts record-breaking global audience.',
-		category: 'sports'
-	},
-	{
-		id: 7,
-		title: 'Renewable Energy Adoption Accelerates',
-		source: 'Green Energy News',
-		snippet: 'Countries worldwide accelerate transition to renewable energy sources.',
-		category: 'science'
-	},
-	{
-		id: 8,
-		title: 'Cultural Festival Celebrates Global Diversity',
-		source: 'Culture Today',
-		snippet: 'International festival brings together artists from over 100 countries.',
-		category: 'entertainment'
-	},
-	{
-		id: 9,
-		title: 'Education Technology Transforms Learning',
-		source: 'Education Weekly',
-		snippet: 'New digital platforms revolutionize how students learn globally.',
-		category: 'technology'
-	},
-	{
-		id: 10,
-		title: 'Food Security Initiative Launched',
-		source: 'Global Food Network',
-		snippet: 'International coalition launches program to address food insecurity.',
-		category: 'general'
-	},
-	{
-		id: 11,
-		title: 'Entertainment Industry Embraces Innovation',
-		source: 'Entertainment Hub',
-		snippet: 'Streaming platforms collaborate on groundbreaking content technologies.',
-		category: 'entertainment'
-	},
-	{
-		id: 12,
-		title: 'Transportation Revolution Begins',
-		source: 'Transport News',
-		snippet: 'Electric and autonomous vehicles reshape urban mobility.',
-		category: 'technology'
-	},
-	{
-		id: 13,
-		title: 'Social Media Platform Introduces Privacy Features',
-		source: 'Digital Life',
-		snippet: 'Major platform rolls out enhanced privacy controls for users.',
-		category: 'technology'
-	},
-	{
-		id: 14,
-		title: 'Art Exhibition Showcases Contemporary Works',
-		source: 'Arts & Culture',
-		snippet: 'Prestigious gallery opens exhibition featuring contemporary artists.',
-		category: 'entertainment'
-	},
-	{
-		id: 15,
-		title: 'Scientific Discovery Changes Understanding',
-		source: 'Research Today',
-		snippet: 'Groundbreaking research challenges long-held scientific theories.',
-		category: 'science'
-	},
-	{
-		id: 16,
-		title: 'Business Innovation Drives Economic Growth',
-		source: 'Business Weekly',
-		snippet: 'Startups and companies drive innovation, creating new jobs.',
-		category: 'business'
-	},
-	{
-		id: 17,
-		title: 'Healthcare System Improvements Announced',
-		source: 'Health News',
-		snippet: 'Government announces comprehensive healthcare reforms.',
-		category: 'health'
-	},
-	{
-		id: 18,
-		title: 'Tourism Industry Sees Record Numbers',
-		source: 'Travel Magazine',
-		snippet: 'Global tourism reaches all-time high as travelers explore.',
-		category: 'general'
-	},
-	{
-		id: 19,
-		title: 'Gaming Industry Breaks Revenue Records',
-		source: 'Gaming World',
-		snippet: 'Video game industry achieves unprecedented growth.',
-		category: 'entertainment'
-	},
-	{
-		id: 20,
-		title: 'Social Justice Movement Gains Momentum',
-		source: 'Society Today',
-		snippet: 'Grassroots movements worldwide advocate for equality and justice.',
-		category: 'general'
 	}
 ];
 

@@ -1,49 +1,35 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ShortFormCard from '../components/ShortFormCard.jsx';
-import { convertToShortForm } from '../utils/mockShortFormData.js';
-import { fetchShortFormContent } from '../api/contentAPI.js';
+import { MOCK_SHORTGEUL_DATA, MOCK_SHORTTOON_DATA, convertToShortForm } from '../utils/mockShortFormData.js';
 
 export default function ShortForm() {
 	const [activeTab, setActiveTab] = useState('shortgeul');
 	const [currentArticleIndex, setCurrentArticleIndex] = useState(0);
 	const [articles, setArticles] = useState([]);
-	const [loading, setLoading] = useState(true);
 	const containerRef = useRef(null);
 	const location = useLocation();
 	const navigate = useNavigate();
 
 	// 초기 데이터 로드 (NewsFeedGrid에서 넘어온 article 포함)
 	useEffect(() => {
-		const loadShortFormData = async () => {
-			setLoading(true);
-			try {
-				const initialArticle = location.state?.article;
-				const data = await fetchShortFormContent(activeTab);
+		const initialArticle = location.state?.article;
+		const mockData = activeTab === 'shortgeul' ? MOCK_SHORTGEUL_DATA : MOCK_SHORTTOON_DATA;
 
-				if (initialArticle && activeTab === 'shortgeul') {
-					// NewsFeedGrid에서 넘어온 기사를 ShortForm 형식으로 변환하여 맨 앞에 추가
-					const convertedArticle = convertToShortForm(initialArticle);
-					setArticles([convertedArticle, ...data]);
-				} else {
-					// 탭 전환 시에는 API 데이터만 로드
-					setArticles(data);
-				}
-			} catch (error) {
-				console.error('ShortForm 데이터 로드 실패:', error);
-				setArticles([]);
-			} finally {
-				setLoading(false);
-			}
+		if (initialArticle && activeTab === 'shortgeul') {
+			// NewsFeedGrid에서 넘어온 기사를 ShortForm 형식으로 변환하여 맨 앞에 추가
+			const convertedArticle = convertToShortForm(initialArticle);
+			setArticles([convertedArticle, ...mockData]);
+		} else {
+			// 탭 전환 시에는 mock 데이터만 로드
+			setArticles(mockData);
+		}
 
-			// 탭 전환 시 스크롤 맨 위로 리셋
-			if (containerRef.current) {
-				containerRef.current.scrollTop = 0;
-				setCurrentArticleIndex(0);
-			}
-		};
-
-		loadShortFormData();
+		// 탭 전환 시 스크롤 맨 위로 리셋
+		if (containerRef.current) {
+			containerRef.current.scrollTop = 0;
+			setCurrentArticleIndex(0);
+		}
 	}, [activeTab]);
 
 	// 스크롤 이벤트로 현재 article index 추적
@@ -66,35 +52,6 @@ export default function ShortForm() {
 	const handleBack = () => {
 		navigate(-1);
 	};
-
-	// 로딩 상태
-	if (loading) {
-		return (
-			<div className="h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-				<div className="text-center">
-					<div className="animate-spin h-12 w-12 border-4 border-white border-t-transparent rounded-full mx-auto mb-4"></div>
-					<p className="text-white text-lg font-medium">콘텐츠를 불러오는 중...</p>
-				</div>
-			</div>
-		);
-	}
-
-	// 데이터 없음
-	if (articles.length === 0) {
-		return (
-			<div className="h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-				<div className="text-center">
-					<p className="text-white text-lg font-medium mb-4">콘텐츠를 불러올 수 없습니다</p>
-					<button
-						onClick={handleBack}
-						className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition"
-					>
-						돌아가기
-					</button>
-				</div>
-			</div>
-		);
-	}
 
 	return (
 		<div className="h-screen w-full overflow-hidden bg-black relative">

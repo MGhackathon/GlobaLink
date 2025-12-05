@@ -1,13 +1,13 @@
 // Mock data for ShortForm page
-// 실제 크롤링된 매일경제 뉴스 데이터 사용
+// 실제 크롤링된 매일경제 뉴스 데이터 사용 (links_summary_20251206_035026.json)
 
-// 숏글 (Card News) 데이터
+// 숏글 (Card News) 데이터 - 9개 (실제 8개 + 광고 1개)
 export const MOCK_SHORTGEUL_DATA = [
 	{
 		id: 'sg-11485397',
 		type: 'shortgeul',
 		title: 'AI인재 처우 주요국 꼴찌수준… 1만1000명 해외로 떠났다',
-		summary: '한국 AI 인재 1만1000명 해외로 이탈. 임금 프리미엄 미국 25%에 비해 한국 6%. 패턴인식, 뇌과학 등에서 높은 임금. 딥러닝, 머신러닝은 낮음.',
+		summary: '한국 AI 인재 1만1000명 해외로 이탈\n임금 프리미엄 미국 25%에 비해 한국 6%\n패턴인식, 뇌과학 등에서 높은 임금\n딥러닝, 머신러닝은 낮음',
 		pages: [
 			{
 				type: 'cover',
@@ -35,9 +35,9 @@ export const MOCK_SHORTGEUL_DATA = [
 				caption: '인재 유출',
 				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01110102000004_L00.jpg'
 			}
-
 		],
 		source: '매일경제',
+		category: '경제',
 		publishedAt: '2025-12-05T17:21:04+09:00',
 		url: 'https://www.mk.co.kr/news/economy/11485397'
 	},
@@ -45,7 +45,7 @@ export const MOCK_SHORTGEUL_DATA = [
 		id: 'sg-11485490',
 		type: 'shortgeul',
 		title: 'AI 넘어 ASI 가리킨 손정의…이재명 대통령과 70분간 협력논의',
-		summary: '손정의 소프트뱅크 회장과 이재명 대통령이 AI 협력 논의. 손 회장은 ASI 개념 강조, 인간 두뇌의 1만배 뛰어난 초인공지능으로 AI 발전 주장.',
+		summary: '손정의 소프트뱅크 회장과 이재명 대통령이 AI 협력 논의\n손 회장은 ASI 개념 강조, 인간 두뇌의 1만배 뛰어난 초인공지능으로 AI 발전 주장',
 		pages: [
 			{
 				type: 'cover',
@@ -75,78 +75,87 @@ export const MOCK_SHORTGEUL_DATA = [
 			}
 		],
 		source: '매일경제',
+		category: '정치',
 		publishedAt: '2025-12-05T18:09:10+09:00',
 		url: 'https://www.mk.co.kr/news/politics/11485490'
 	},
 	{
-		id: 'sg-3',
+		id: 'sg-11485059',
 		type: 'shortgeul',
-		title: '글로벌 기후 회의, 탄소중립 로드맵 발표',
-		summary: '주요 선진국들이 2050 탄소중립 목표 달성을 위한 구체적인 로드맵을 발표했습니다. 재생에너지 투자 확대와 화석연료 사용 감축이 핵심 전략입니다. 개발도상국 지원을 위한 기금도 조성될 예정입니다.',
+		title: 'AWS, 차세대 컴퓨팅칩 그래비톤5 공개…성능 25%↑',
+		summary: 'AWS가 그래비톤5 CPU를 공개했다.\n이번 CPU는 성능이 25% 향상되었으며 에너지 효율성도 뛰어나다.\nEC2 M9g 인스턴스는 192개 코어를 담아 데이터 처리 속도가 향상',
 		pages: [
 			{
 				type: 'cover',
-				title: '글로벌 기후 회의, 탄소중립 로드맵 발표',
-				summary: '주요 선진국들이 2050 탄소중립 목표 달성을 위한 구체적인 로드맵을 발표했습니다. 재생에너지 투자 확대와 화석연료 사용 감축이 핵심 전략입니다. 개발도상국 지원을 위한 기금도 조성될 예정입니다.',
-				source: 'Climate News',
-				publishedAt: '1일 전'
+				title: 'AWS, 차세대 컴퓨팅칩 그래비톤5 공개',
+				summary: '성능 25% 향상, 에너지 효율성 극대화',
+				source: '매일경제',
+				publishedAt: '2025-12-05T13:37:51+09:00',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.ea5d1370fe9a49c097ffc1dc01e6952d_R.jpg'
 			},
 			{
 				type: 'content',
-				content: '2030년까지 재생에너지 비중을 50% 이상으로 확대하고, 2040년까지 석탄 발전을 단계적으로 폐지하기로 합의했습니다.',
-				caption: '핵심 목표'
+				content: '그래비톤5는 이전 세대 대비 최대 25% 향상된 컴퓨팅 성능을 제공하면서도 뛰어난 에너지 효율성을 유지합니다.',
+				caption: '성능 개선',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.ea5d1370fe9a49c097ffc1dc01e6952d_R.jpg'
 			},
 			{
 				type: 'content',
-				content: '선진국들은 개발도상국의 기후변화 대응을 지원하기 위해 연간 1,000억 달러 규모의 기금을 조성하기로 했습니다.',
-				caption: '국제 협력'
+				content: 'EC2 M9g 인스턴스는 한 패키지에 무려 192개 코어가 들어가 있어, 통신 지연이 최대 33% 줄어듭니다.',
+				caption: '기술 혁신',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.ea5d1370fe9a49c097ffc1dc01e6952d_R.jpg'
 			},
 			{
 				type: 'content',
-				content: '전문가들은 이번 합의가 지구 온도 상승을 1.5도 이내로 제한하는 데 중요한 전환점이 될 것으로 평가하고 있습니다.',
-				caption: '전망'
+				content: '어도비는 탄소 배출량 37% 감소, 포뮬러 원은 시뮬레이션 속도 40% 향상, SAP는 성능 35% 개선 효과를 확인했습니다.',
+				caption: '도입 효과',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.ea5d1370fe9a49c097ffc1dc01e6952d_R.jpg'
 			}
 		],
-		source: 'Climate News',
-		publishedAt: '1일 전',
-		url: 'https://example.com/climate-summit'
+		source: '매일경제',
+		category: 'IT',
+		publishedAt: '2025-12-05T13:37:51+09:00',
+		url: 'https://www.mk.co.kr/news/it/11485059'
 	},
 	{
-		id: 'sg-4',
+		id: 'sg-11485458',
 		type: 'shortgeul',
-		title: '암호화폐 시장, 규제 강화에 변동성 확대',
-		summary: '주요국 정부들이 암호화폐 규제를 강화하면서 시장 변동성이 커지고 있습니다. 투자자 보호와 자금세탁 방지가 규제의 핵심입니다. 업계는 명확한 규제 가이드라인 마련을 요구하고 있습니다.',
+		title: '젠슨 황 소형원전, 저커버그 메타버스→AI, 머스크 휴머노이드',
+		summary: '젠슨 황 엔비디아 CEO는 소형 원전으로 AI 연산 병목 해소를 제안\n저커버그 메타 CEO는 메타버스에서 AI 중심 전략으로 전환\n머스크 테슬라 CEO는 피지컬 AI로 휴머노이드 로봇 개발에 집중',
 		pages: [
 			{
 				type: 'cover',
-				title: '암호화폐 시장, 규제 강화에 변동성 확대',
-				summary: '주요국 정부들이 암호화폐 규제를 강화하면서 시장 변동성이 커지고 있습니다. 투자자 보호와 자금세탁 방지가 규제의 핵심입니다. 업계는 명확한 규제 가이드라인 마련을 요구하고 있습니다.',
-				source: 'Crypto Daily',
-				publishedAt: '6시간 전'
+				title: '테크리더의 3인3색 AI 전략',
+				summary: '젠슨 황, 저커버그, 머스크가 제시하는 AI 시대 생존 전략',
+				source: '매일경제',
+				publishedAt: '2025-12-05T17:32:29+09:00',
+				image: 'https://static.mk.co.kr/facebook_mknews.jpg'
 			},
 			{
 				type: 'content',
-				content: '미국, EU, 한국 등 주요국들이 암호화폐 거래소에 대한 인가 제도를 도입하고 있습니다.',
-				caption: '규제 동향'
+				content: '젠슨 황 엔비디아 CEO는 AI 전력난 해소를 위해 소형 원전 확대를 지지했습니다. 향후 6~7년 안에 소형 원전이 데이터센터의 핵심 전력원이 될 것으로 전망했습니다.',
+				caption: '전력 솔루션',
+				image: 'https://static.mk.co.kr/facebook_mknews.jpg'
 			},
 			{
 				type: 'content',
-				content: '규제 강화 소식에 비트코인 가격이 10% 이상 급락했다가 다시 회복하는 등 높은 변동성을 보이고 있습니다.',
-				caption: '시장 반응'
+				content: '마크 저커버그는 메타버스 예산을 최대 30% 감축하고, AI 웨어러블과 스마트 글라스, LLM 라마 기반 서비스에 집중하고 있습니다.',
+				caption: '플랫폼 전환',
+				image: 'https://static.mk.co.kr/facebook_mknews.jpg'
 			},
 			{
 				type: 'content',
-				content: '업계 전문가들은 장기적으로는 명확한 규제가 시장 안정성을 높이고 기관 투자자 유입을 촉진할 것으로 전망하고 있습니다.',
-				caption: '전문가 의견'
+				content: '일론 머스크는 휴머노이드 로봇 옵티머스를 테슬라의 미래로 보고, 피지컬 AI 개발에 속도를 내고 있습니다.',
+				caption: '하드웨어 혁신',
+				image: 'https://static.mk.co.kr/facebook_mknews.jpg'
 			}
 		],
-		source: 'Crypto Daily',
-		publishedAt: '6시간 전',
-		url: 'https://example.com/crypto-regulation'
+		source: '매일경제',
+		category: 'IT',
+		publishedAt: '2025-12-05T17:32:29+09:00',
+		url: 'https://www.mk.co.kr/news/it/11485458'
 	},
 	// ⚠️ 5번째 자리: 광고 슬롯 (AD SLOT)
-	// 이 자리는 광고용으로 예약되어 있습니다
-	// 광고 컴포넌트를 여기에 삽입하세요
 	{
 		id: 'ad-slot-1',
 		type: 'advertisement',
@@ -164,423 +173,416 @@ export const MOCK_SHORTGEUL_DATA = [
 		source: 'GlobaLink AD',
 		publishedAt: new Date().toISOString(),
 		url: '#',
-		isAd: true // 광고 식별용 플래그
+		isAd: true
 	},
 	{
-		id: 'sg-6',
+		id: 'sg-11485582',
 		type: 'shortgeul',
-		title: '메타버스 플랫폼, 교육 분야에 본격 진출',
-		summary: '메타버스 기술이 교육 분야에서 새로운 가능성을 열고 있습니다. 가상 교실에서 실시간 협업과 실습이 가능해지며, 학습 효과가 크게 향상되고 있습니다. 주요 대학들이 메타버스 캠퍼스를 구축 중입니다.',
+		title: '넷플릭스, 122조원에 워너브러더스 품었다',
+		summary: '넷플릭스가 122조원에 워너브러더스 디스커버리 인수 합의\n할리우드 역사상 최대 M&A로 세계 엔터업계 변동\nDC 코믹스, 왕좌의 게임 등 인기 IP 확보',
 		pages: [
 			{
 				type: 'cover',
-				title: '메타버스 플랫폼, 교육 분야에 본격 진출',
-				summary: '메타버스 기술이 교육 분야에서 새로운 가능성을 열고 있습니다. 가상 교실에서 실시간 협업과 실습이 가능해지며, 학습 효과가 크게 향상되고 있습니다. 주요 대학들이 메타버스 캠퍼스를 구축 중입니다.',
-				source: 'Edu Tech',
-				publishedAt: '8시간 전'
+				title: '넷플릭스, 122조원에 워너브러더스 품었다',
+				summary: '할리우드 역사상 최대 규모 인수합병',
+				source: '매일경제',
+				publishedAt: '2025-12-05T22:23:47+09:00',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01170106000004_M00.jpg'
 			},
 			{
 				type: 'content',
-				content: 'VR 헤드셋을 활용한 몰입형 학습으로 학생들의 집중도와 이해도가 30% 이상 향상되었습니다.',
-				caption: '교육 효과'
+				content: '넷플릭스가 워너브러더스 디스커버리의 스튜디오와 스트리밍 사업을 827억달러(약 122조원)에 인수하기로 합의했습니다.',
+				caption: '거래 규모',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01170106000004_M00.jpg'
 			},
 			{
 				type: 'content',
-				content: '해외 유명 대학들이 메타버스 캠퍼스를 개설하며, 전 세계 학생들이 가상 공간에서 함께 수업을 듣고 있습니다.',
-				caption: '글로벌 교육'
+				content: 'DC 코믹스(슈퍼맨, 배트맨), 해리포터, 왕좌의 게임 등 인기 IP를 확보하게 되었습니다.',
+				caption: '확보 자산',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01170106000004_M00.jpg'
 			},
 			{
 				type: 'content',
-				content: '의학, 공학 등 실습이 중요한 분야에서 가상 시뮬레이션을 통한 안전한 실습 환경이 제공되고 있습니다.',
-				caption: '실습 교육'
+				content: '넷플릭스의 시장 지배력이 더욱 강화되며, 유튜브·틱톡과의 경쟁에서 우위를 점할 것으로 전망됩니다.',
+				caption: '시장 영향',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01170106000004_M00.jpg'
 			}
 		],
-		source: 'Edu Tech',
-		publishedAt: '8시간 전',
-		url: 'https://example.com/metaverse-education'
+		source: '매일경제',
+		category: '국제',
+		publishedAt: '2025-12-05T22:23:47+09:00',
+		url: 'https://www.mk.co.kr/news/world/11485582'
 	},
 	{
-		id: 'sg-7',
+		id: 'sg-11485576',
 		type: 'shortgeul',
-		title: '양자컴퓨터, 신약 개발 속도 획기적 단축',
-		summary: '양자컴퓨터가 신약 개발에 혁명을 일으키고 있습니다. 기존에 10년 이상 걸리던 신약 개발 기간이 2-3년으로 단축될 전망입니다. IBM과 구글이 제약사들과 협력하여 양자컴퓨팅 기반 신약 개발 플랫폼을 구축하고 있습니다.',
+		title: '조진웅, 소년범 인정·성폭행 부인',
+		summary: '조진웅, 미성년 시절 잘못 인정\n소년범 의혹은 인정, 성폭행 부인\n30년 전 사건, 법적 종결\n충무로 대표 배우로 활약',
 		pages: [
 			{
 				type: 'cover',
-				title: '양자컴퓨터, 신약 개발 속도 획기적 단축',
-				summary: '양자컴퓨터가 신약 개발에 혁명을 일으키고 있습니다. 기존에 10년 이상 걸리던 신약 개발 기간이 2-3년으로 단축될 전망입니다. IBM과 구글이 제약사들과 협력하여 양자컴퓨팅 기반 신약 개발 플랫폼을 구축하고 있습니다.',
-				source: 'BioTech News',
-				publishedAt: '10시간 전'
+				title: '조진웅, 소년범 인정·성폭행 부인',
+				summary: '배우 조진웅이 미성년 시절 잘못을 인정하며 공식 사과',
+				source: '매일경제',
+				publishedAt: '2025-12-05T22:01:51+09:00',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.f9be9f52eed247e1b9349a89772dfca3_R.jpeg'
 			},
 			{
 				type: 'content',
-				content: '양자컴퓨터는 분자 구조 시뮬레이션을 기존 슈퍼컴퓨터보다 수천 배 빠르게 처리할 수 있습니다.',
-				caption: '기술 우위'
+				content: '사람엔터테인먼트는 "미성년 시절 잘못했던 행동이 있었다"고 인정했지만, "성폭행 관련 행위와는 무관하다"고 선을 그었습니다.',
+				caption: '공식 입장',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.f9be9f52eed247e1b9349a89772dfca3_R.jpeg'
 			},
 			{
 				type: 'content',
-				content: '암, 알츠하이머 등 난치병 치료제 개발에서 이미 유의미한 성과가 나타나고 있습니다.',
-				caption: '실제 적용'
+				content: '30년 이상 지난 사건이라 경위를 완전히 파악하기 어렵고, 법적 절차도 이미 종결된 상태라고 설명했습니다.',
+				caption: '사건 경위',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.f9be9f52eed247e1b9349a89772dfca3_R.jpeg'
 			},
 			{
 				type: 'content',
-				content: '전문가들은 2030년까지 대부분의 신약 개발 과정에 양자컴퓨팅이 필수적으로 활용될 것으로 예상합니다.',
-				caption: '미래 전망'
+				content: '조진웅은 말죽거리 잔혹사, 독전, 용의자 X, 경관의 피 등 여러 작품에서 활약해 충무로 대표 배우로 자리잡았습니다.',
+				caption: '배우 경력',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.f9be9f52eed247e1b9349a89772dfca3_R.jpeg'
 			}
 		],
-		source: 'BioTech News',
-		publishedAt: '10시간 전',
-		url: 'https://example.com/quantum-drug'
+		source: '매일경제',
+		category: '핫이슈',
+		publishedAt: '2025-12-05T22:01:51+09:00',
+		url: 'https://www.mk.co.kr/news/hot-issues/11485576'
 	},
 	{
-		id: 'sg-8',
+		id: 'sg-11485396',
 		type: 'shortgeul',
-		title: '자율주행 트럭, 물류 혁신 주도',
-		summary: '자율주행 트럭이 물류 산업의 게임 체인저로 떠오르고 있습니다. 운송 비용이 30% 감소하고, 24시간 무중단 운행이 가능해졌습니다. 주요 물류 기업들이 자율주행 트럭 도입을 확대하고 있습니다.',
+		title: '최태원 "AI 3강 되려면 데이터센터에 1400조 투자를"',
+		summary: '최태원은 AI 분야 성장을 위해 1400조를 데이터센터에 투자해야 한다고 주장\n한국의 AI 경쟁력 강화와 저성장 극복을 위해 7년간 매년 200조 투입',
 		pages: [
 			{
 				type: 'cover',
-				title: '자율주행 트럭, 물류 혁신 주도',
-				summary: '자율주행 트럭이 물류 산업의 게임 체인저로 떠오르고 있습니다. 운송 비용이 30% 감소하고, 24시간 무중단 운행이 가능해졌습니다. 주요 물류 기업들이 자율주행 트럭 도입을 확대하고 있습니다.',
-				source: 'Logistics Today',
-				publishedAt: '12시간 전'
+				title: '최태원 "AI 3강 되려면 데이터센터에 1400조 투자를"',
+				summary: '한국은행·대한상의 AI 특별대담에서 밝혀',
+				source: '매일경제',
+				publishedAt: '2025-12-05T17:21:04+09:00',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01160102000002_L00.jpg'
 			},
 			{
 				type: 'content',
-				content: '미국에서는 이미 수백 대의 자율주행 트럭이 고속도로에서 상업 운행 중입니다.',
-				caption: '현황'
+				content: '최태원 회장은 "경쟁에 제대로 뛰어들려면 20GW 정도의 AI 데이터센터를 7년 안에 만들어야 한다"고 강조했습니다.',
+				caption: '투자 규모',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01160102000002_L00.jpg'
 			},
 			{
 				type: 'content',
-				content: '운전자 부족 문제 해결과 함께 교통사고율도 40% 이상 감소했습니다.',
-				caption: '효과'
+				content: '"1GW에 70조원이니 1400조원을 넣어야 되며, 매년 200조원 정도쯤은 투입해야 한다"고 밝혔습니다.',
+				caption: '투자 계획',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01160102000002_L00.jpg'
 			},
 			{
 				type: 'content',
-				content: '국내에서도 2026년부터 고속도로 자율주행 트럭 시범 운행이 시작될 예정입니다.',
-				caption: '국내 동향'
+				content: '"대한민국의 잠재 성장률이 0%대로 내려가고 5년 후 마이너스가 될 상황. 남은 시간은 5년"이라고 경고했습니다.',
+				caption: '위기 경고',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01160102000002_L00.jpg'
 			}
 		],
-		source: 'Logistics Today',
-		publishedAt: '12시간 전',
-		url: 'https://example.com/autonomous-trucks'
+		source: '매일경제',
+		category: '경제',
+		publishedAt: '2025-12-05T17:21:04+09:00',
+		url: 'https://www.mk.co.kr/news/economy/11485396'
 	},
 	{
-		id: 'sg-9',
+		id: 'sg-11485596',
 		type: 'shortgeul',
-		title: '재생에너지, 화석연료 발전량 첫 추월',
-		summary: '2025년 글로벌 재생에너지 발전량이 화석연료를 처음으로 넘어섰습니다. 태양광과 풍력이 주도하며, 에너지 저장 기술 발전도 재생에너지 확대에 크게 기여했습니다. 에너지 전환이 가속화되고 있습니다.',
+		title: '대만방어 최우선, 한국 국방지출 늘려야…트럼프 행정부 새 국가안보전략',
+		summary: '트럼프 행정부, 대만 방어를 최우선 과제로 새 국가안보전략 발표\n한국의 역할 강화와 국방지출 증가 촉구\n제1도련선 방어 강조',
 		pages: [
 			{
 				type: 'cover',
-				title: '재생에너지, 화석연료 발전량 첫 추월',
-				summary: '2025년 글로벌 재생에너지 발전량이 화석연료를 처음으로 넘어섰습니다. 태양광과 풍력이 주도하며, 에너지 저장 기술 발전도 재생에너지 확대에 크게 기여했습니다. 에너지 전환이 가속화되고 있습니다.',
-				source: 'Energy World',
-				publishedAt: '1일 전'
+				title: '대만방어 최우선, 한국 국방지출 늘려야',
+				summary: '트럼프 행정부, 새 국가안보전략(NSS) 발표',
+				source: '매일경제',
+				publishedAt: '2025-12-05T23:08:05+09:00',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.0f6fc29dff9b4d69b0be5faa8932a17c_R.jpeg'
 			},
 			{
 				type: 'content',
-				content: '태양광 발전 비용이 화석연료보다 저렴해지면서 투자가 급증하고 있습니다.',
-				caption: '경제성'
+				content: '미국은 "대만 분쟁을 억제하는 것이 최우선 과제"라며 제1 도련선 어디에서든 침략을 저지할 수 있는 군대를 구축할 것이라고 밝혔습니다.',
+				caption: '대만 방어',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.0f6fc29dff9b4d69b0be5faa8932a17c_R.jpeg'
 			},
 			{
 				type: 'content',
-				content: 'ESS(에너지 저장 시스템) 기술 발전으로 재생에너지의 간헐성 문제가 해결되고 있습니다.',
-				caption: '기술 발전'
+				content: '"동맹은 국방지출을 늘리고 집단 방어를 위해 훨씬 더 많은 일을 해야 한다"고 한국을 포함한 동맹국들에게 촉구했습니다.',
+				caption: '동맹국 요구',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.0f6fc29dff9b4d69b0be5faa8932a17c_R.jpeg'
 			},
 			{
 				type: 'content',
-				content: 'IEA는 2030년까지 재생에너지 비중이 60%를 넘어설 것으로 전망했습니다.',
-				caption: '미래 전망'
+				content: '한일 양국에 대한 국방비 증액 요구가 중국의 대만 침공을 억제하기 위한 대중국 견제와도 관련이 있습니다.',
+				caption: '중국 견제',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.0f6fc29dff9b4d69b0be5faa8932a17c_R.jpeg'
 			}
 		],
-		source: 'Energy World',
-		publishedAt: '1일 전',
-		url: 'https://example.com/renewable-energy'
-	},
-	{
-		id: 'sg-10',
-		type: 'shortgeul',
-		title: '뇌-컴퓨터 인터페이스, 의료 현장 적용 시작',
-		summary: 'BCI(뇌-컴퓨터 인터페이스) 기술이 마비 환자 치료에 활용되기 시작했습니다. 생각만으로 의수족을 제어하고, 컴퓨터를 조작할 수 있게 되었습니다. 신경과학과 AI의 융합이 새로운 가능성을 열고 있습니다.',
-		pages: [
-			{
-				type: 'cover',
-				title: '뇌-컴퓨터 인터페이스, 의료 현장 적용 시작',
-				summary: 'BCI(뇌-컴퓨터 인터페이스) 기술이 마비 환자 치료에 활용되기 시작했습니다. 생각만으로 의수족을 제어하고, 컴퓨터를 조작할 수 있게 되었습니다. 신경과학과 AI의 융합이 새로운 가능성을 열고 있습니다.',
-				source: 'NeuroTech',
-				publishedAt: '15시간 전'
-			},
-			{
-				type: 'content',
-				content: '척수 손상으로 사지가 마비된 환자가 BCI를 통해 로봇 팔을 제어하는 데 성공했습니다.',
-				caption: '임상 성과'
-			},
-			{
-				type: 'content',
-				content: '뇌 신호를 AI가 해석하여 사용자의 의도를 95% 이상의 정확도로 파악할 수 있습니다.',
-				caption: '기술 수준'
-			},
-			{
-				type: 'content',
-				content: '향후 언어 장애, 치매 환자 등으로 적용 범위가 확대될 것으로 기대됩니다.',
-				caption: '확장 가능성'
-			}
-		],
-		source: 'NeuroTech',
-		publishedAt: '15시간 전',
-		url: 'https://example.com/bci-medical'
+		source: '매일경제',
+		category: '정치',
+		publishedAt: '2025-12-05T23:08:05+09:00',
+		url: 'https://www.mk.co.kr/news/politics/11485596'
 	}
 ];
 
-// 숏툰 (Comic) 데이터
+// 숏툰 (Comic) 데이터 - 8개
 export const MOCK_SHORTTOON_DATA = [
 	{
-		id: 'st-1',
+		id: 'st-11485397',
 		type: 'shorttoon',
-		title: 'AI와 인간의 공존',
+		title: 'AI 인재 대탈출',
 		pages: [
 			{
 				type: 'comic',
-				image: 'gradient-1',
-				caption: '2025년, AI가 일상이 된 세상'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01110102000004_L00.jpg',
+				caption: '한국 AI 인재들이 해외로 떠나고 있다'
 			},
 			{
 				type: 'comic',
-				image: 'gradient-2',
-				caption: '인간과 AI가 협력하여 문제를 해결합니다'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01110102000004_L00.jpg',
+				caption: '미국은 25% 임금 프리미엄, 한국은 겨우 6%'
 			},
 			{
 				type: 'comic',
-				image: 'gradient-3',
-				caption: 'AI는 도구일 뿐, 결정은 인간의 몫'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01110102000004_L00.jpg',
+				caption: '1만1000명이 넘는 인재가 해외로'
 			},
 			{
 				type: 'comic',
-				image: 'gradient-4',
-				caption: '기술과 인간성의 조화가 미래의 열쇠'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01110102000004_L00.jpg',
+				caption: '미국 6300명, 캐나다, 싱가포르로 이동'
 			}
 		],
-		source: 'AI Comics',
-		publishedAt: '2시간 전'
+		source: '매일경제',
+		category: '경제',
+		publishedAt: '2025-12-05T17:21:04+09:00',
+		url: 'https://www.mk.co.kr/news/economy/11485397'
 	},
 	{
-		id: 'st-2',
+		id: 'st-11485490',
 		type: 'shorttoon',
-		title: '기후변화와 싸우는 영웅들',
+		title: '초인공지능 ASI의 시대',
 		pages: [
 			{
 				type: 'comic',
-				image: 'gradient-5',
-				caption: '지구가 위기에 처했습니다'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.5e5a70c5b4c34ccaa3800383e6206c39_R.jpg',
+				caption: '손정의 회장이 한국을 방문했다'
 			},
 			{
 				type: 'comic',
-				image: 'gradient-6',
-				caption: '재생에너지를 개발하는 과학자들'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.5e5a70c5b4c34ccaa3800383e6206c39_R.jpg',
+				caption: '"ASI는 인간 두뇌의 1만배!"'
 			},
 			{
 				type: 'comic',
-				image: 'gradient-7',
-				caption: '환경을 지키는 시민들의 노력'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.5e5a70c5b4c34ccaa3800383e6206c39_R.jpg',
+				caption: '이재명 대통령: AI를 상하수도처럼'
 			},
 			{
 				type: 'comic',
-				image: 'gradient-8',
-				caption: '함께라면 지구를 구할 수 있습니다'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.5e5a70c5b4c34ccaa3800383e6206c39_R.jpg',
+				caption: 'Arm스쿨로 1400명 인재 양성'
 			}
 		],
-		source: 'Climate Comics',
-		publishedAt: '4시간 전'
+		source: '매일경제',
+		category: '정치',
+		publishedAt: '2025-12-05T18:09:10+09:00',
+		url: 'https://www.mk.co.kr/news/politics/11485490'
 	},
 	{
-		id: 'st-3',
+		id: 'st-11485059',
 		type: 'shorttoon',
-		title: '우주 탐험의 꿈',
+		title: 'AWS 그래비톤5의 혁신',
 		pages: [
 			{
 				type: 'comic',
-				image: 'gradient-9',
-				caption: '인류의 오랜 꿈, 우주 여행'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.ea5d1370fe9a49c097ffc1dc01e6952d_R.jpg',
+				caption: 'AWS가 차세대 칩을 공개했다'
 			},
 			{
 				type: 'comic',
-				image: 'gradient-10',
-				caption: '민간 우주 기업의 도전'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.ea5d1370fe9a49c097ffc1dc01e6952d_R.jpg',
+				caption: '성능 25% 향상!'
 			},
 			{
 				type: 'comic',
-				image: 'gradient-11',
-				caption: '화성 탐사 준비 중'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.ea5d1370fe9a49c097ffc1dc01e6952d_R.jpg',
+				caption: '192개 코어로 지연 33% 감소'
 			},
 			{
 				type: 'comic',
-				image: 'gradient-12',
-				caption: '우주 시대가 시작됩니다'
-			},
-			{
-				type: 'comic',
-				image: 'gradient-13',
-				caption: '다음 세대는 우주에서 살게 될지도...'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.ea5d1370fe9a49c097ffc1dc01e6952d_R.jpg',
+				caption: '글로벌 기업들이 잇따라 도입'
 			}
 		],
-		source: 'Space Comics',
-		publishedAt: '6시간 전'
+		source: '매일경제',
+		category: 'IT',
+		publishedAt: '2025-12-05T13:37:51+09:00',
+		url: 'https://www.mk.co.kr/news/it/11485059'
 	},
 	{
-		id: 'st-4',
+		id: 'st-11485458',
 		type: 'shorttoon',
-		title: '전기차 혁명',
+		title: '테크 거물들의 AI 전쟁',
 		pages: [
 			{
 				type: 'comic',
-				image: 'gradient-14',
-				caption: '휘발유 자동차의 시대가 저물고...'
+				image: 'https://static.mk.co.kr/facebook_mknews.jpg',
+				caption: '젠슨 황: 원전이 답이다!'
 			},
 			{
 				type: 'comic',
-				image: 'gradient-15',
-				caption: '전기차가 도로를 점령합니다'
+				image: 'https://static.mk.co.kr/facebook_mknews.jpg',
+				caption: '저커버그: 메타버스는 이제 그만'
 			},
 			{
 				type: 'comic',
-				image: 'gradient-16',
-				caption: '배터리 기술의 혁신'
+				image: 'https://static.mk.co.kr/facebook_mknews.jpg',
+				caption: '머스크: 휴머노이드 로봇이 미래'
 			},
 			{
 				type: 'comic',
-				image: 'gradient-17',
-				caption: '깨끗한 공기, 조용한 도시'
+				image: 'https://static.mk.co.kr/facebook_mknews.jpg',
+				caption: '세 거물의 AI 전략이 엇갈린다'
 			}
 		],
-		source: 'EV Comics',
-		publishedAt: '8시간 전'
+		source: '매일경제',
+		category: 'IT',
+		publishedAt: '2025-12-05T17:32:29+09:00',
+		url: 'https://www.mk.co.kr/news/it/11485458'
 	},
 	{
-		id: 'st-5',
+		id: 'st-11485582',
 		type: 'shorttoon',
-		title: '메타버스 모험',
+		title: '넷플릭스의 대형 인수',
 		pages: [
 			{
 				type: 'comic',
-				image: 'gradient-18',
-				caption: '가상 세계로의 초대'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01170106000004_M00.jpg',
+				caption: '넷플릭스가 큰 결정을 내렸다'
 			},
 			{
 				type: 'comic',
-				image: 'gradient-19',
-				caption: '아바타가 된 나'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01170106000004_M00.jpg',
+				caption: '워너브러더스를 122조원에 인수!'
 			},
 			{
 				type: 'comic',
-				image: 'gradient-20',
-				caption: '새로운 친구들과의 만남'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01170106000004_M00.jpg',
+				caption: '해리포터, 배트맨, DC까지 모두 넷플릭스로'
 			},
 			{
 				type: 'comic',
-				image: 'gradient-21',
-				caption: '현실과 가상의 경계가 사라진다'
-			},
-			{
-				type: 'comic',
-				image: 'gradient-22',
-				caption: '제2의 삶이 시작됩니다'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01170106000004_M00.jpg',
+				caption: '스트리밍 시장의 새로운 거인 탄생'
 			}
 		],
-		source: 'Metaverse Comics',
-		publishedAt: '10시간 전'
+		source: '매일경제',
+		category: '국제',
+		publishedAt: '2025-12-05T22:23:47+09:00',
+		url: 'https://www.mk.co.kr/news/world/11485582'
 	},
 	{
-		id: 'st-6',
+		id: 'st-11485576',
 		type: 'shorttoon',
-		title: '양자컴퓨터의 비밀',
+		title: '충무로 스타의 과거',
 		pages: [
 			{
 				type: 'comic',
-				image: 'gradient-23',
-				caption: '기존 컴퓨터로는 불가능한 계산'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.f9be9f52eed247e1b9349a89772dfca3_R.jpeg',
+				caption: '조진웅, 과거를 고백하다'
 			},
 			{
 				type: 'comic',
-				image: 'gradient-24',
-				caption: '양자 중첩의 마법'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.f9be9f52eed247e1b9349a89772dfca3_R.jpeg',
+				caption: '"미성년 시절 잘못이 있었습니다"'
 			},
 			{
 				type: 'comic',
-				image: 'gradient-25',
-				caption: '순식간에 해결되는 난제들'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.f9be9f52eed247e1b9349a89772dfca3_R.jpeg',
+				caption: '30년 전 일, 법적으로는 종결'
 			},
 			{
 				type: 'comic',
-				image: 'gradient-26',
-				caption: '컴퓨팅의 새로운 시대'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.f9be9f52eed247e1b9349a89772dfca3_R.jpeg',
+				caption: '충무로 대표 배우의 사과와 반성'
 			}
 		],
-		source: 'Quantum Comics',
-		publishedAt: '12시간 전'
+		source: '매일경제',
+		category: '핫이슈',
+		publishedAt: '2025-12-05T22:01:51+09:00',
+		url: 'https://www.mk.co.kr/news/hot-issues/11485576'
 	},
 	{
-		id: 'st-7',
+		id: 'st-11485396',
 		type: 'shorttoon',
-		title: '로봇과의 일상',
+		title: '한국 AI의 미래',
 		pages: [
 			{
 				type: 'comic',
-				image: 'gradient-27',
-				caption: '아침에 깨워주는 로봇'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01160102000002_L00.jpg',
+				caption: '최태원 회장이 경고했다'
 			},
 			{
 				type: 'comic',
-				image: 'gradient-28',
-				caption: '집안일을 돕는 친구'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01160102000002_L00.jpg',
+				caption: '"데이터센터에 1400조 투자 필요"'
 			},
 			{
 				type: 'comic',
-				image: 'gradient-29',
-				caption: '함께 대화하고 놀아요'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01160102000002_L00.jpg',
+				caption: '7년간 매년 200조원씩'
 			},
 			{
 				type: 'comic',
-				image: 'gradient-30',
-				caption: '로봇은 이제 가족입니다'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01160102000002_L00.jpg',
+				caption: '"남은 시간은 5년뿐"'
+			},
+			{
+				type: 'comic',
+				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01160102000002_L00.jpg',
+				caption: 'AI 3강이 되기 위한 도전'
 			}
 		],
-		source: 'Robot Comics',
-		publishedAt: '1일 전'
+		source: '매일경제',
+		category: '경제',
+		publishedAt: '2025-12-05T17:21:04+09:00',
+		url: 'https://www.mk.co.kr/news/economy/11485396'
 	},
 	{
-		id: 'st-8',
+		id: 'st-11485596',
 		type: 'shorttoon',
-		title: '바이오 해킹의 미래',
+		title: '트럼프의 새 전략',
 		pages: [
 			{
 				type: 'comic',
-				image: 'gradient-31',
-				caption: '인간의 한계를 넘어서'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.0f6fc29dff9b4d69b0be5faa8932a17c_R.jpeg',
+				caption: '트럼프가 새 안보전략을 발표했다'
 			},
 			{
 				type: 'comic',
-				image: 'gradient-32',
-				caption: '유전자 편집으로 질병 퇴치'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.0f6fc29dff9b4d69b0be5faa8932a17c_R.jpeg',
+				caption: '"대만 방어가 최우선!"'
 			},
 			{
 				type: 'comic',
-				image: 'gradient-33',
-				caption: '수명 연장의 꿈'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.0f6fc29dff9b4d69b0be5faa8932a17c_R.jpeg',
+				caption: '한국에게도 국방비 증액 요구'
 			},
 			{
 				type: 'comic',
-				image: 'gradient-34',
-				caption: '하지만 윤리적 고민도...'
-			},
-			{
-				type: 'comic',
-				image: 'gradient-35',
-				caption: '기술과 윤리의 균형이 필요합니다'
+				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.0f6fc29dff9b4d69b0be5faa8932a17c_R.jpeg',
+				caption: '제1도련선 방어 강화'
 			}
 		],
-		source: 'BioTech Comics',
-		publishedAt: '1일 전'
+		source: '매일경제',
+		category: '정치',
+		publishedAt: '2025-12-05T23:08:05+09:00',
+		url: 'https://www.mk.co.kr/news/politics/11485596'
 	}
 ];
 
@@ -590,33 +592,38 @@ export function convertToShortForm(article) {
 		id: `converted-${article.id}`,
 		type: 'shortgeul',
 		title: article.title,
-		summary: `${article.title}에 대한 요약 내용입니다. 이 뉴스는 최근 화제가 되고 있으며, 많은 사람들의 관심을 받고 있습니다. 자세한 내용은 다음 페이지에서 확인하세요.`,
+		summary: article.summary || article.description || `${article.title}에 대한 요약`,
 		pages: [
 			{
 				type: 'cover',
 				title: article.title,
-				summary: `${article.title}에 대한 요약 내용입니다. 이 뉴스는 최근 화제가 되고 있으며, 많은 사람들의 관심을 받고 있습니다. 자세한 내용은 다음 페이지에서 확인하세요.`,
-				source: 'GlobalLink News',
-				publishedAt: '방금 전'
+				summary: article.summary || article.description || `${article.title}에 대한 요약 내용입니다.`,
+				source: article.source?.name || '매일경제',
+				publishedAt: article.publishedAt || new Date().toISOString(),
+				image: article.urlToImage || article.image_url
 			},
 			{
 				type: 'content',
 				content: '뉴스의 핵심 내용을 소개합니다. 최근 이 분야에서 중요한 변화가 일어나고 있습니다.',
-				caption: '주요 포인트 1'
+				caption: '주요 포인트 1',
+				image: article.urlToImage || article.image_url
 			},
 			{
 				type: 'content',
 				content: '전문가들의 분석과 향후 전망을 살펴봅니다. 이번 사건이 미칠 영향을 분석해봅니다.',
-				caption: '주요 포인트 2'
+				caption: '주요 포인트 2',
+				image: article.urlToImage || article.image_url
 			},
 			{
 				type: 'content',
 				content: '앞으로 어떤 변화가 예상되는지 알아봅니다. 관련 업계와 시장의 반응을 살펴봅니다.',
-				caption: '향후 전망'
+				caption: '향후 전망',
+				image: article.urlToImage || article.image_url
 			}
 		],
-		source: 'GlobalLink News',
-		publishedAt: '방금 전',
+		source: article.source?.name || '매일경제',
+		category: article.category,
+		publishedAt: article.publishedAt || new Date().toISOString(),
 		url: article.url
 	};
 }
