@@ -288,22 +288,22 @@ export const MOCK_SHORTTOON_DATA = [
 		pages: [
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01110102000004_L00.jpg',
+				image: '/DB/image/AI_wages_1.png',
 				caption: '한국 AI 인재들이 해외로 떠나고 있다'
 			},
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01110102000004_L00.jpg',
+				image: '/DB/image/AI_wages_2.png',
 				caption: '미국은 25% 임금 프리미엄, 한국은 겨우 6%'
 			},
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01110102000004_L00.jpg',
+				image: '/DB/image/AI_wages_3.png',
 				caption: '1만1000명이 넘는 인재가 해외로'
 			},
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01110102000004_L00.jpg',
+				image: '/DB/image/AI_wages_4.png',
 				caption: '미국 6300명, 캐나다, 싱가포르로 이동'
 			}
 		],
@@ -319,22 +319,22 @@ export const MOCK_SHORTTOON_DATA = [
 		pages: [
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.5e5a70c5b4c34ccaa3800383e6206c39_R.jpg',
+				image: '/DB/image/ASI_1.png',
 				caption: '손정의 회장이 한국을 방문했다'
 			},
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.5e5a70c5b4c34ccaa3800383e6206c39_R.jpg',
+				image: '/DB/image/ASI_2.png',
 				caption: '"ASI는 인간 두뇌의 1만배!"'
 			},
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.5e5a70c5b4c34ccaa3800383e6206c39_R.jpg',
+				image: '/DB/image/ASI_3.png',
 				caption: '이재명 대통령: AI를 상하수도처럼'
 			},
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.5e5a70c5b4c34ccaa3800383e6206c39_R.jpg',
+				image: '/DB/image/ASI_4.png',
 				caption: 'Arm스쿨로 1400명 인재 양성'
 			}
 		],
@@ -350,22 +350,22 @@ export const MOCK_SHORTTOON_DATA = [
 		pages: [
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.ea5d1370fe9a49c097ffc1dc01e6952d_R.jpg',
+				image: '/DB/image/AWS_1.png',
 				caption: 'AWS가 차세대 칩을 공개했다'
 			},
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.ea5d1370fe9a49c097ffc1dc01e6952d_R.jpg',
+				image: '/DB/image/AWS_2.png',
 				caption: '성능 25% 향상!'
 			},
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.ea5d1370fe9a49c097ffc1dc01e6952d_R.jpg',
+				image: '/DB/image/AWS_3.png',
 				caption: '192개 코어로 지연 33% 감소'
 			},
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.ea5d1370fe9a49c097ffc1dc01e6952d_R.jpg',
+				image: '/DB/image/AWS_4.png',
 				caption: '글로벌 기업들이 잇따라 도입'
 			}
 		],
@@ -381,22 +381,22 @@ export const MOCK_SHORTTOON_DATA = [
 		pages: [
 			{
 				type: 'comic',
-				image: 'https://static.mk.co.kr/facebook_mknews.jpg',
+				image: '/DB/image/AI_Leader_1.png',
 				caption: '젠슨 황: 원전이 답이다!'
 			},
 			{
 				type: 'comic',
-				image: 'https://static.mk.co.kr/facebook_mknews.jpg',
+				image: '/DB/image/AI_Leader_2.png',
 				caption: '저커버그: 메타버스는 이제 그만'
 			},
 			{
 				type: 'comic',
-				image: 'https://static.mk.co.kr/facebook_mknews.jpg',
+				image: '/DB/image/AI_Leader_3.png',
 				caption: '머스크: 휴머노이드 로봇이 미래'
 			},
 			{
 				type: 'comic',
-				image: 'https://static.mk.co.kr/facebook_mknews.jpg',
+				image: '/DB/image/AI_Leader_4.png',
 				caption: '세 거물의 AI 전략이 엇갈린다'
 			}
 		],
@@ -412,22 +412,22 @@ export const MOCK_SHORTTOON_DATA = [
 		pages: [
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01170106000004_M00.jpg',
+				image: '/DB/image/Netflix_1.png',
 				caption: '넷플릭스가 큰 결정을 내렸다'
 			},
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01170106000004_M00.jpg',
+				image: '/DB/image/Netflix_2.png',
 				caption: '워너브러더스를 122조원에 인수!'
 			},
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01170106000004_M00.jpg',
+				image: '/DB/image/Netflix_3.png',
 				caption: '해리포터, 배트맨, DC까지 모두 넷플릭스로'
 			},
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01170106000004_M00.jpg',
+				image: '/DB/image/Netflix_4.png',
 				caption: '스트리밍 시장의 새로운 거인 탄생'
 			}
 		],
@@ -443,22 +443,22 @@ export const MOCK_SHORTTOON_DATA = [
 		pages: [
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.f9be9f52eed247e1b9349a89772dfca3_R.jpeg',
+				image: '/DB/image/Act_1.png',
 				caption: '조진웅, 과거를 고백하다'
 			},
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.f9be9f52eed247e1b9349a89772dfca3_R.jpeg',
+				image: '/DB/image/Act_2.png',
 				caption: '"미성년 시절 잘못이 있었습니다"'
 			},
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.f9be9f52eed247e1b9349a89772dfca3_R.jpeg',
+				image: '/DB/image/Act_3.png',
 				caption: '30년 전 일, 법적으로는 종결'
 			},
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.f9be9f52eed247e1b9349a89772dfca3_R.jpeg',
+				image: '/DB/image/Act_4.png',
 				caption: '충무로 대표 배우의 사과와 반성'
 			}
 		],
@@ -474,28 +474,23 @@ export const MOCK_SHORTTOON_DATA = [
 		pages: [
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01160102000002_L00.jpg',
+				image: '/DB/image/AI_Korea_1.png',
 				caption: '최태원 회장이 경고했다'
 			},
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01160102000002_L00.jpg',
+				image: '/DB/image/AI_Korea_2.png',
 				caption: '"데이터센터에 1400조 투자 필요"'
 			},
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01160102000002_L00.jpg',
+				image: '/DB/image/AI_Korea_3.png',
 				caption: '7년간 매년 200조원씩'
 			},
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01160102000002_L00.jpg',
+				image: '/DB/image/AI_Korea_4.png',
 				caption: '"남은 시간은 5년뿐"'
-			},
-			{
-				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01160102000002_L00.jpg',
-				caption: 'AI 3강이 되기 위한 도전'
 			}
 		],
 		source: '매일경제',
@@ -510,22 +505,22 @@ export const MOCK_SHORTTOON_DATA = [
 		pages: [
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.0f6fc29dff9b4d69b0be5faa8932a17c_R.jpeg',
+				image: '/DB/image/NSS_1.png',
 				caption: '트럼프가 새 안보전략을 발표했다'
 			},
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.0f6fc29dff9b4d69b0be5faa8932a17c_R.jpeg',
+				image: '/DB/image/NSS_2.png',
 				caption: '"대만 방어가 최우선!"'
 			},
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.0f6fc29dff9b4d69b0be5faa8932a17c_R.jpeg',
+				image: '/DB/image/NSS_3.png',
 				caption: '한국에게도 국방비 증액 요구'
 			},
 			{
 				type: 'comic',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.0f6fc29dff9b4d69b0be5faa8932a17c_R.jpeg',
+				image: '/DB/image/NSS_4.png',
 				caption: '제1도련선 방어 강화'
 			}
 		],
