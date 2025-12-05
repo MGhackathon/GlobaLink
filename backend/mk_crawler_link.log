@@ -1,0 +1,10 @@
+2025-12-06 03:47:18,329 - INFO - 크롤링: https://www.mk.co.kr/news/economy/11485397
+2025-12-06 03:47:18,991 - INFO - 크롤링: https://www.mk.co.kr/news/politics/11485490
+2025-12-06 03:47:19,524 - INFO - 크롤링: https://www.mk.co.kr/news/it/11485059
+2025-12-06 03:47:20,009 - INFO - 크롤링: https://www.mk.co.kr/news/it/11485458
+2025-12-06 03:47:20,631 - INFO - 크롤링: https://www.mk.co.kr/news/world/11485582
+2025-12-06 03:47:21,169 - INFO - 크롤링: https://www.mk.co.kr/news/hot-issues/11485576
+2025-12-06 03:47:21,717 - INFO - 크롤링: https://www.mk.co.kr/news/economy/11485396
+2025-12-06 03:47:22,321 - INFO - 크롤링: https://www.mk.co.kr/news/politics/11485596
+2025-12-06 03:47:22,599 - INFO - ✅ JSON 파일 저장 완료: ../DB/crawling\mk_news_links_20251206_034722.json (8개 기사)
+2025-12-06 03:47:22,607 - INFO - ✅ CSV 파일 저장 완료: ../DB/crawling\mk_news_links_20251206_034722.csv (8개 기사)
