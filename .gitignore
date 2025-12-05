@@ -3,6 +3,14 @@ node_modules/
 .pnp/
 .pnp.js
 
+# Python virtual environment
+venv/
+env/
+ENV/
+.venv/
+backend/venv/
+backend/env/
+
 # Build output
 dist/
 build/
@@ -30,6 +38,13 @@ pnpm-debug.log*
 .env
 .env.local
 .env.*.local
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
 
 # System files
 .DS_Store
