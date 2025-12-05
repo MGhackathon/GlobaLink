@@ -117,26 +117,90 @@ export default function ShortFormCard({ article, isActive }) {
 
 	// 표지 페이지 렌더링 (숏글)
 	const renderCoverPage = (page) => (
-		<div className="h-full flex flex-col justify-between p-6 bg-gradient-to-br from-primary-500 to-orange-600 text-white">
-			{/* 상단: 출처 및 시간 */}
-			<div className="flex items-center justify-between text-sm opacity-90">
-				<span className="font-medium">{page.source}</span>
-				<span>{page.publishedAt}</span>
+		<div className="h-full relative overflow-hidden">
+			{/* 배경 이미지 */}
+			{page.image ? (
+				<>
+					<img
+						src={page.image}
+						alt={page.title}
+						className="absolute inset-0 w-full h-full object-cover"
+						onError={(e) => {
+							e.target.style.display = 'none';
+							const fallback = e.target.nextElementSibling;
+							if (fallback) fallback.style.display = 'block';
+						}}
+					/>
+					{/* Gradient 오버레이 (텍스트 가독성) */}
+					<div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
+				</>
+			) : (
+				// Fallback: 이미지 없을 때 gradient 배경
+				<div className="absolute inset-0 bg-gradient-to-br from-primary-500 to-orange-600" />
+			)}
+
+			{/* 콘텐츠 레이어 (이미지 위) */}
+			<div className="relative h-full flex flex-col justify-between p-6 text-white z-10">
+				{/* 상단: 출처 및 시간 */}
+				<div className="flex items-center justify-between text-sm opacity-90">
+					<span className="font-medium">{page.source || '출처'}</span>
+					<span>{page.publishedAt || ''}</span>
+				</div>
+
+				{/* 중앙: 제목 및 요약 */}
+				<div className="flex-1 flex flex-col justify-center">
+					<h2 className="text-2xl sm:text-3xl font-bold mb-3 leading-tight drop-shadow-lg">
+						{page.title}
+					</h2>
+					{page.summary && (
+						<p className="text-base leading-relaxed opacity-95 drop-shadow-md">
+							{page.summary}
+						</p>
+					)}
+				</div>
+
+				{/* 하단: 뱃지 */}
+				<div className="flex items-center gap-2">
+					<span className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-semibold">
+						카드뉴스
+					</span>
+					<span className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-semibold">
+						{totalPages}페이지
+					</span>
+				</div>
+			</div>
+		</div>
+	);
+
+	// 요약 페이지 렌더링 (숏글)
+	const renderSummaryPage = (page) => (
+		<div className="h-full flex flex-col p-6 bg-gradient-to-br from-blue-50 to-indigo-50">
+			{/* 상단: 제목 */}
+			<div className="mb-6">
+				<h3 className="text-xl font-bold text-gray-900 mb-2">📝 핵심 요약</h3>
+				<div className="h-1 w-16 bg-primary-500 rounded-full"></div>
 			</div>
 
-			{/* 중앙: 제목 및 요약 */}
-			<div className="flex-1 flex flex-col justify-center">
-				<h2 className="text-2xl font-bold mb-4 leading-tight">{page.title}</h2>
-				<p className="text-base leading-relaxed opacity-95">{page.summary}</p>
+			{/* 중앙: 요약 내용 (불릿 포인트) */}
+			<div className="flex-1 flex items-center">
+				<div className="w-full space-y-3">
+					{page.summary.split('\n').map((line, index) => (
+						line.trim() && (
+							<div key={index} className="flex items-start gap-3">
+								<div className="flex-shrink-0 w-2 h-2 bg-primary-500 rounded-full mt-2"></div>
+								<p className="text-base text-gray-800 leading-relaxed flex-1">
+									{line.trim()}
+								</p>
+							</div>
+						)
+					))}
+				</div>
 			</div>
 
 			{/* 하단: 뱃지 */}
-			<div className="flex items-center gap-2">
-				<span className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-semibold">
-					카드뉴스
-				</span>
-				<span className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-semibold">
-					{totalPages}페이지
+			<div className="mt-4">
+				<span className="inline-block px-3 py-1 bg-primary-100 text-primary-600 rounded-full text-xs font-semibold">
+					요약
 				</span>
 			</div>
 		</div>
@@ -161,53 +225,83 @@ export default function ShortFormCard({ article, isActive }) {
 				</p>
 			</div>
 
-			{/* 이미지 플레이스홀더 (하단) */}
+			{/* 이미지 (하단) */}
 			{page.image && (
-				<div className="mt-4 h-32 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center">
-					<svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							strokeWidth={2}
-							d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-						/>
-					</svg>
+				<div className="mt-4 rounded-lg overflow-hidden">
+					<img
+						src={page.image}
+						alt={page.caption || 'Content image'}
+						className="w-full h-48 object-cover rounded-lg"
+						onError={(e) => {
+							e.target.style.display = 'none';
+							const fallback = e.target.nextElementSibling;
+							if (fallback) fallback.style.display = 'flex';
+						}}
+					/>
+					{/* Fallback placeholder */}
+					<div className="hidden h-48 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg items-center justify-center">
+						<svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								strokeWidth={2}
+								d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+							/>
+						</svg>
+					</div>
 				</div>
 			)}
 		</div>
 	);
 
 	// 컷툰 페이지 렌더링 (숏툰)
-	const renderComicPage = (page) => (
-		<div className={`h-full relative bg-gradient-to-br ${getGradientStyle(page.image)} flex items-center justify-center p-6`}>
-			{/* 캡션 (하단) */}
-			{page.caption && (
-				<div className="absolute bottom-6 left-6 right-6">
-					<div className="bg-black/60 backdrop-blur-sm rounded-lg p-4">
-						<p className="text-white text-base font-medium text-center leading-relaxed">
-							{page.caption}
-						</p>
-					</div>
-				</div>
-			)}
+	const renderComicPage = (page, index) => {
+		const isRealImage = page.image && !page.image.startsWith('gradient-');
+		const isFirstPage = index === 0; // 첫 페이지는 커버로 취급
 
-			{/* 이미지 플레이스홀더 (중앙) */}
-			<div className="text-white text-opacity-40">
-				<svg className="w-24 h-24" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
-					<path
-						strokeLinecap="round"
-						strokeLinejoin="round"
-						d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+		return (
+			<div className="h-full relative overflow-hidden">
+				{/* 실제 이미지 또는 gradient fallback */}
+				{isRealImage ? (
+					<img
+						src={page.image}
+						alt={page.caption || 'Comic panel'}
+						className="absolute inset-0 w-full h-full object-contain bg-black"
+						onError={(e) => {
+							// Fallback: gradient 배경 표시
+							e.target.style.display = 'none';
+							const fallback = e.target.nextElementSibling;
+							if (fallback) fallback.style.display = 'block';
+						}}
 					/>
-				</svg>
+				) : null}
+
+				{/* Fallback gradient (이미지 로드 실패 또는 gradient-X인 경우) */}
+				<div
+					className={`absolute inset-0 bg-gradient-to-br ${getGradientStyle(page.image)} flex items-center justify-center`}
+					style={{ display: isRealImage ? 'none' : 'block' }}
+				>
+					{/* SVG 플레이스홀더 (gradient fallback에서만 표시) */}
+					{!isRealImage && (
+						<div className="text-white text-opacity-40">
+							<svg className="w-24 h-24" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+								/>
+							</svg>
+						</div>
+					)}
+				</div>
 			</div>
-		</div>
-	);
+		);
+	};
 
 	return (
 		<div className="h-screen snap-start snap-always flex flex-col justify-center bg-black pt-24 pb-28 relative">
 			{/* 9:16 Aspect Ratio Container (TikTok/Reels Standard) */}
-			<div className="relative aspect-[9/16] w-full bg-white overflow-hidden mx-auto">
+			<div className="relative aspect-[9/16] w-full overflow-hidden mx-auto">
 				{/* Carousel Wrapper */}
 				<div
 					ref={carouselRef}
@@ -221,7 +315,7 @@ export default function ShortFormCard({ article, isActive }) {
 					<div
 						className="h-full flex transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)]"
 						style={{
-							transform: `translateX(-${currentPage * 100}%)`,
+							transform: `translateX(-${currentPage * (100 / totalPages)}%)`,
 							width: `${totalPages * 100}%`
 						}}
 					>
@@ -235,12 +329,13 @@ export default function ShortFormCard({ article, isActive }) {
 								{article.type === 'shortgeul' && (
 									<>
 										{page.type === 'cover' && renderCoverPage(page)}
+										{page.type === 'summary' && renderSummaryPage(page)}
 										{page.type === 'content' && renderContentPage(page)}
 									</>
 								)}
 
 								{/* 숏툰 렌더링 */}
-								{article.type === 'shorttoon' && renderComicPage(page)}
+								{article.type === 'shorttoon' && renderComicPage(page, index)}
 							</div>
 						))}
 					</div>
