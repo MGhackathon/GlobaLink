@@ -472,7 +472,7 @@ class MKCrawler:
 class DataStorage:
     """크롤링 데이터 저장 클래스"""
     
-    def __init__(self, output_dir: str = "crawled_data"):
+    def __init__(self, output_dir: str = "../DB/crawling"):
         """
         Args:
             output_dir: 저장 디렉토리
@@ -560,8 +560,8 @@ def main():
                        help='최대 수집 기사 수 (도달 시 자동 중단)')
     parser.add_argument('--delay', type=float, default=0.5,
                        help='요청 간 대기 시간(초) (기본: 0.5)')
-    parser.add_argument('--output-dir', type=str, default='crawled_data',
-                       help='저장 디렉토리 (기본: crawled_data)')
+    parser.add_argument('--output-dir', type=str, default='../DB/crawling',
+                       help='저장 디렉토리 (기본: ../DB/crawling)')
     
     args = parser.parse_args()
     
