@@ -1,6 +1,6 @@
 # 백엔드 연동 가이드 (Backend Integration Guide)
 
-이 문서는 프론트엔드의 세 가지 주요 페이지(Home, ShortForm, Shorts)의 데이터 구조와 백엔드 API 연동 방법을 설명합니다.
+이 문서는 프론트엔드의 주요 페이지(Home, ShortForm, Shorts)와 온보딩 시스템의 데이터 구조 및 백엔드 API 연동 방법을 설명합니다.
 
 ---
 
@@ -10,36 +10,42 @@
 2. [Home 페이지 (뉴스 피드)](#1-home-페이지-뉴스-피드)
 3. [ShortForm 페이지 (숏글/숏툰)](#2-shortform-페이지-숏글숏툰)
 4. [Shorts 페이지 (비디오 피드)](#3-shorts-페이지-비디오-피드)
-5. [백엔드 API 연동 방법](#백엔드-api-연동-방법)
-6. [필요한 API 엔드포인트](#필요한-api-엔드포인트)
+5. [온보딩 시스템 (사용자 관심사 수집)](#4-온보딩-시스템-사용자-관심사-수집)
+6. [백엔드 API 연동 방법](#백엔드-api-연동-방법)
+7. [필요한 API 엔드포인트](#필요한-api-엔드포인트)
 
 ---
 
 ## 전체 구조 개요
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                      GlobaLink Frontend                      │
-├─────────────────────────────────────────────────────────────┤
-│                                                               │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-│  │ Home (피드)  │  │  ShortForm   │  │    Shorts    │      │
-│  │              │  │  (숏글/숏툰) │  │  (비디오)    │      │
-│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘      │
-│         │                  │                  │              │
-│         │ Mock 데이터      │ Mock 데이터      │ Mock 데이터  │
-│         ▼                  ▼                  ▼              │
-│  NewsFeedGrid.jsx   mockShortForm     mockVideoData.js      │
-│  (하드코딩 12개)    Data.js           (10개 비디오)        │
-│                     (통합 구조:                             │
-│                      10개 항목,                              │
-│                      각각 숏글+숏툰)                         │
-│                                                               │
-│  ⚠️ 현재 모두 Mock 데이터 사용 중 (DB 연동 필요)           │
-│                                                               │
-│  📌 ShortForm: 탭 간 실시간 인덱스 공유 (currentIndex)      │
-│  📌 Shorts: TikTok 스타일 비디오 플레이어 (자동 재생/정지)  │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         GlobaLink Frontend                               │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│  🎯 첫 방문 시: OnboardingModal (3개 카드 스와이프)                      │
+│     → localStorage 저장: userInterests                                   │
+│     → 백엔드 전송: POST /api/onboarding                                  │
+│                                                                           │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                  │
+│  │ Home (피드)  │  │  ShortForm   │  │    Shorts    │                  │
+│  │              │  │  (숏글/숏툰) │  │  (비디오)    │                  │
+│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘                  │
+│         │                  │                  │                          │
+│         │ Mock 데이터      │ Mock 데이터      │ Mock 데이터              │
+│         ▼                  ▼                  ▼                          │
+│  NewsFeedGrid.jsx   mockShortForm     mockVideoData.js                  │
+│  (하드코딩 12개)    Data.js           (10개 비디오)                    │
+│                     (통합 구조:                                         │
+│                      10개 항목,                                          │
+│                      각각 숏글+숏툰)                                     │
+│                                                                           │
+│  ⚠️ 현재 모두 Mock 데이터 사용 중 (DB 연동 필요)                       │
+│                                                                           │
+│  📌 ShortForm: 탭 간 실시간 인덱스 공유 (currentIndex)                  │
+│  📌 Shorts: TikTok 스타일 비디오 플레이어 (자동 재생/정지)              │
+│  📌 Onboarding: Tinder 스타일 카드 스와이프 (관심사 수집)               │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -559,6 +565,44 @@ export async function fetchVideoShorts() {
 		return [];
 	}
 }
+
+// 4. 온보딩 데이터 제출
+export async function submitOnboarding(interests) {
+	try {
+		const response = await fetch(`${BACKEND_URL}/api/onboarding`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				interests,
+				completedAt: new Date().toISOString()
+			})
+		});
+		if (!response.ok) throw new Error(`HTTP ${response.status}`);
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error('Onboarding API error:', error);
+		return { success: false, error: error.message };
+	}
+}
+
+// 5. 개인화된 뉴스 가져오기 (선택사항)
+export async function fetchPersonalizedNews(interests, limit = 12) {
+	try {
+		const response = await fetch(`${BACKEND_URL}/api/news/personalized`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ interests, limit })
+		});
+		if (!response.ok) throw new Error(`HTTP ${response.status}`);
+		const data = await response.json();
+		return data.articles || [];
+	} catch (error) {
+		console.error('Personalized news API error:', error);
+		// Fallback to general news
+		return [];
+	}
+}
 ```
 
 ---
@@ -703,6 +747,375 @@ GET /api/shorts/top10
 - `videos` 배열은 **정확히 10개**여야 합니다
 - `videoUrl`은 실제 재생 가능한 비디오 파일 URL이어야 합니다 (mp4, webm 등)
 - `thumbnailUrl`은 필수입니다 (비디오 로딩 전 표시)
+
+### 4️⃣ 온보딩 API (사용자 관심사 수집)
+
+#### 온보딩 데이터 제출
+
+```http
+POST /api/onboarding
+```
+
+**Request Body**:
+```json
+{
+	"interests": {
+		"interested": [1, 3],
+		"notInterested": [2]
+	},
+	"completedAt": "2025-12-06T10:30:00Z"
+}
+```
+
+**Response**:
+```json
+{
+	"success": true,
+	"message": "Onboarding data saved successfully",
+	"recommendations": {
+		"categories": ["technology", "science"],
+		"sources": ["Tech News", "Science Daily"]
+	}
+}
+```
+
+#### 개인화된 뉴스 가져오기
+
+```http
+POST /api/news/personalized
+```
+
+**Request Body**:
+```json
+{
+	"interests": {
+		"interested": [1, 3],
+		"notInterested": [2]
+	},
+	"limit": 12
+}
+```
+
+**Response**:
+```json
+{
+	"success": true,
+	"articles": [
+		{
+			"id": "101",
+			"title": "AI Breakthrough in Healthcare",
+			"category": "technology",
+			"relevanceScore": 0.95,
+			"description": "...",
+			"urlToImage": "...",
+			"source": { "name": "TechNews" },
+			"publishedAt": "2025-12-06T10:30:00Z",
+			"url": "https://example.com/article/101"
+		}
+		// ... 11개 더 (총 12개, relevanceScore 기준 정렬)
+	]
+}
+```
+
+**중요**:
+- 온보딩 완료 시 자동으로 호출됩니다 (3개 카드 스와이프 완료 후)
+- `interested` 배열의 article ID에서 카테고리를 추출하여 개인화된 뉴스 추천에 활용
+- 개인화 API는 선택적 구현 (Phase 3)
+
+---
+
+## 4. 온보딩 시스템 (사용자 관심사 수집)
+
+### 📂 관련 파일
+- **컴포넌트**: `src/components/OnboardingModal.jsx`
+- **Context**: `src/contexts/OnboardingContext.jsx`
+- **저장소**: localStorage (`onboardingComplete`, `userInterests`)
+
+### 📊 현재 동작 방식
+
+**온보딩 플로우**:
+1. 첫 방문 시 자동으로 온보딩 모달 표시
+2. 사용자가 Tinder 스타일 카드 스와이프:
+   - 👉 **오른쪽 스와이프**: 관심 있음 (❤️)
+   - 👈 **왼쪽 스와이프**: 관심 없음 (✖️)
+3. 3개 카드 완료 시 자동으로 온보딩 종료
+4. localStorage에 결과 저장
+
+**Mock 데이터 (현재 3개 - 시연용)**:
+```javascript
+// src/components/OnboardingModal.jsx:7-29
+const MOCK_ARTICLES = [
+	{
+		id: 1,
+		title: 'Global Tech Giants Announce New AI Partnership',
+		source: 'Tech News',
+		snippet: 'Major technology companies join forces to develop next-generation AI solutions.',
+		category: 'technology'
+	},
+	{
+		id: 2,
+		title: 'Climate Summit Reaches Historic Agreement',
+		source: 'Environmental Times',
+		snippet: 'World leaders commit to ambitious carbon reduction targets.',
+		category: 'science'
+	},
+	{
+		id: 3,
+		title: 'Space Exploration Milestone Achieved',
+		source: 'Science Daily',
+		snippet: 'New mission successfully lands on distant planet, opening possibilities.',
+		category: 'science'
+	}
+];
+```
+
+**localStorage 저장 구조**:
+```javascript
+// 온보딩 완료 여부
+localStorage.getItem('onboardingComplete') // 'true' | 'false'
+
+// 사용자 관심사
+localStorage.getItem('userInterests')
+// JSON: { interested: [1, 3], notInterested: [2] }
+```
+
+### 🎯 필요한 데이터 구조
+
+```typescript
+// 온보딩용 뉴스 카드
+interface OnboardingArticle {
+	id: number;
+	title: string;
+	source: string;
+	snippet: string;
+	category: 'technology' | 'science' | 'business' | 'health' | 'sports' | 'entertainment' | 'general';
+}
+
+// 사용자 관심사 (백엔드로 전송)
+interface UserInterests {
+	interested: number[];       // 관심 있는 article IDs
+	notInterested: number[];    // 관심 없는 article IDs
+}
+
+// 온보딩 완료 시 백엔드로 전송할 데이터
+interface OnboardingData {
+	userId?: string;            // 사용자 ID (로그인 시)
+	interests: UserInterests;
+	completedAt: string;        // ISO 8601 timestamp
+}
+```
+
+### 🔧 백엔드 연동 방법
+
+**`src/contexts/OnboardingContext.jsx` 수정**:
+
+```javascript
+import React, { createContext, useContext, useState } from 'react';
+
+const OnboardingContext = createContext();
+
+// 백엔드 API 추가
+const BACKEND_URL = 'http://localhost:5000';
+
+async function submitUserInterests(interests) {
+	try {
+		const response = await fetch(`${BACKEND_URL}/api/onboarding`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				interests,
+				completedAt: new Date().toISOString()
+			})
+		});
+		if (!response.ok) throw new Error(`HTTP ${response.status}`);
+		return await response.json();
+	} catch (error) {
+		console.error('Failed to submit onboarding data:', error);
+		return null;
+	}
+}
+
+export function OnboardingProvider({ children }) {
+	const [isOnboardingComplete, setIsOnboardingComplete] = useState(
+		() => localStorage.getItem('onboardingComplete') === 'true'
+	);
+	const [interests, setInterests] = useState(() => {
+		const saved = localStorage.getItem('userInterests');
+		return saved ? JSON.parse(saved) : { interested: [], notInterested: [] };
+	});
+
+	const markOnboardingComplete = async () => {
+		// 백엔드에 관심사 전송
+		await submitUserInterests(interests);
+
+		// 로컬 상태 업데이트
+		setIsOnboardingComplete(true);
+		localStorage.setItem('onboardingComplete', 'true');
+	};
+
+	const addInterest = (articleId, isInterested) => {
+		setInterests(prev => {
+			const newInterests = {
+				interested: isInterested
+					? [...prev.interested.filter(id => id !== articleId), articleId]
+					: prev.interested.filter(id => id !== articleId),
+				notInterested: !isInterested
+					? [...prev.notInterested.filter(id => id !== articleId), articleId]
+					: prev.notInterested.filter(id => id !== articleId)
+			};
+			localStorage.setItem('userInterests', JSON.stringify(newInterests));
+			return newInterests;
+		});
+	};
+
+	const resetOnboarding = () => {
+		setIsOnboardingComplete(false);
+		setInterests({ interested: [], notInterested: [] });
+		localStorage.removeItem('onboardingComplete');
+		localStorage.removeItem('userInterests');
+	};
+
+	return (
+		<OnboardingContext.Provider value={{
+			isOnboardingComplete,
+			interests,
+			markOnboardingComplete,
+			addInterest,
+			resetOnboarding
+		}}>
+			{children}
+		</OnboardingContext.Provider>
+	);
+}
+
+export function useOnboarding() {
+	const context = useContext(OnboardingContext);
+	if (!context) {
+		throw new Error('useOnboarding must be used within OnboardingProvider');
+	}
+	return context;
+}
+```
+
+**`src/components/OnboardingModal.jsx` 수정** (온보딩 완료 시 호출):
+
+```javascript
+// Line 199-204 수정
+if (index === 0) {
+	// All cards swiped, close modal
+	setTimeout(async () => {
+		await markOnboardingComplete();  // 백엔드에 전송
+		closeOnboardingModal();
+	}, 500);
+}
+```
+
+### 🎯 백엔드 활용 방안
+
+**개인화된 뉴스 추천**:
+- 사용자가 관심 표시한 카테고리(category)에 따라 뉴스 필터링
+- 예: `interested: [1, 3]` → technology, science 카테고리 우선 표시
+
+**추천 알고리즘**:
+```javascript
+// 예시: Home 페이지에서 개인화된 뉴스 가져오기
+async function fetchPersonalizedNews() {
+	const { interests } = useOnboarding();
+
+	try {
+		const response = await fetch(`${BACKEND_URL}/api/news/personalized`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ interests })
+		});
+		const data = await response.json();
+		return data.articles || [];
+	} catch (error) {
+		console.error('Failed to fetch personalized news:', error);
+		// Fallback to general news
+		return await fetchNewsFeed({ country: 'US', limit: 12 });
+	}
+}
+```
+
+### 📌 백엔드 API 엔드포인트
+
+#### 온보딩 데이터 제출
+
+```http
+POST /api/onboarding
+```
+
+**Request Body**:
+```json
+{
+	"interests": {
+		"interested": [1, 3],
+		"notInterested": [2]
+	},
+	"completedAt": "2025-12-06T10:30:00Z"
+}
+```
+
+**Response**:
+```json
+{
+	"success": true,
+	"message": "Onboarding data saved successfully",
+	"recommendations": {
+		"categories": ["technology", "science"],
+		"sources": ["Tech News", "Science Daily"]
+	}
+}
+```
+
+#### 개인화된 뉴스 가져오기
+
+```http
+POST /api/news/personalized
+```
+
+**Request Body**:
+```json
+{
+	"interests": {
+		"interested": [1, 3],
+		"notInterested": [2]
+	},
+	"limit": 12
+}
+```
+
+**Response**:
+```json
+{
+	"success": true,
+	"articles": [
+		{
+			"id": "101",
+			"title": "AI Breakthrough in Healthcare",
+			"category": "technology",
+			"relevanceScore": 0.95,
+			// ... 나머지 article 필드
+		}
+		// ... 11개 더
+	]
+}
+```
+
+### ⚙️ 구현 우선순위
+
+1. **Phase 1 (현재)**:
+   - localStorage에 관심사 저장
+   - 프론트엔드에서만 동작
+
+2. **Phase 2 (백엔드 연동 - 기본)**:
+   - 온보딩 완료 시 백엔드에 관심사 전송
+   - 백엔드에서 데이터 저장 (DB)
+
+3. **Phase 3 (개인화 - 고급)**:
+   - 사용자 관심사 기반 뉴스 필터링/추천
+   - 머신러닝 기반 추천 시스템
 
 ---
 
@@ -873,11 +1286,14 @@ export default function NewsFeedGrid({ onToggleView }) {
 - [ ] `articles` 테이블 (뉴스 기사)
 - [ ] `shortform_content` 테이블 (숏글/숏툰)
 - [ ] `video_shorts` 테이블 (비디오 정보)
+- [ ] `user_interests` 테이블 (온보딩 관심사)
 
 ### API 엔드포인트
 - [ ] `GET /api/news` - 뉴스 피드
-- [ ] `GET /api/shortform` - ShortForm 콘텐츠
+- [ ] `GET /api/shortform` - ShortForm 콘텐츠 (통합 형식)
 - [ ] `GET /api/shorts/top10` - TOP 10 비디오
+- [ ] `POST /api/onboarding` - 온보딩 데이터 제출
+- [ ] `POST /api/news/personalized` - 개인화된 뉴스 (선택사항)
 
 ### 파일 저장소
 - [ ] 이미지 저장소 (뉴스 썸네일, 숏툰 패널)

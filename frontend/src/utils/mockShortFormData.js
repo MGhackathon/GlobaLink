@@ -586,6 +586,44 @@ export const MOCK_SHORTTOON_DATA = [
 	}
 ];
 
+// ============================================================
+// 통합 데이터 구조 (Integrated Structure)
+// 각 항목은 같은 뉴스에 대한 shortgeul과 shorttoon을 모두 포함
+// ============================================================
+
+export const MOCK_SHORTFORM_DATA = MOCK_SHORTGEUL_DATA.map((shortgeul, index) => {
+	// 같은 뉴스 ID를 가진 shorttoon 찾기
+	const newsId = shortgeul.id.replace('sg-', '');
+	const shorttoon = MOCK_SHORTTOON_DATA.find(st => st.id === `st-${newsId}`);
+
+	return {
+		id: `sf-${newsId}`,
+		newsId: newsId,
+		shortgeul: shortgeul,
+		shorttoon: shorttoon || {
+			// shorttoon이 없으면 기본 구조 제공
+			id: `st-${newsId}`,
+			type: 'shorttoon',
+			title: shortgeul.title,
+			pages: [
+				{
+					type: 'comic',
+					image: shortgeul.pages[0]?.image || 'gradient-1',
+					caption: shortgeul.title
+				}
+			],
+			source: shortgeul.source,
+			category: shortgeul.category,
+			publishedAt: shortgeul.publishedAt,
+			url: shortgeul.url
+		},
+		source: shortgeul.source,
+		category: shortgeul.category,
+		publishedAt: shortgeul.publishedAt,
+		url: shortgeul.url
+	};
+});
+
 // NewsFeedGrid에서 넘어온 기사를 ShortForm 형식으로 변환
 export function convertToShortForm(article) {
 	return {

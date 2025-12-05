@@ -1,38 +1,52 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ShortFormCard from '../components/ShortFormCard.jsx';
-import { MOCK_SHORTGEUL_DATA, MOCK_SHORTTOON_DATA, convertToShortForm } from '../utils/mockShortFormData.js';
+import { MOCK_SHORTFORM_DATA, convertToShortForm } from '../utils/mockShortFormData.js';
 
 export default function ShortForm() {
 	const [activeTab, setActiveTab] = useState('shortgeul');
-	const [currentArticleIndex, setCurrentArticleIndex] = useState(0);
+	const [currentIndex, setCurrentIndex] = useState(0);  // 공유 인덱스
 	const [articles, setArticles] = useState([]);
 	const containerRef = useRef(null);
+	const currentIndexRef = useRef(0);  // 최신 인덱스 참조
 	const location = useLocation();
 	const navigate = useNavigate();
+
+	// currentIndex 변경 시 ref 업데이트
+	useEffect(() => {
+		currentIndexRef.current = currentIndex;
+	}, [currentIndex]);
 
 	// 초기 데이터 로드 (NewsFeedGrid에서 넘어온 article 포함)
 	useEffect(() => {
 		const initialArticle = location.state?.article;
-		const mockData = activeTab === 'shortgeul' ? MOCK_SHORTGEUL_DATA : MOCK_SHORTTOON_DATA;
+
+		// Mock 데이터에서 현재 탭에 맞는 형식만 추출
+		const formattedData = MOCK_SHORTFORM_DATA.map(item =>
+			activeTab === 'shortgeul' ? item.shortgeul : item.shorttoon
+		);
 
 		if (initialArticle && activeTab === 'shortgeul') {
 			// NewsFeedGrid에서 넘어온 기사를 ShortForm 형식으로 변환하여 맨 앞에 추가
 			const convertedArticle = convertToShortForm(initialArticle);
-			setArticles([convertedArticle, ...mockData]);
+			setArticles([convertedArticle, ...formattedData]);
 		} else {
-			// 탭 전환 시에는 mock 데이터만 로드
-			setArticles(mockData);
+			// 탭 전환 시에는 통합 데이터에서 추출한 형식만 로드
+			setArticles(formattedData);
 		}
 
-		// 탭 전환 시 스크롤 맨 위로 리셋
+		// 탭 전환 시 현재 인덱스로 스크롤 (인덱스 공유)
 		if (containerRef.current) {
-			containerRef.current.scrollTop = 0;
-			setCurrentArticleIndex(0);
+			// 최신 인덱스 사용 (ref를 통해)
+			const safeIndex = Math.min(currentIndexRef.current, formattedData.length - 1);
+			const scrollTop = safeIndex * window.innerHeight;
+
+			// 부드러운 스크롤 대신 즉시 이동
+			containerRef.current.scrollTop = scrollTop;
 		}
 	}, [activeTab]);
 
-	// 스크롤 이벤트로 현재 article index 추적
+	// 스크롤 이벤트로 현재 인덱스 추적 (공유 인덱스)
 	useEffect(() => {
 		const container = containerRef.current;
 		if (!container) return;
@@ -41,7 +55,9 @@ export default function ShortForm() {
 			const scrollTop = container.scrollTop;
 			const itemHeight = window.innerHeight;
 			const newIndex = Math.round(scrollTop / itemHeight);
-			setCurrentArticleIndex(newIndex);
+
+			// 공유 인덱스 업데이트 (모든 탭에서 동일한 인덱스 사용)
+			setCurrentIndex(newIndex);
 		};
 
 		container.addEventListener('scroll', handleScroll);
@@ -65,7 +81,7 @@ export default function ShortForm() {
 					<ShortFormCard
 						key={article.id}
 						article={article}
-						isActive={index === currentArticleIndex}
+						isActive={index === currentIndex}
 					/>
 				))}
 			</div>
