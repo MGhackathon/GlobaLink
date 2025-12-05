@@ -166,6 +166,7 @@ export default function OnboardingModal() {
 	const { addInterest } = useOnboarding();
 	const [currentIndex, setCurrentIndex] = useState(MOCK_ARTICLES.length - 1);
 	const currentIndexRef = useRef(currentIndex);
+	const [swipeDirection, setSwipeDirection] = useState(null); // 'left' | 'right' | null
 
 	const childRefs = useRef(
 		Array(MOCK_ARTICLES.length)
@@ -191,6 +192,9 @@ export default function OnboardingModal() {
 			addInterest(articleId, false);
 		}
 
+		// 상태 초기화
+		setSwipeDirection(null);
+
 		// Check if all cards are swiped
 		if (index === 0) {
 			// All cards swiped, close modal
@@ -198,6 +202,25 @@ export default function OnboardingModal() {
 				closeOnboardingModal();
 			}, 500);
 		}
+	};
+
+	const handleSwipeRequirementFulfilled = (direction) => {
+		setSwipeDirection(direction);
+
+		// 햅틱 피드백
+		if ('vibrate' in navigator) {
+			navigator.vibrate(50);
+		}
+	};
+
+	const handleSwipeRequirementUnfulfilled = () => {
+		setSwipeDirection(null);
+	};
+
+	// 마우스/터치 종료 시 상태 초기화
+	const handlePointerUp = () => {
+		// 즉시 초기화 - onSwipeRequirementUnfulfilled가 이미 호출되므로 딜레이 불필요
+		setSwipeDirection(null);
 	};
 
 	const outOfFrame = (name, idx) => {
@@ -215,18 +238,6 @@ export default function OnboardingModal() {
 		const newIndex = currentIndex + 1;
 		updateCurrentIndex(newIndex);
 		await childRefs.current[newIndex].current?.restoreCard();
-	};
-
-	const handlePass = async () => {
-		if (canSwipe && currentIndex >= 0) {
-			updateCurrentIndex(currentIndex - 1);
-			// Pass는 관심사로 저장하지 않음
-			if (currentIndex === 0) {
-				setTimeout(() => {
-					closeOnboardingModal();
-				}, 500);
-			}
-		}
 	};
 
 	const handleClose = () => {
@@ -256,6 +267,51 @@ export default function OnboardingModal() {
 
 				{/* Card Stack Container */}
 				<div className="relative flex-1 flex items-center justify-center py-10 px-12">
+					{/* 되돌리기 버튼 - 좌상단 */}
+					<button
+						onClick={goBack}
+						disabled={!canGoBack}
+						className="absolute top-4 left-4 z-50 w-11 h-11 rounded-full bg-white border-2 border-gray-200 shadow-lg flex items-center justify-center hover:bg-gray-50 hover:scale-110 transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed active:scale-95"
+					>
+						<svg className="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+							<path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9" />
+						</svg>
+					</button>
+
+					{/* 배경 X 힌트 (왼쪽) */}
+					<div
+						className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none transition-all duration-400"
+						style={{
+							opacity: swipeDirection === 'left' ? 1 : 0.15,
+							transform: `translateY(-50%) scale(${swipeDirection === 'left' ? 1.15 : 1})`,
+							transition: 'all 400ms cubic-bezier(0.34, 1.56, 0.64, 1)',
+							zIndex: 1
+						}}
+					>
+						<div className={`p-4 rounded-full ${swipeDirection === 'left' ? 'bg-red-500 shadow-xl' : 'bg-gray-300'} transition-all duration-400`}>
+							<svg className={`w-8 h-8 ${swipeDirection === 'left' ? 'text-white' : 'text-gray-500'} transition-colors duration-400`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+								<path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+							</svg>
+						</div>
+					</div>
+
+					{/* 배경 하트 힌트 (오른쪽) */}
+					<div
+						className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none transition-all duration-400"
+						style={{
+							opacity: swipeDirection === 'right' ? 1 : 0.15,
+							transform: `translateY(-50%) scale(${swipeDirection === 'right' ? 1.15 : 1})`,
+							transition: 'all 400ms cubic-bezier(0.34, 1.56, 0.64, 1)',
+							zIndex: 1
+						}}
+					>
+						<div className={`p-4 rounded-full ${swipeDirection === 'right' ? 'bg-primary-500 shadow-xl' : 'bg-gray-300'} transition-all duration-400`}>
+							<svg className={`w-8 h-8 ${swipeDirection === 'right' ? 'text-white' : 'text-gray-500'} transition-colors duration-400`} fill="currentColor" viewBox="0 0 24 24">
+								<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+							</svg>
+						</div>
+					</div>
+
 					{MOCK_ARTICLES.map((article, index) => {
 						const isVisible = index >= currentIndex - 2 && index <= currentIndex;
 						const position = currentIndex - index;
@@ -272,6 +328,10 @@ export default function OnboardingModal() {
 								key={article.id}
 								onSwipe={(dir) => swiped(dir, article.id, index)}
 								onCardLeftScreen={() => outOfFrame(article.title, index)}
+								onSwipeRequirementFulfilled={handleSwipeRequirementFulfilled}
+								onSwipeRequirementUnfulfilled={handleSwipeRequirementUnfulfilled}
+								swipeRequirementType="position"
+								swipeThreshold={80}
 								preventSwipe={['up', 'down']}
 								className="absolute"
 								style={{
@@ -280,15 +340,32 @@ export default function OnboardingModal() {
 								}}
 							>
 								<div
-									className="bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden flex flex-col cursor-grab active:cursor-grabbing transition-all ease-in-out duration-200"
+									className="bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden flex flex-col cursor-grab active:cursor-grabbing relative select-none"
 									style={{
-										width: '280px',
-										height: '400px',
+										width: '320px',
+										height: '440px',
 										transform: `scale(${1 - position * 0.04}) translateY(${position * 15}px) translateX(${translateX}px) rotate(${rotateAngle}deg)`,
-										transition: 'transform 0.3s ease-out, opacity 0.3s ease-out',
-										opacity: position === 0 ? 1 : 0.75 - position * 0.1
+										transition: index === currentIndex
+											? 'none'
+											: 'transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease-out',
+										opacity: position === 0 ? 1 : 0.75 - position * 0.1,
+										willChange: index === currentIndex ? 'transform, opacity' : 'auto',
+										userSelect: 'none',
+										WebkitUserDrag: 'none',
+										touchAction: 'none'
 									}}
 								>
+								{/* 배경 틴트 오버레이 */}
+								<div
+									className="absolute inset-0 pointer-events-none transition-all duration-300 rounded-xl z-0"
+									style={{
+										background: swipeDirection === 'left'
+											? 'linear-gradient(to right, rgba(239, 68, 68, 0.15), transparent)'
+											: swipeDirection === 'right'
+											? 'linear-gradient(to left, rgba(255, 122, 0, 0.15), transparent)'
+											: 'transparent'
+									}}
+								/>
 								{/* 이미지 영역 - 스켈레톤만 */}
 								<div className="relative h-48 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
 									{/* 이미지 아이콘 */}
@@ -333,53 +410,6 @@ export default function OnboardingModal() {
 						</TinderCard>
 						);
 					})}
-				</div>
-
-				{/* Action Buttons */}
-				<div className="flex items-center justify-center gap-4 px-6 py-6 flex-shrink-0">
-					{/* 관심없음 버튼 */}
-					<button
-						onClick={() => swipe('left')}
-						disabled={!canSwipe}
-						className="w-14 h-14 rounded-full bg-white border-2 border-red-200 shadow-md flex items-center justify-center hover:bg-red-50 hover:border-red-300 hover:scale-110 transition-all ease-in-out duration-200 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
-					>
-						<svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-							<path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-						</svg>
-					</button>
-
-					{/* Pass 버튼 */}
-					<button
-						onClick={handlePass}
-						disabled={!canSwipe}
-						className="w-12 h-12 rounded-full bg-white border-2 border-gray-200 shadow-md flex items-center justify-center hover:bg-gray-50 hover:border-gray-300 hover:scale-110 transition-all ease-in-out duration-200 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
-					>
-						<svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-							<path strokeLinecap="round" strokeLinejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
-						</svg>
-					</button>
-
-					{/* 되돌리기 버튼 */}
-					<button
-						onClick={goBack}
-						disabled={!canGoBack}
-						className="w-12 h-12 rounded-full bg-white border-2 border-gray-200 shadow-md flex items-center justify-center hover:bg-gray-50 hover:border-gray-300 hover:scale-110 transition-all ease-in-out duration-200 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
-					>
-						<svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-							<path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-						</svg>
-					</button>
-
-					{/* 관심있음 버튼 */}
-					<button
-						onClick={() => swipe('right')}
-						disabled={!canSwipe}
-						className="w-14 h-14 rounded-full bg-white border-2 border-primary-200 shadow-md flex items-center justify-center hover:bg-primary-50 hover:border-primary-300 hover:scale-110 transition-all ease-in-out duration-200 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
-					>
-						<svg className="w-6 h-6 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-							<path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-						</svg>
-					</button>
 				</div>
 
 				{/* Progress Indicator */}
