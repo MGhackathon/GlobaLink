@@ -31,9 +31,14 @@
 │         ▼                  ▼                  ▼              │
 │  NewsFeedGrid.jsx   mockShortForm     mockVideoData.js      │
 │  (하드코딩 12개)    Data.js           (10개 비디오)        │
-│                     (10+8개 항목)                           │
+│                     (통합 구조:                             │
+│                      10개 항목,                              │
+│                      각각 숏글+숏툰)                         │
 │                                                               │
 │  ⚠️ 현재 모두 Mock 데이터 사용 중 (DB 연동 필요)           │
+│                                                               │
+│  📌 ShortForm: 탭 간 실시간 인덱스 공유 (currentIndex)      │
+│  📌 Shorts: TikTok 스타일 비디오 플레이어 (자동 재생/정지)  │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -202,142 +207,199 @@ export default function NewsFeedGrid({ onToggleView }) {
 
 ### 📊 현재 데이터 구조
 
+**⚠️ 중요: 통합 데이터 구조 사용**
+
+숏글(Shortgeul)과 숏툰(Shorttoon)은 **하나의 뉴스 콘텐츠를 대상으로 1:1 매핑**되어야 합니다. 백엔드는 각 뉴스에 대해 두 가지 형식을 모두 제공해야 합니다.
+
 **두 가지 타입의 콘텐츠**:
 1. **숏글 (Shortgeul)**: 카드 뉴스 형식 (3-4페이지)
 2. **숏툰 (Shorttoon)**: 만화 형식 (4-6 패널)
 
-**`mockShortFormData.js:4-37`** - 숏글 예시:
+**`mockShortFormData.js:3-31`** - 통합 데이터 구조 예시:
 ```javascript
-{
-	id: 'sg-1',
-	type: 'shortgeul',
-	title: 'AI 기술, 의료 분야 혁신 주도',
-	summary: '...',
-	pages: [
-		{
-			type: 'cover',
-			title: '...',
+export const MOCK_SHORTFORM_DATA = [
+	{
+		id: 'sf-1',
+		newsId: 'news-1',  // 뉴스 고유 ID
+		shortgeul: {
+			id: 'sg-1',
+			type: 'shortgeul',
+			title: 'AI 기술, 의료 분야 혁신 주도',
 			summary: '...',
-			source: 'TechHealth Daily',
-			publishedAt: '3시간 전'
+			pages: [
+				{
+					type: 'cover',
+					title: '...',
+					summary: '...',
+					source: 'TechHealth Daily',
+					publishedAt: '3시간 전'
+				},
+				{
+					type: 'content',
+					content: '페이지 내용...',
+					caption: '주요 포인트 1'
+				}
+				// 3-4개 페이지
+			]
 		},
-		{
-			type: 'content',
-			content: '페이지 내용...',
-			caption: '주요 포인트 1'
-		}
-		// 3-4개 페이지
-	],
-	source: 'TechHealth Daily',
-	publishedAt: '3시간 전',
-	url: 'https://example.com/...'
-}
+		shorttoon: {
+			id: 'st-1',
+			type: 'shorttoon',
+			title: 'AI 기술, 의료 분야 혁신 주도',  // 같은 제목
+			pages: [
+				{
+					type: 'comic',
+					image: 'https://example.com/panel1.jpg',  // 실제 이미지 URL
+					caption: '2025년, AI가 일상이 된 세상'
+				}
+				// 4-6개 패널
+			]
+		},
+		source: 'TechHealth Daily',
+		publishedAt: '3시간 전',
+		url: 'https://example.com/ai-healthcare'
+	}
+	// ... 9개 더 (총 10개)
+];
 ```
 
-**`mockShortFormData.js:338-367`** - 숏툰 예시:
-```javascript
-{
-	id: 'st-1',
-	type: 'shorttoon',
-	title: 'AI와 인간의 공존',
-	pages: [
-		{
-			type: 'comic',
-			image: 'gradient-1',  // 실제로는 이미지 URL이어야 함
-			caption: '2025년, AI가 일상이 된 세상'
-		}
-		// 4-6개 패널
-	],
-	source: 'AI Comics',
-	publishedAt: '2시간 전'
-}
-```
+**중요**: 각 항목은 `shortgeul`과 `shorttoon` 속성을 모두 포함해야 하며, 개수는 항상 동일해야 합니다.
 
 ### 🎯 필요한 데이터 구조
 
 ```typescript
-// 숏글 (Card News)
-interface ShortGeul {
-	id: string;
-	type: 'shortgeul';
-	title: string;
-	summary: string;
-	pages: Array<{
-		type: 'cover' | 'content';
-		title?: string;           // cover 페이지만
-		summary?: string;         // cover 페이지만
-		content?: string;         // content 페이지만
-		caption?: string;         // content 페이지만
-		source?: string;          // cover 페이지만
-		publishedAt?: string;     // cover 페이지만
-	}>;
+// 통합 ShortForm 콘텐츠 (백엔드가 제공해야 할 형식)
+interface ShortFormContent {
+	id: string;                   // ShortForm 항목 고유 ID
+	newsId: string;               // 원본 뉴스 고유 ID
+	shortgeul: {                  // 카드 뉴스 형식
+		id: string;
+		type: 'shortgeul';
+		title: string;
+		summary: string;
+		pages: Array<{
+			type: 'cover' | 'content';
+			title?: string;           // cover 페이지만
+			summary?: string;         // cover 페이지만
+			content?: string;         // content 페이지만
+			caption?: string;         // content 페이지만
+			source?: string;          // cover 페이지만
+			publishedAt?: string;     // cover 페이지만
+		}>;
+	};
+	shorttoon: {                  // 만화 형식
+		id: string;
+		type: 'shorttoon';
+		title: string;
+		pages: Array<{
+			type: 'comic';
+			image: string;            // 이미지 URL (필수!)
+			caption: string;
+		}>;
+	};
 	source: string;
 	publishedAt: string;
-	url?: string;
+	url?: string;                 // 원본 뉴스 URL
 }
-
-// 숏툰 (Comic)
-interface ShortToon {
-	id: string;
-	type: 'shorttoon';
-	title: string;
-	pages: Array<{
-		type: 'comic';
-		image: string;            // 이미지 URL (필수!)
-		caption: string;
-	}>;
-	source: string;
-	publishedAt: string;
-}
-
-type ShortFormContent = ShortGeul | ShortToon;
 ```
+
+**중요 사항**:
+- 백엔드는 하나의 뉴스에 대해 `shortgeul`과 `shorttoon` 두 가지 형식을 모두 제공해야 합니다
+- `newsId`를 통해 같은 뉴스의 다른 형식임을 식별할 수 있습니다
+- 개수는 항상 동일해야 합니다 (예: 10개 뉴스 = 10개 숏글 = 10개 숏툰)
 
 ### 🔧 백엔드 연동 방법
 
-**`src/pages/ShortForm.jsx:14-33` 수정**:
+**중요**: ShortForm 페이지는 탭 간 실시간 인덱스 공유를 구현합니다. 사용자가 숏글 8번째를 보다가 숏툰 탭을 누르면 8번째 숏툰이 표시되며, 다시 숏글로 돌아와도 8번째 위치를 유지합니다.
+
+**`src/pages/ShortForm.jsx` 백엔드 연동 예시**:
 
 ```javascript
-import { MOCK_SHORTGEUL_DATA, MOCK_SHORTTOON_DATA } from '../utils/mockShortFormData.js';
+import { MOCK_SHORTFORM_DATA, convertToShortForm } from '../utils/mockShortFormData.js';
 
 // 백엔드 API 추가
 const BACKEND_URL = 'http://localhost:5000';
 
-async function fetchShortFormContent(type) {
+async function fetchShortFormContent() {
 	try {
-		const response = await fetch(`${BACKEND_URL}/api/shortform?type=${type}`);
+		const response = await fetch(`${BACKEND_URL}/api/shortform`);
 		if (!response.ok) throw new Error(`HTTP ${response.status}`);
-		return await response.json();
+		const data = await response.json();
+		return data.content || [];  // ShortFormContent[] 배열
 	} catch (error) {
 		console.error('ShortForm API 오류:', error);
 		// Fallback to mock data
-		return type === 'shortgeul' ? MOCK_SHORTGEUL_DATA : MOCK_SHORTTOON_DATA;
+		return MOCK_SHORTFORM_DATA;
 	}
 }
 
 export default function ShortForm() {
 	const [activeTab, setActiveTab] = useState('shortgeul');
+	const [currentIndex, setCurrentIndex] = useState(0);  // 공유 인덱스
 	const [articles, setArticles] = useState([]);
+	const containerRef = useRef(null);
 	const location = useLocation();
 
+	// 초기 데이터 로드 (NewsFeedGrid에서 넘어온 article 포함)
 	useEffect(() => {
 		const loadContent = async () => {
 			const initialArticle = location.state?.article;
-			const data = await fetchShortFormContent(activeTab);
+			const data = await fetchShortFormContent();  // 통합 데이터 가져오기
+
+			// Mock 데이터에서 현재 탭에 맞는 형식만 추출
+			const formattedData = data.map(item =>
+				activeTab === 'shortgeul' ? item.shortgeul : item.shorttoon
+			);
 
 			if (initialArticle && activeTab === 'shortgeul') {
-				const converted = convertToShortForm(initialArticle);
-				setArticles([converted, ...data]);
+				// NewsFeedGrid에서 넘어온 기사를 ShortForm 형식으로 변환하여 맨 앞에 추가
+				const convertedArticle = convertToShortForm(initialArticle);
+				setArticles([convertedArticle, ...formattedData]);
 			} else {
-				setArticles(data);
+				// 탭 전환 시에는 데이터만 로드
+				setArticles(formattedData);
+			}
+
+			// 탭 전환 시 현재 인덱스로 스크롤 (인덱스 공유)
+			if (containerRef.current) {
+				// 경계 체크
+				const safeIndex = Math.min(currentIndex, formattedData.length - 1);
+				const scrollTop = safeIndex * window.innerHeight;
+
+				// 부드러운 스크롤 대신 즉시 이동
+				containerRef.current.scrollTop = scrollTop;
 			}
 		};
 		loadContent();
-	}, [activeTab]);
+	}, [activeTab, currentIndex]);
+
+	// 스크롤 이벤트로 현재 인덱스 추적 (공유 인덱스)
+	useEffect(() => {
+		const container = containerRef.current;
+		if (!container) return;
+
+		const handleScroll = () => {
+			const scrollTop = container.scrollTop;
+			const itemHeight = window.innerHeight;
+			const newIndex = Math.round(scrollTop / itemHeight);
+
+			// 공유 인덱스 업데이트 (모든 탭에서 동일한 인덱스 사용)
+			setCurrentIndex(newIndex);
+		};
+
+		container.addEventListener('scroll', handleScroll);
+		return () => container.removeEventListener('scroll', handleScroll);
+	}, []);
 
 	// ... 나머지 코드
 }
 ```
+
+**핵심 로직**:
+- `fetchShortFormContent()`: 통합 데이터 배열 가져오기 (각 항목에 shortgeul과 shorttoon 모두 포함)
+- `currentIndex`: 탭 간 공유되는 단일 인덱스 (실시간 동기화)
+- `formattedData`: 현재 탭에 맞는 형식(shortgeul 또는 shorttoon)만 추출
+- 탭 전환 시 `currentIndex`로 스크롤 위치 유지
 
 ---
 
@@ -471,12 +533,13 @@ export async function fetchNewsFeed({ country = 'US', category = null, limit = 1
 	}
 }
 
-// 2. ShortForm 콘텐츠 가져오기
-export async function fetchShortFormContent(type = 'shortgeul') {
+// 2. ShortForm 콘텐츠 가져오기 (통합 형식)
+export async function fetchShortFormContent() {
 	try {
-		const response = await fetch(`${BACKEND_URL}/api/shortform?type=${type}`);
+		const response = await fetch(`${BACKEND_URL}/api/shortform`);
 		if (!response.ok) throw new Error(`HTTP ${response.status}`);
 		const data = await response.json();
+		// 각 항목에 shortgeul과 shorttoon이 모두 포함된 배열 반환
 		return data.content || [];
 	} catch (error) {
 		console.error('ShortForm API error:', error);
@@ -539,75 +602,73 @@ GET /api/news
 }
 ```
 
-### 2️⃣ ShortForm 콘텐츠 API
+### 2️⃣ ShortForm 콘텐츠 API (통합 형식)
 
 ```http
 GET /api/shortform
 ```
 
-**Query Parameters**:
-- `type` (string, 필수): "shortgeul" 또는 "shorttoon"
+**Query Parameters**: 없음 (모든 콘텐츠는 숏글과 숏툰을 모두 포함)
 
-**Response (숏글)**:
+**Response (통합 데이터 구조)**:
 ```json
 {
 	"success": true,
 	"content": [
 		{
-			"id": "sg-1",
-			"type": "shortgeul",
-			"title": "AI 기술, 의료 분야 혁신 주도",
-			"summary": "AI 기술이 의료 진단의 정확도를...",
-			"pages": [
-				{
-					"type": "cover",
-					"title": "AI 기술, 의료 분야 혁신 주도",
-					"summary": "...",
-					"source": "TechHealth Daily",
-					"publishedAt": "3시간 전"
-				},
-				{
-					"type": "content",
-					"content": "AI 기반 진단 시스템은...",
-					"caption": "주요 포인트 1"
-				}
-			],
+			"id": "sf-1",
+			"newsId": "news-1",
+			"shortgeul": {
+				"id": "sg-1",
+				"type": "shortgeul",
+				"title": "AI 기술, 의료 분야 혁신 주도",
+				"summary": "AI 기술이 의료 진단의 정확도를...",
+				"pages": [
+					{
+						"type": "cover",
+						"title": "AI 기술, 의료 분야 혁신 주도",
+						"summary": "...",
+						"source": "TechHealth Daily",
+						"publishedAt": "3시간 전"
+					},
+					{
+						"type": "content",
+						"content": "AI 기반 진단 시스템은...",
+						"caption": "주요 포인트 1"
+					}
+				]
+			},
+			"shorttoon": {
+				"id": "st-1",
+				"type": "shorttoon",
+				"title": "AI 기술, 의료 분야 혁신 주도",
+				"pages": [
+					{
+						"type": "comic",
+						"image": "https://example.com/comics/panel1.jpg",
+						"caption": "2025년, AI가 일상이 된 세상"
+					},
+					{
+						"type": "comic",
+						"image": "https://example.com/comics/panel2.jpg",
+						"caption": "인간과 AI가 협력하여..."
+					}
+				]
+			},
 			"source": "TechHealth Daily",
 			"publishedAt": "3시간 전",
 			"url": "https://example.com/ai-healthcare"
 		}
-		// ... 더 많은 숏글
+		// ... 더 많은 항목
 	]
 }
 ```
 
-**Response (숏툰)**:
-```json
-{
-	"success": true,
-	"content": [
-		{
-			"id": "st-1",
-			"type": "shorttoon",
-			"title": "AI와 인간의 공존",
-			"pages": [
-				{
-					"type": "comic",
-					"image": "https://example.com/comics/panel1.jpg",
-					"caption": "2025년, AI가 일상이 된 세상"
-				},
-				{
-					"type": "comic",
-					"image": "https://example.com/comics/panel2.jpg",
-					"caption": "인간과 AI가 협력하여..."
-				}
-			],
-			"source": "AI Comics",
-			"publishedAt": "2시간 전"
-		}
-	]
-}
-```
+**중요**:
+- 각 항목은 **반드시** `shortgeul`과 `shorttoon` 속성을 모두 포함해야 합니다
+- `newsId`를 통해 같은 뉴스의 다른 형식임을 식별합니다
+- 프론트엔드에서 탭에 따라 적절한 형식(shortgeul 또는 shorttoon)을 추출하여 표시합니다
+- 탭 간 실시간 인덱스 공유로 사용자 경험을 향상시킵니다
 
 ### 3️⃣ Shorts 비디오 API (TOP 10)
 
