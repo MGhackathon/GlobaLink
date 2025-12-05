@@ -51,3 +51,7 @@ __pycache__/
 
 # Optional: OS / misc
 Thumbs.db
+
+# Claude Code files
+CLAUDE.md
+.claude/
