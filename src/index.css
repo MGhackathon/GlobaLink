@@ -9,6 +9,59 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #171717;
+  line-height: 1.5;
+}
+
+/* Modern SaaS Typography Scale */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600; /* semibold */
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: #1A1C20;
+}
+
+h1 {
+  font-size: 1.25rem; /* 20px */
+  font-weight: 600; /* semibold */
+  line-height: 1.5;
+}
+
+h2 {
+  font-size: 1.25rem; /* 20px */
+  font-weight: 600; /* semibold */
+  line-height: 1.5;
+}
+
+h3 {
+  font-size: 1.25rem; /* 20px */
+  font-weight: 600; /* semibold */
+  line-height: 1.5;
+}
+
+h4 {
+  font-size: 1rem; /* 16px */
+  font-weight: 500; /* medium */
+  line-height: 1.5;
+}
+
+h5 {
+  font-size: 1rem; /* 16px */
+  font-weight: 500; /* medium */
+  line-height: 1.5;
+}
+
+h6 {
+  font-size: 1rem; /* 16px */
+  font-weight: 500; /* medium */
+  line-height: 1.5;
+}
+
+p {
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.5;
+  font-weight: 400; /* regular */
+  color: #4B505A;
 }
 
 code {
@@ -226,4 +279,59 @@ code {
 .slider-thumb::-moz-range-thumb:active {
   cursor: grabbing;
   transform: scale(1.1);
+}
+
+/* Hide scrollbar for Shorts page */
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+/* Mascot Loader Animations */
+@keyframes blink {
+  0%, 50%, 100% {
+    opacity: 1;
+  }
+  25%, 75% {
+    opacity: 0.1;
+  }
+}
+
+.animate-blink {
+  animation: blink 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+/* 반응형 지도 스타일 */
+.rsm-svg {
+  width: 100% !important;
+  height: auto !important;
+}
+
+@media (max-width: 640px) {
+  .rsm-svg {
+    max-height: 300px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .rsm-svg {
+    max-height: 350px;
+  }
 }

@@ -1,12 +1,16 @@
 # Dependencies
 node_modules/
+.pnp/
+.pnp.js
 
-# Build outputs
-.dist/
+# Build output
 dist/
 build/
-.tmp/
-.temp/
+
+# Vite cache
+.vite/
+vite.config.ts.timestamp*
+vite.config.js.timestamp*
 
 # Logs
 npm-debug.log*
@@ -14,16 +18,21 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Env files
-.env
-.env.*
-
-# Editor/OS
-.DS_Store
-Thumbs.db
-.vscode/
+# Editor directories and files
 .idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
 
-# Misc
-coverage/
-*.local
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# System files
+.DS_Store
+
+# Optional: OS / misc
+Thumbs.db

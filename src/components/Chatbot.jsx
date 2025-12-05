@@ -127,9 +127,9 @@ export default function Chatbot() {
 		<div className="fixed bottom-6 right-6 z-50">
 			{/* 챗봇 윈도우 */}
 			{isOpen && (
-				<div className="mb-4 w-96 h-[600px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-toss-scale border-2 border-blue-100">
+				<div className="mb-4 w-96 h-[600px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-toss-scale border-2 border-primary-100">
 					{/* 헤더 */}
-					<div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-4 text-white flex items-center justify-between">
+					<div className="bg-gradient-to-r from-primary-500 to-primary-600 p-4 text-white flex items-center justify-between">
 						<div className="flex items-center gap-3">
 							<div className="relative">
 								<div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-2xl animate-bounce">
@@ -139,7 +139,7 @@ export default function Chatbot() {
 							</div>
 							<div>
 								<h3 className="font-bold text-lg">GlobaLink 챗봇</h3>
-								<p className="text-xs text-blue-100">무엇이든 물어보세요!</p>
+								<p className="text-xs text-orange-100">무엇이든 물어보세요!</p>
 							</div>
 						</div>
 						<div className="flex items-center gap-2">
@@ -167,7 +167,7 @@ export default function Chatbot() {
 					</div>
 
 					{/* 메시지 영역 */}
-					<div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-blue-50/30 to-white">
+					<div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-primary-50/30 to-white">
 						{messages.map((msg, index) => (
 							<div
 								key={index}
@@ -176,12 +176,12 @@ export default function Chatbot() {
 								<div
 									className={`max-w-[80%] rounded-2xl px-4 py-3 ${
 										msg.role === 'user'
-											? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-br-none'
+											? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-br-none'
 											: 'bg-white text-gray-800 shadow-md rounded-bl-none border border-gray-100'
 									}`}
 								>
 									<p className="text-sm whitespace-pre-wrap leading-relaxed">{msg.content}</p>
-									<p className={`text-xs mt-1 ${msg.role === 'user' ? 'text-blue-100' : 'text-gray-400'}`}>
+									<p className={`text-xs mt-1 ${msg.role === 'user' ? 'text-orange-100' : 'text-gray-400'}`}>
 										{msg.timestamp.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}
 									</p>
 								</div>
@@ -193,9 +193,9 @@ export default function Chatbot() {
 							<div className="flex justify-start animate-toss-slide">
 								<div className="bg-white rounded-2xl rounded-bl-none px-4 py-3 shadow-md border border-gray-100">
 									<div className="flex gap-1">
-										<div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-										<div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-										<div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+										<div className="w-2 h-2 bg-primary-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+										<div className="w-2 h-2 bg-primary-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+										<div className="w-2 h-2 bg-primary-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
 									</div>
 								</div>
 							</div>
@@ -213,7 +213,7 @@ export default function Chatbot() {
 									<button
 										key={index}
 										onClick={() => handleQuickQuestion(question)}
-										className="text-xs bg-white hover:bg-blue-50 text-gray-700 hover:text-blue-600 px-3 py-1.5 rounded-full border border-gray-200 hover:border-blue-300 transition-all duration-200"
+										className="text-xs bg-white hover:bg-primary-50 text-gray-700 hover:text-primary-600 px-3 py-1.5 rounded-full border border-gray-200 hover:border-primary-300 transition-all duration-200"
 									>
 										{question}
 									</button>
@@ -233,12 +233,12 @@ export default function Chatbot() {
 								onKeyPress={handleKeyPress}
 								placeholder="메시지를 입력하세요..."
 								disabled={isLoading}
-								className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none disabled:bg-gray-50 disabled:cursor-not-allowed transition-all duration-200"
+								className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary-400 focus:outline-none disabled:bg-gray-50 disabled:cursor-not-allowed transition-all duration-200"
 							/>
 							<button
 								onClick={sendMessage}
 								disabled={!inputMessage.trim() || isLoading}
-								className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white p-3 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl disabled:hover:shadow-lg flex items-center justify-center"
+								className="bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white p-3 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl disabled:hover:shadow-lg flex items-center justify-center"
 							>
 								{isLoading ? (
 									<div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -259,7 +259,7 @@ export default function Chatbot() {
 				className={`w-16 h-16 rounded-full shadow-2xl flex items-center justify-center text-3xl transition-all duration-300 hover:scale-110 ${
 					isOpen
 						? 'bg-gradient-to-r from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600'
-						: 'bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 animate-pulse'
+						: 'bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 animate-pulse'
 				}`}
 				title={isOpen ? '챗봇 닫기' : '챗봇 열기'}
 			>

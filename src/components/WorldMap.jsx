@@ -218,9 +218,9 @@ Object.entries(COUNTRIES).forEach(([id, data]) => {
 // 4가지 색상 체계
 const COLORS = {
 	UNSELECTABLE: '#F3F4F6',  // 1. 선택 불가능 - 매우 연한 회색
-	SELECTABLE: '#BFDBFE',     // 2. 선택 가능 - 연한 파란색
-	HOVERED: '#60A5FA',        // 3. 마우스 올린 선택 가능 - 중간 파란색
-	SELECTED: '#1D4ED8',       // 4. 현재 선택된 국가 - 진한 파란색
+	SELECTABLE: '#FFD199',     // 2. 선택 가능 - 연한 오렌지색
+	HOVERED: '#FFA333',        // 3. 마우스 올린 선택 가능 - 중간 오렌지색
+	SELECTED: '#CC6200',       // 4. 현재 선택된 국가 - 진한 오렌지색
 };
 
 export default function WorldMap({ selectedCountry, onCountrySelect }) {
@@ -411,23 +411,23 @@ export default function WorldMap({ selectedCountry, onCountrySelect }) {
 	};
 
 	return (
-		<div className="w-full bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg shadow-lg p-6">
+		<div className="w-full bg-gradient-to-br from-orange-50 to-amber-50 rounded-lg shadow-lg p-3 sm:p-4 md:p-6">
 		{/* 커스텀 드롭다운 */}
-		<div className="mb-6 relative" ref={dropdownRef}>
+		<div className="mb-4 sm:mb-5 md:mb-6 relative" ref={dropdownRef}>
 			<button
 				onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-				className="w-full px-4 py-3.5 bg-white border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 shadow-sm hover:border-blue-400 hover:shadow-md text-left flex items-center justify-between group"
+				className="w-full px-3 sm:px-4 py-2.5 sm:py-3.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-300 shadow-sm hover:border-primary-400 hover:shadow-md text-left flex items-center justify-between group"
 			>
-				<span className="flex items-center gap-3">
-					<span className="text-xl">🌍</span>
-					<span className={`font-medium ${selectedCountry ? 'text-gray-800' : 'text-gray-500'}`}>
+				<span className="flex items-center gap-2 sm:gap-3">
+					<span className="text-lg sm:text-xl">🌍</span>
+					<span className={`text-sm sm:text-base font-medium ${selectedCountry ? 'text-gray-800' : 'text-gray-500'}`}>
 						{selectedCountry 
 							? `${COUNTRIES[CODE_TO_ID[selectedCountry]]?.name} (${selectedCountry})`
 							: '국가를 선택하세요'}
 					</span>
 				</span>
 				<svg 
-					className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`}
+					className={`w-4 h-4 sm:w-5 sm:h-5 text-gray-400 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`}
 					fill="none" 
 					stroke="currentColor" 
 					viewBox="0 0 24 24"
@@ -447,7 +447,7 @@ export default function WorldMap({ selectedCountry, onCountrySelect }) {
 								placeholder="국가 검색... (예: Korea, 한국)"
 								value={searchQuery}
 								onChange={(e) => setSearchQuery(e.target.value)}
-								className="w-full px-4 py-2 pl-9 pr-9 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+								className="w-full px-4 py-2 pl-9 pr-9 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
 								autoFocus
 							/>
 							<svg 
@@ -479,25 +479,25 @@ export default function WorldMap({ selectedCountry, onCountrySelect }) {
 									<button
 										key={country.code}
 										onClick={() => handleCountrySelect(country.code)}
-										className={`w-full text-left px-4 py-3 hover:bg-blue-50 transition-all duration-200 border-b border-gray-100 last:border-b-0 group ${
-											selectedCountry === country.code ? 'bg-blue-50' : ''
+										className={`w-full text-left px-4 py-3 hover:bg-primary-50 transition-all duration-200 border-b border-gray-100 last:border-b-0 group ${
+											selectedCountry === country.code ? 'bg-primary-50' : ''
 										} ${idx < 10 ? 'animate-toss-' + (idx + 1) : ''}`}
 									>
 										<div className="flex items-center justify-between">
 											<div className="flex items-center gap-3">
 												<div className={`w-2 h-2 rounded-full transition-all duration-200 ${
-													selectedCountry === country.code ? 'bg-blue-600 ring-2 ring-blue-200' : 'bg-gray-300 group-hover:bg-blue-400'
+													selectedCountry === country.code ? 'bg-primary-600 ring-2 ring-primary-200' : 'bg-gray-300 group-hover:bg-primary-400'
 												}`}></div>
 												<span className={`font-medium transition-colors ${
-													selectedCountry === country.code ? 'text-blue-600' : 'text-gray-800 group-hover:text-blue-600'
+													selectedCountry === country.code ? 'text-primary-600' : 'text-gray-800 group-hover:text-primary-600'
 												}`}>
 													{country.name}
 												</span>
 											</div>
 											<span className={`text-xs font-mono px-2 py-1 rounded transition-all ${
 												selectedCountry === country.code 
-													? 'bg-blue-100 text-blue-700' 
-													: 'bg-gray-100 text-gray-500 group-hover:bg-blue-100 group-hover:text-blue-600'
+													? 'bg-primary-100 text-primary-700' 
+													: 'bg-gray-100 text-gray-500 group-hover:bg-primary-100 group-hover:text-primary-600'
 											}`}>
 												{country.code}
 											</span>
@@ -527,33 +527,33 @@ export default function WorldMap({ selectedCountry, onCountrySelect }) {
 		</div>
 
 		{/* 지도 */}
-		<div ref={mapRef} className="relative bg-white rounded-lg shadow-inner p-2">
+		<div ref={mapRef} className="relative bg-white rounded-lg shadow-inner p-1 sm:p-2">
 			{/* 줌 컨트롤 버튼 */}
-			<div className="absolute top-4 right-4 z-10 flex flex-col gap-2">
+			<div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10 flex flex-col gap-1.5 sm:gap-2">
 				<button
 					onClick={handleZoomIn}
-					className="bg-white hover:bg-blue-50 text-gray-700 hover:text-blue-600 p-2 rounded-lg shadow-lg border border-gray-200 transition-all duration-200 hover:shadow-xl hover:scale-105 group"
+					className="bg-white hover:bg-primary-50 text-gray-700 hover:text-primary-600 p-1.5 sm:p-2 rounded-lg shadow-lg border border-gray-200 transition-all duration-200 hover:shadow-xl hover:scale-105 group"
 					title="줌 인 (확대)"
 				>
-					<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
 					</svg>
 				</button>
 				<button
 					onClick={handleZoomOut}
-					className="bg-white hover:bg-blue-50 text-gray-700 hover:text-blue-600 p-2 rounded-lg shadow-lg border border-gray-200 transition-all duration-200 hover:shadow-xl hover:scale-105 group"
+					className="bg-white hover:bg-primary-50 text-gray-700 hover:text-primary-600 p-1.5 sm:p-2 rounded-lg shadow-lg border border-gray-200 transition-all duration-200 hover:shadow-xl hover:scale-105 group"
 					title="줌 아웃 (축소)"
 				>
-					<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M20 12H4" />
 					</svg>
 				</button>
 				<button
 					onClick={handleResetZoom}
-					className="bg-white hover:bg-blue-50 text-gray-700 hover:text-blue-600 p-2 rounded-lg shadow-lg border border-gray-200 transition-all duration-200 hover:shadow-xl hover:scale-105 group"
+					className="bg-white hover:bg-primary-50 text-gray-700 hover:text-primary-600 p-1.5 sm:p-2 rounded-lg shadow-lg border border-gray-200 transition-all duration-200 hover:shadow-xl hover:scale-105 group"
 					title="초기화"
 				>
-					<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
 					</svg>
 				</button>
@@ -564,6 +564,7 @@ export default function WorldMap({ selectedCountry, onCountrySelect }) {
 				className="w-full h-auto"
 				width={800}
 				height={400}
+				style={{ width: '100%', height: 'auto' }}
 			>
 					<ZoomableGroup
 						zoom={position.zoom}
@@ -619,22 +620,22 @@ export default function WorldMap({ selectedCountry, onCountrySelect }) {
 
 				{/* 호버된 국가 이름 표시 */}
 				{hoveredCountry && COUNTRIES[hoveredCountry] && (
-					<div className="absolute bottom-4 left-4 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg text-sm font-medium animate-toss-scale">
+					<div className="absolute bottom-2 left-2 sm:bottom-4 sm:left-4 bg-gray-800 text-white px-2 sm:px-4 py-1 sm:py-2 rounded-lg shadow-lg text-xs sm:text-sm font-medium animate-toss-scale">
 						{COUNTRIES[hoveredCountry].name} ({COUNTRIES[hoveredCountry].code})
 					</div>
 				)}
 			</div>
 
 			{/* 줌 레벨 슬라이더 */}
-			<div className="mt-4 bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 rounded-lg p-5 shadow-sm border border-blue-100">
-				<div className="flex items-center gap-4">
+			<div className="mt-3 sm:mt-4 bg-gradient-to-r from-orange-50 via-amber-50 to-yellow-50 rounded-lg p-3 sm:p-4 md:p-5 shadow-sm border border-primary-100">
+				<div className="flex items-center gap-2 sm:gap-3 md:gap-4">
 					{/* 축소 아이콘 */}
 					<button
 						onClick={handleZoomOut}
-						className="flex-shrink-0 w-8 h-8 bg-white hover:bg-blue-100 text-gray-600 hover:text-blue-600 rounded-lg shadow-sm border border-gray-200 transition-all duration-200 flex items-center justify-center group"
+						className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 bg-white hover:bg-primary-100 text-gray-600 hover:text-primary-600 rounded-lg shadow-sm border border-gray-200 transition-all duration-200 flex items-center justify-center group"
 						title="줌 아웃"
 					>
-						<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7" />
 						</svg>
 					</button>
@@ -643,11 +644,11 @@ export default function WorldMap({ selectedCountry, onCountrySelect }) {
 					<div className="flex-1 relative">
 						{/* 배율 표시 라벨들 */}
 						<div className="flex justify-between mb-1 px-1">
-							<span className="text-xs text-gray-400 font-medium">1/4×</span>
-							<span className="text-xs text-gray-400 font-medium">1/2×</span>
-							<span className="text-xs text-indigo-500 font-bold">1×</span>
-							<span className="text-xs text-gray-400 font-medium">2×</span>
-							<span className="text-xs text-gray-400 font-medium">4×</span>
+							<span className="text-[10px] sm:text-xs text-gray-400 font-medium">1/4×</span>
+							<span className="text-[10px] sm:text-xs text-gray-400 font-medium hidden sm:inline">1/2×</span>
+							<span className="text-[10px] sm:text-xs text-indigo-500 font-bold">1×</span>
+							<span className="text-[10px] sm:text-xs text-gray-400 font-medium hidden sm:inline">2×</span>
+							<span className="text-[10px] sm:text-xs text-gray-400 font-medium">4×</span>
 						</div>
 
 						{/* 슬라이더 */}
@@ -663,15 +664,15 @@ export default function WorldMap({ selectedCountry, onCountrySelect }) {
 								setPosition(prev => ({ ...prev, zoom: newZoom }));
 								zoomValue.set(newZoom);
 							}}
-							className="w-full h-3 bg-gradient-to-r from-blue-200 via-indigo-300 to-green-200 rounded-full appearance-none cursor-pointer slider-thumb"
+							className="w-full h-3 bg-gradient-to-r from-orange-200 via-amber-300 to-yellow-200 rounded-full appearance-none cursor-pointer slider-thumb"
 							style={{
 								background: `linear-gradient(to right, 
-									#93c5fd 0%, 
-									#93c5fd ${((Math.min(position.zoom, 1) - 0.25) / (1 - 0.25)) * 12.5}%, 
-									#a78bfa ${((Math.min(position.zoom, 1) - 0.25) / (1 - 0.25)) * 12.5}%, 
-									#a78bfa 12.5%, 
-									#86efac 12.5%, 
-									#86efac ${12.5 + ((Math.min(position.zoom, 8) - 1) / (8 - 1)) * 87.5}%, 
+									#FFD199 0%, 
+									#FFD199 ${((Math.min(position.zoom, 1) - 0.25) / (1 - 0.25)) * 12.5}%, 
+									#FFBA66 ${((Math.min(position.zoom, 1) - 0.25) / (1 - 0.25)) * 12.5}%, 
+									#FFBA66 12.5%, 
+									#FFA333 12.5%, 
+									#FFA333 ${12.5 + ((Math.min(position.zoom, 8) - 1) / (8 - 1)) * 87.5}%, 
 									#ddd ${12.5 + ((Math.min(position.zoom, 8) - 1) / (8 - 1)) * 87.5}%, 
 									#ddd 100%)`
 							}}
@@ -679,21 +680,21 @@ export default function WorldMap({ selectedCountry, onCountrySelect }) {
 
 						{/* 주요 지점 마커 */}
 						<div className="absolute top-8 left-0 right-0 flex justify-between px-1 pointer-events-none">
-							<div className="w-0.5 h-2 bg-blue-300 rounded"></div>
+							<div className="w-0.5 h-2 bg-orange-300 rounded"></div>
 							<div className="w-0.5 h-2 bg-gray-300 rounded"></div>
-							<div className="w-1 h-3 bg-indigo-400 rounded shadow-sm"></div>
+							<div className="w-1 h-3 bg-amber-400 rounded shadow-sm"></div>
 							<div className="w-0.5 h-2 bg-gray-300 rounded"></div>
-							<div className="w-0.5 h-2 bg-green-300 rounded"></div>
+							<div className="w-0.5 h-2 bg-yellow-300 rounded"></div>
 						</div>
 					</div>
 
 					{/* 확대 아이콘 */}
 					<button
 						onClick={handleZoomIn}
-						className="flex-shrink-0 w-8 h-8 bg-white hover:bg-green-100 text-gray-600 hover:text-green-600 rounded-lg shadow-sm border border-gray-200 transition-all duration-200 flex items-center justify-center group"
+						className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 bg-white hover:bg-green-100 text-gray-600 hover:text-green-600 rounded-lg shadow-sm border border-gray-200 transition-all duration-200 flex items-center justify-center group"
 						title="줌 인"
 					>
-						<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
 						</svg>
 					</button>
@@ -701,31 +702,31 @@ export default function WorldMap({ selectedCountry, onCountrySelect }) {
 					{/* 리셋 버튼 */}
 					<button
 						onClick={handleResetZoom}
-						className="flex-shrink-0 w-8 h-8 bg-white hover:bg-indigo-100 text-gray-600 hover:text-indigo-600 rounded-lg shadow-sm border border-gray-200 transition-all duration-200 flex items-center justify-center group"
+						className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 bg-white hover:bg-indigo-100 text-gray-600 hover:text-indigo-600 rounded-lg shadow-sm border border-gray-200 transition-all duration-200 flex items-center justify-center group"
 						title="초기화 (1×)"
 					>
-						<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
 						</svg>
 					</button>
 				</div>
 
 				{/* 현재 줌 레벨 표시 */}
-				<div className="mt-3 text-center">
-					<span className="text-xs text-gray-500">
-						🔍 현재 줌: <span className="font-bold text-lg text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-green-600">{position.zoom.toFixed(2)}×</span>
+				<div className="mt-2 sm:mt-3 text-center">
+					<span className="text-[10px] sm:text-xs text-gray-500">
+						🔍 현재 줌: <span className="font-bold text-sm sm:text-base md:text-lg text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600">{position.zoom.toFixed(2)}×</span>
 					</span>
 				</div>
 			</div>
 
 			{/* 안내 메시지 */}
-			<div className="mt-3 space-y-2">
-				<div className="text-xs text-gray-500 text-center">
+			<div className="mt-2 sm:mt-3 space-y-1 sm:space-y-2">
+				<div className="text-[10px] sm:text-xs text-gray-500 text-center px-2">
 					💡 총 {Object.keys(COUNTRIES).length}개 국가를 지원합니다. 드롭다운으로 검색하거나 지도를 클릭하세요.
 				</div>
-				<div className="text-xs text-gray-400 text-center flex items-center justify-center gap-4">
-					<span>🖱️ 마우스 휠로 줌</span>
-					<span>👆 터치패드로 핀치 줌</span>
+				<div className="text-[10px] sm:text-xs text-gray-400 text-center flex flex-wrap items-center justify-center gap-2 sm:gap-4 px-2">
+					<span className="hidden sm:inline">🖱️ 마우스 휠로 줌</span>
+					<span>👆 터치로 줌</span>
 					<span>🔘 버튼으로 제어</span>
 				</div>
 			</div>

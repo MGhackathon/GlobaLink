@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { processArticle } from '../api/backendAPI.js';
+import { processArticle, analyzeSentiment } from '../api/backendAPI.js';
 import ProgressBar from './ProgressBar.jsx';
 import { formatNewsContent, formatTranslatedContent, formatSummarizedContent } from '../utils/textFormatter.js';
 import { extractCategoriesFromArticle, CATEGORY_COLORS, CATEGORY_NAMES } from '../utils/categoryUtils.js';
+import RelatedNewsList from './RelatedNewsList.jsx';
 
-export default function NewsDetailModal({ isOpen, onClose, article }) {
+export default function NewsDetailModal({ isOpen, onClose, article, relatedArticles = [], onRelatedArticleClick }) {
 	const [isProcessing, setIsProcessing] = useState(false);
 	const [processedData, setProcessedData] = useState(null);
 	const [activeTab, setActiveTab] = useState('original');
@@ -12,6 +13,7 @@ export default function NewsDetailModal({ isOpen, onClose, article }) {
 	const [progress, setProgress] = useState(0);
 	const [currentStep, setCurrentStep] = useState('');
 	const [categories, setCategories] = useState([]);
+	const [sentiment, setSentiment] = useState(null);
 
 	// 카테고리 추출
 	useEffect(() => {
@@ -21,17 +23,18 @@ export default function NewsDetailModal({ isOpen, onClose, article }) {
 		}
 	}, [article]);
 
-	useEffect(() => {
-		if (isOpen && article?.url) {
-			// 새로운 기사가 선택되면 이전 데이터를 초기화하고 새로 처리
-			setProcessedData(null);
-			setError(null);
-			setActiveTab('original');
-			setProgress(0);
-			setCurrentStep('');
-			handleProcessArticle();
+	const handleAnalyzeSentiment = async () => {
+		if (!article?.title) return;
+		
+		try {
+			const result = await analyzeSentiment(article.title, article.description || '');
+			if (result.success && result.sentiment) {
+				setSentiment(result.sentiment);
+			}
+		} catch (error) {
+			console.error('감성 분석 오류:', error);
 		}
-	}, [isOpen, article?.url]);
+	};
 
 	const handleProcessArticle = async () => {
 		if (!article?.url) return;
@@ -91,6 +94,21 @@ export default function NewsDetailModal({ isOpen, onClose, article }) {
 		}
 	};
 
+	useEffect(() => {
+		if (isOpen && article?.url) {
+			// 새로운 기사가 선택되면 이전 데이터를 초기화하고 새로 처리
+			setProcessedData(null);
+			setError(null);
+			setActiveTab('original');
+			setProgress(0);
+			setCurrentStep('');
+			setSentiment(null);
+			handleProcessArticle();
+			handleAnalyzeSentiment();
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isOpen, article?.url]);
+
 	const handleClose = () => {
 		// 모달 닫을 때 상태 초기화
 		setProcessedData(null);
@@ -99,29 +117,61 @@ export default function NewsDetailModal({ isOpen, onClose, article }) {
 		setIsProcessing(false);
 		setProgress(0);
 		setCurrentStep('');
+		setSentiment(null);
 		onClose();
+	};
+
+	const handleRelatedArticleClick = (relatedArticle) => {
+		// 관련 뉴스 클릭 시 부모 컴포넌트의 콜백 호출
+		if (onRelatedArticleClick) {
+			onRelatedArticleClick(relatedArticle);
+		}
 	};
 
 	if (!isOpen) return null;
 
 	return (
 		<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-			<div className="bg-white rounded-lg shadow-xl w-full max-w-6xl h-[90vh] flex flex-col">
+			<div className="bg-white rounded-lg shadow-xl w-full max-w-7xl h-[90vh] flex flex-col">
 				{/* 헤더 */}
-				<div className="flex items-center justify-between p-6 border-b border-gray-200">
-					<div className="flex items-center gap-4">
-						<h2 className="text-xl font-bold text-gray-800">
-							{article?.title || '뉴스 상세보기'}
-						</h2>
-						{article?.source && (
-							<span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
-								📰 {article.source.name || article.source}
-							</span>
-						)}
+				<div className="flex items-center justify-between px-8 py-6 border-b border-gray-200">
+					<div className="flex items-center gap-4 flex-1 min-w-0">
+						<div className="flex-1 min-w-0">
+							<h2 className="text-xl font-semibold text-gray-800 truncate">
+								{article?.title || '뉴스 상세보기'}
+							</h2>
+							<div className="flex items-center gap-3 mt-2">
+								{article?.source && (
+									<span className="text-sm text-gray-500">
+										📰 {article.source.name || article.source}
+									</span>
+								)}
+								{article?.publishedAt && (
+									<span className="text-sm text-gray-500">
+										📅 {new Date(article.publishedAt).toLocaleDateString('ko-KR')}
+									</span>
+								)}
+								{/* FinBERT 감정 배지 */}
+								{sentiment && (
+									<span
+										className={`px-3 py-1 rounded-full text-sm font-medium ${
+											sentiment.label === 'positive'
+												? 'bg-green-100 text-green-600'
+												: sentiment.label === 'negative'
+												? 'bg-red-100 text-red-600'
+												: 'bg-gray-100 text-gray-600'
+										}`}
+										title={`신뢰도: ${(sentiment.confidence * 100).toFixed(1)}%`}
+									>
+										{sentiment.korean_label}
+									</span>
+								)}
+							</div>
+						</div>
 					</div>
 					<button
 						onClick={handleClose}
-						className="text-gray-400 hover:text-gray-600 transition-colors"
+						className="text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0 ml-4"
 					>
 						<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -130,36 +180,36 @@ export default function NewsDetailModal({ isOpen, onClose, article }) {
 				</div>
 
 				{/* 탭 메뉴 */}
-				<div className="flex border-b border-gray-200 px-6">
+				<div className="flex border-b border-gray-200 px-8">
 					<button
 						onClick={() => setActiveTab('original')}
-						className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+						className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${
 							activeTab === 'original'
-								? 'border-blue-500 text-blue-600'
+								? 'border-primary-500 text-primary-600'
 								: 'border-transparent text-gray-500 hover:text-gray-700'
 						}`}
 					>
-						📄 원문보기
+						원문
 					</button>
 					<button
 						onClick={() => setActiveTab('translated')}
-						className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+						className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${
 							activeTab === 'translated'
-								? 'border-blue-500 text-blue-600'
+								? 'border-primary-500 text-primary-600'
 								: 'border-transparent text-gray-500 hover:text-gray-700'
 						}`}
 					>
-						🌐 번역본보기
+						번역
 					</button>
 					<button
 						onClick={() => setActiveTab('summarized')}
-						className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+						className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${
 							activeTab === 'summarized'
-								? 'border-blue-500 text-blue-600'
+								? 'border-primary-500 text-primary-600'
 								: 'border-transparent text-gray-500 hover:text-gray-700'
 						}`}
 					>
-						📝 요약본보기
+						요약
 					</button>
 				</div>
 
@@ -182,10 +232,10 @@ export default function NewsDetailModal({ isOpen, onClose, article }) {
 								
 								<div className="mt-4 text-center">
 									<div className="flex justify-center space-x-2">
-										<div className={`w-2 h-2 rounded-full ${progress >= 25 ? 'bg-blue-500' : 'bg-gray-300'}`}></div>
-										<div className={`w-2 h-2 rounded-full ${progress >= 50 ? 'bg-blue-500' : 'bg-gray-300'}`}></div>
-										<div className={`w-2 h-2 rounded-full ${progress >= 75 ? 'bg-blue-500' : 'bg-gray-300'}`}></div>
-										<div className={`w-2 h-2 rounded-full ${progress >= 100 ? 'bg-blue-500' : 'bg-gray-300'}`}></div>
+										<div className={`w-2 h-2 rounded-full ${progress >= 25 ? 'bg-primary-500' : 'bg-gray-300'}`}></div>
+										<div className={`w-2 h-2 rounded-full ${progress >= 50 ? 'bg-primary-500' : 'bg-gray-300'}`}></div>
+										<div className={`w-2 h-2 rounded-full ${progress >= 75 ? 'bg-primary-500' : 'bg-gray-300'}`}></div>
+										<div className={`w-2 h-2 rounded-full ${progress >= 100 ? 'bg-primary-500' : 'bg-gray-300'}`}></div>
 									</div>
 								</div>
 							</div>
@@ -200,7 +250,7 @@ export default function NewsDetailModal({ isOpen, onClose, article }) {
 								<p className="text-sm text-gray-600">{error}</p>
 								<button
 									onClick={handleProcessArticle}
-									className="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
+									className="mt-4 bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg transition-colors"
 								>
 									다시 시도
 								</button>
@@ -209,84 +259,97 @@ export default function NewsDetailModal({ isOpen, onClose, article }) {
 					)}
 
 					{processedData && !isProcessing && (
-						<div className="h-full overflow-y-auto p-6">
-							{activeTab === 'original' && (
-								<div>
-									<h3 className="text-2xl font-bold text-gray-800 mb-6">
-										{processedData.original.title}
-									</h3>
-									<div className="prose prose-lg max-w-none">
-										{formatNewsContent(processedData.original.content).map((paragraph, index) => (
-											<p key={index} className="mb-4 leading-relaxed text-gray-700">
-												{paragraph.text}
-											</p>
-										))}
+						<div className="h-full overflow-y-auto">
+							<div className="flex flex-col lg:flex-row gap-6 lg:gap-8 p-6 lg:p-8">
+								{/* 메인 콘텐츠 */}
+								<div className="flex-1 min-w-0">
+									<div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6 lg:p-8">
+										{activeTab === 'original' && (
+											<div>
+												<h3 className="text-xl font-semibold text-gray-800 mb-6">
+													{processedData.original.title}
+												</h3>
+												<div className="prose prose-lg max-w-none">
+													{formatNewsContent(processedData.original.content).map((paragraph, index) => (
+														<p key={index} className="mb-6 leading-relaxed text-gray-700">
+															{paragraph.text}
+														</p>
+													))}
+												</div>
+												{processedData.original.metadata?.author && (
+													<div className="mt-8 pt-6 border-t border-gray-200">
+														<p className="text-sm text-gray-500">
+															작성자: {processedData.original.metadata.author}
+														</p>
+													</div>
+												)}
+											</div>
+										)}
+										
+										{activeTab === 'translated' && (
+											<div>
+												<h3 className="text-xl font-semibold text-gray-800 mb-6">
+													{processedData.translated.title}
+												</h3>
+												<div className="prose prose-lg max-w-none">
+													{formatTranslatedContent(processedData.translated.content).map((paragraph, index) => (
+														<p key={index} className="mb-6 leading-relaxed text-gray-700">
+															{paragraph.text}
+														</p>
+													))}
+												</div>
+												<div className="mt-8 pt-6 border-t border-gray-200">
+													<p className="text-sm text-gray-500">
+														🤖 GPT로 번역된 내용입니다
+													</p>
+												</div>
+											</div>
+										)}
+										
+										{activeTab === 'summarized' && (
+											<div>
+												<h3 className="text-xl font-semibold text-gray-800 mb-6">요약</h3>
+												<div className="prose prose-lg max-w-none">
+													{formatSummarizedContent(processedData.summarized.content).map((paragraph, index) => (
+														<p key={index} className="mb-6 leading-relaxed text-gray-700">
+															{paragraph.text}
+														</p>
+													))}
+												</div>
+												<div className="mt-8 pt-6 border-t border-gray-200">
+													<p className="text-sm text-gray-500">
+														🤖 GPT로 요약된 내용입니다
+													</p>
+												</div>
+											</div>
+										)}
 									</div>
-									{processedData.original.metadata?.author && (
-										<div className="mt-6 pt-6 border-t border-gray-200">
-											<p className="text-sm text-gray-500">
-												작성자: {processedData.original.metadata.author}
-											</p>
-										</div>
-									)}
 								</div>
-							)}
-							
-							{activeTab === 'translated' && (
-								<div>
-									<h3 className="text-2xl font-bold text-gray-800 mb-6">
-										{processedData.translated.title}
-									</h3>
-									<div className="prose prose-lg max-w-none">
-										{formatTranslatedContent(processedData.translated.content).map((paragraph, index) => (
-											<p key={index} className="mb-4 leading-relaxed text-gray-700">
-												{paragraph.text}
-											</p>
-										))}
+
+								{/* 관련 뉴스 (lg 화면에서는 오른쪽, 모바일에서는 아래) */}
+								{relatedArticles.length > 0 && (
+									<div className="lg:order-last">
+										<RelatedNewsList
+											articles={relatedArticles}
+											onArticleClick={handleRelatedArticleClick}
+											currentArticleUrl={article?.url}
+										/>
 									</div>
-									<div className="mt-6 pt-6 border-t border-gray-200">
-										<p className="text-sm text-gray-500">
-											🤖 GPT로 번역된 내용입니다
-										</p>
-									</div>
-								</div>
-							)}
-							
-							{activeTab === 'summarized' && (
-								<div>
-									<h3 className="text-2xl font-bold text-gray-800 mb-6">요약</h3>
-									<div className="prose prose-lg max-w-none">
-										{formatSummarizedContent(processedData.summarized.content).map((paragraph, index) => (
-											<p key={index} className="mb-4 leading-relaxed text-gray-700">
-												{paragraph.text}
-											</p>
-										))}
-									</div>
-									<div className="mt-6 pt-6 border-t border-gray-200">
-										<p className="text-sm text-gray-500">
-											🤖 GPT로 요약된 내용입니다
-										</p>
-									</div>
-								</div>
-							)}
+								)}
+							</div>
 						</div>
 					)}
 				</div>
 
 				{/* 푸터 */}
-				<div className="flex items-center justify-between p-6 border-t border-gray-200 bg-gray-50">
-					<div className="flex items-center gap-4">
-						{article?.publishedAt && (
-							<span className="text-sm text-gray-500">
-								📅 {new Date(article.publishedAt).toLocaleDateString('ko-KR')}
-							</span>
-						)}
+				<div className="flex items-center justify-between px-8 py-6 border-t border-gray-200 bg-gray-50">
+					<div className="flex items-center gap-4 flex-wrap">
 						{article?.url && (
 							<a
 								href={article.url}
 								target="_blank"
 								rel="noreferrer"
-								className="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1"
+								className="text-sm text-primary-600 hover:text-primary-800 flex items-center gap-1"
 							>
 								원본 링크
 								<svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -86,14 +86,14 @@ export default function NewsCard({ title, description, source, url, urlToImage, 
 	return (
 		<article 
 			ref={ref}
-			className={`bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden group toss-card h-full flex flex-col transition-all duration-700 ease-out ${
+			className={`bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden group toss-card h-full flex flex-col transition-all ease-in-out duration-150 hover:shadow-md hover:-translate-y-0.5 ${
 				isVisible 
 					? 'opacity-100 translate-y-0' 
 					: 'opacity-0 translate-y-8'
 			}`}
 		>
 			{/* 상단 색상 바 */}
-			<div className="h-1.5 bg-gradient-to-r from-blue-500 to-indigo-500 group-hover:from-blue-600 group-hover:to-indigo-600 transition-all duration-500"></div>
+			<div className="h-1 bg-gradient-to-r from-primary-500 to-secondary-500 group-hover:from-primary-600 group-hover:to-secondary-600 transition-all ease-in-out duration-150"></div>
 			
 			{/* 이미지 - 고정 높이 */}
 			<div className="relative h-48 overflow-hidden">
@@ -120,13 +120,13 @@ export default function NewsCard({ title, description, source, url, urlToImage, 
 					<div className="absolute top-3 left-3 z-10">
 						<div 
 							className={`
-								px-3 py-1.5 rounded-full font-bold text-sm shadow-lg backdrop-blur-sm
-								flex items-center gap-1.5 transition-all duration-300
+								px-3 py-1.5 rounded-full font-bold text-sm shadow-medium backdrop-blur-sm
+								flex items-center gap-1.5 transition-all duration-200
 								${sentiment.label === 'positive' 
-									? 'bg-green-500/90 text-white border border-green-400' 
+									? 'bg-success-500/90 text-white border border-success-400' 
 									: sentiment.label === 'negative'
-									? 'bg-red-500/90 text-white border border-red-400'
-									: 'bg-gray-500/90 text-white border border-gray-400'
+									? 'bg-error-500/90 text-white border border-error-400'
+									: 'bg-neutral-500/90 text-white border border-neutral-400'
 								}
 							`}
 							title={`신뢰도: ${(sentiment.confidence * 100).toFixed(1)}%`}
@@ -142,7 +142,7 @@ export default function NewsCard({ title, description, source, url, urlToImage, 
 				{/* 감성 분석 중 표시 */}
 				{isAnalyzingSentiment && (
 					<div className="absolute top-3 left-3 z-10">
-						<div className="px-3 py-1.5 rounded-full bg-gray-500/80 text-white text-sm font-medium backdrop-blur-sm flex items-center gap-2">
+						<div className="px-3 py-1.5 rounded-full bg-neutral-500/80 text-white text-sm font-semibold backdrop-blur-sm flex items-center gap-2 shadow-soft">
 							<div className="animate-spin h-3 w-3 border-2 border-white border-t-transparent rounded-full"></div>
 							<span>분석중...</span>
 						</div>
@@ -152,10 +152,10 @@ export default function NewsCard({ title, description, source, url, urlToImage, 
 				{/* 북마크 버튼 */}
 				<button
 					onClick={handleToggleBookmark}
-					className={`absolute top-3 right-3 p-2 rounded-full transition-all duration-300 ${
+					className={`absolute top-3 right-3 p-2 rounded-lg transition-all ease-in-out duration-150 active:scale-95 ${
 						bookmarked 
-							? 'bg-yellow-400 text-yellow-900 hover:bg-yellow-500' 
-							: 'bg-white/80 text-gray-600 hover:bg-white hover:text-yellow-500'
+							? 'bg-warning-400 text-warning-900 hover:bg-warning-500 shadow-sm' 
+							: 'bg-white/90 text-gray-600 hover:bg-white hover:text-warning-500 shadow-sm'
 					}`}
 					title={bookmarked ? '북마크 제거' : '북마크 추가'}
 				>
@@ -165,14 +165,14 @@ export default function NewsCard({ title, description, source, url, urlToImage, 
 				</button>
 			</div>
 			
-			<div className="p-5 flex-1 flex flex-col">
+			<div className="p-6 flex-1 flex flex-col">
 				{/* 제목 - 번역 상태에 따른 동적 높이 */}
 				<div className={`mb-3 ${isTranslating ? 'h-12' : 'h-16'}`}>
-					<h3 className="text-lg font-bold text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-all duration-300">
+					<h3 className="text-xl font-semibold text-gray-900 line-clamp-2 group-hover:text-primary-500 transition-all ease-in-out duration-150">
 						{isTranslating ? (
 							<div className="flex items-center gap-2 h-full">
-								<div className="animate-spin h-4 w-4 border-2 border-blue-500 border-t-transparent rounded-full"></div>
-								<span className="text-sm text-gray-500">번역 중...</span>
+								<div className="animate-spin h-4 w-4 border-2 border-primary-500 border-t-transparent rounded-full"></div>
+								<span className="text-sm text-gray-500 font-normal">번역 중...</span>
 							</div>
 						) : (
 							translatedTitle || title || 'Untitled'
@@ -182,7 +182,7 @@ export default function NewsCard({ title, description, source, url, urlToImage, 
 				
 				{/* 설명 - 고정 높이 */}
 				<div className="h-20 mb-4">
-					<p className="text-sm text-gray-600 line-clamp-3 leading-relaxed">
+					<p className="text-sm text-gray-600 line-clamp-3 leading-relaxed font-normal">
 						{isTranslating ? '번역 중...' : (translatedDescription || description || 'No description available.')}
 					</p>
 				</div>
@@ -211,7 +211,7 @@ export default function NewsCard({ title, description, source, url, urlToImage, 
 					<button
 						onClick={handleShowDetail}
 						disabled={!url}
-						className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
+						className="w-full bg-primary-500 hover:bg-primary-600 disabled:bg-gray-400 text-white font-semibold py-3 px-4 rounded-lg transition-all ease-in-out duration-150 flex items-center justify-center gap-2 shadow-sm hover:shadow-md active:scale-[0.98]"
 					>
 						<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -225,11 +225,11 @@ export default function NewsCard({ title, description, source, url, urlToImage, 
 				<div className="mt-auto">
 					<div className="flex items-center justify-between pt-4 border-t border-gray-100">
 						<div className="flex items-center gap-2">
-							<span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded group-hover:bg-blue-50 group-hover:text-blue-600 transition-all duration-300">
+							<span className="text-xs font-medium text-gray-600 bg-gray-100 px-2.5 py-1 rounded-lg group-hover:bg-gray-50 group-hover:text-primary-500 transition-all ease-in-out duration-150">
 								📰 {source?.name || source || 'Unknown'}
 							</span>
 							{publishedAt && (
-								<span className="text-xs text-gray-400">
+								<span className="text-xs text-gray-400 font-normal">
 									{new Date(publishedAt).toLocaleDateString('ko-KR')}
 								</span>
 							)}
