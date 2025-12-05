@@ -8,31 +8,33 @@ from mk_crawler import MKCrawler, DataStorage, MK_CATEGORIES
 
 sys.stdout.reconfigure(encoding='utf-8')
 
-# 각 카테고리별 시작 번호 (경제는 이미 완료했으므로 제외)
+# 각 카테고리별 시작 번호 (2025-12-05 업데이트)
 CATEGORY_START_NUMBERS = {
-    "politics": 11485092,
-    "society": 11485210,
-    "world": 11484944,
-    "business": 11484960,
-    "stock": 11484948,
-    "realestate": 11484763,
-    "it": 11485017,
-    "culture": 11484509,
-    "sports": 11484539
+    "economy": 11485597,
+    "politics": 11485596,
+    "society": 11485590,
+    "business": 11485567,
+    "realestate": 11485592,
+    "stock": 11485514,
+    "culture": 11485571,
+    "it": 11480509,
+    "sports": 11485610,
+    "world": 11485582
 }
 
 def main():
     print("=" * 70)
     print("모든 카테고리 순차 크롤링 시작")
-    print("각 카테고리당 100개씩 수집")
+    print("각 카테고리당 50개씩 수집")
     print("=" * 70)
     print()
     
-    crawler = MKCrawler(delay=0.2)
+    crawler = MKCrawler(delay=0.3)
     storage = DataStorage(output_dir="../DB/crawling")
     
-    # 경제는 이미 완료했으므로 제외
+    # 전체 카테고리 크롤링
     categories_to_crawl = [
+        ("economy", "경제"),
         ("politics", "정치"),
         ("society", "사회"),
         ("world", "국제"),
@@ -63,7 +65,7 @@ def main():
             articles = crawler.crawl_by_number_range(
                 category=category_slug,
                 start_number=start_number,
-                max_articles=100
+                max_articles=50
             )
             
             all_results[category_slug] = len(articles)
@@ -87,11 +89,11 @@ def main():
                 print(f"  CSV: {csv_file}")
                 sys.stdout.flush()
             
-            # 카테고리 간 대기 (5초)
+            # 카테고리 간 대기 (10초)
             if category_slug != categories_to_crawl[-1][0]:
-                print(f"\n다음 카테고리로 이동하기 전 5초 대기...")
+                print(f"\n다음 카테고리로 이동하기 전 10초 대기...")
                 sys.stdout.flush()
-                time.sleep(5)
+                time.sleep(10)
                 
         except KeyboardInterrupt:
             print(f"\n\n⚠️  사용자에 의해 중단되었습니다.")
