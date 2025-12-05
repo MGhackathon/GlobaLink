@@ -1,13 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { MOCK_SHORTGEUL_DATA } from '../utils/mockShortFormData.js';
 
 export default function NewsFeedGrid({ onToggleView }) {
 	const navigate = useNavigate();
-	// 간단한 목업 데이터 (12개 카드)
-	const mockCards = Array.from({ length: 12 }, (_, i) => ({
-		id: i + 1,
-		title: `뉴스 ${i + 1}`
-	}));
+	// 실제 크롤링된 뉴스 데이터 사용 (광고 제외)
+	const newsArticles = MOCK_SHORTGEUL_DATA.filter(item => !item.isAd).slice(0, 12);
 
 	return (
 		<div className="mb-6 sm:mb-10">
@@ -33,36 +31,47 @@ export default function NewsFeedGrid({ onToggleView }) {
 				</button>
 			</div>
 
-			{/* 3열 그리드 (반응형) */}
-			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
-				{mockCards.map((card) => (
-					<article
-						key={card.id}
-						onClick={() => navigate('/shortform', { state: { article: card } })}
-						className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden group hover:shadow-md hover:-translate-y-0.5 transition-all ease-in-out duration-150 h-full flex flex-col cursor-pointer"
-					>
-						{/* 이미지 플레이스홀더 */}
-						<div className="relative h-48 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+		{/* 3열 그리드 (반응형) */}
+		<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+			{newsArticles.map((article) => (
+				<article
+					key={article.id}
+					onClick={() => navigate('/shortform', { state: { article } })}
+					className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden group hover:shadow-md hover:-translate-y-0.5 transition-all ease-in-out duration-150 h-full flex flex-col cursor-pointer"
+				>
+					{/* 이미지 */}
+					<div className="relative h-48 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+						{article.pages && article.pages[0] && article.pages[0].image ? (
+							<img
+								src={article.pages[0].image}
+								alt={article.title}
+								className="w-full h-full object-cover"
+								onError={(e) => {
+									e.target.style.display = 'none';
+								}}
+							/>
+						) : (
 							<svg className="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
 							</svg>
-						</div>
+						)}
+					</div>
 
 						{/* 카드 내용 */}
 						<div className="p-6 flex-1 flex flex-col">
-							{/* 메타 정보 (상단) */}
-							<div className="flex items-center justify-between text-xs text-gray-500 mb-4">
-								<span className="flex items-center gap-1">
-									<span>📡</span>
-									<span>GlobalLink News</span>
-								</span>
-								<span>방금 전</span>
-							</div>
+					{/* 메타 정보 (상단) */}
+					<div className="flex items-center justify-between text-xs text-gray-500 mb-4">
+						<span className="flex items-center gap-1">
+							<span>📡</span>
+							<span>{article.source}</span>
+						</span>
+						<span>{new Date(article.publishedAt).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' })}</span>
+					</div>
 
-							{/* 제목 (더 크게, 강조) */}
-							<h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-auto line-clamp-3 group-hover:text-primary-500 transition-colors leading-tight">
-								{card.title}
-							</h3>
+					{/* 제목 (더 크게, 강조) */}
+					<h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-auto line-clamp-3 group-hover:text-primary-500 transition-colors leading-tight">
+						{article.title}
+					</h3>
 
 							{/* 인터랙션 버튼 */}
 							<div className="flex items-center gap-6 pt-4 mt-4 border-t border-gray-100">
