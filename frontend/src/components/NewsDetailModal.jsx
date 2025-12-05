@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { processArticle, analyzeSentiment } from '../api/backendAPI.js';
+import { processArticle } from '../api/backendAPI.js';
 import ProgressBar from './ProgressBar.jsx';
 import { formatNewsContent, formatTranslatedContent, formatSummarizedContent } from '../utils/textFormatter.js';
 import { extractCategoriesFromArticle, CATEGORY_COLORS, CATEGORY_NAMES } from '../utils/categoryUtils.js';
@@ -13,7 +13,6 @@ export default function NewsDetailModal({ isOpen, onClose, article, relatedArtic
 	const [progress, setProgress] = useState(0);
 	const [currentStep, setCurrentStep] = useState('');
 	const [categories, setCategories] = useState([]);
-	const [sentiment, setSentiment] = useState(null);
 
 	// 카테고리 추출
 	useEffect(() => {
@@ -22,19 +21,6 @@ export default function NewsDetailModal({ isOpen, onClose, article, relatedArtic
 			setCategories(articleCategories);
 		}
 	}, [article]);
-
-	const handleAnalyzeSentiment = async () => {
-		if (!article?.title) return;
-		
-		try {
-			const result = await analyzeSentiment(article.title, article.description || '');
-			if (result.success && result.sentiment) {
-				setSentiment(result.sentiment);
-			}
-		} catch (error) {
-			console.error('감성 분석 오류:', error);
-		}
-	};
 
 	const handleProcessArticle = async () => {
 		if (!article?.url) return;
@@ -102,9 +88,7 @@ export default function NewsDetailModal({ isOpen, onClose, article, relatedArtic
 			setActiveTab('original');
 			setProgress(0);
 			setCurrentStep('');
-			setSentiment(null);
 			handleProcessArticle();
-			handleAnalyzeSentiment();
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isOpen, article?.url]);
@@ -117,7 +101,6 @@ export default function NewsDetailModal({ isOpen, onClose, article, relatedArtic
 		setIsProcessing(false);
 		setProgress(0);
 		setCurrentStep('');
-		setSentiment(null);
 		onClose();
 	};
 
@@ -149,21 +132,6 @@ export default function NewsDetailModal({ isOpen, onClose, article, relatedArtic
 								{article?.publishedAt && (
 									<span className="text-sm text-gray-500">
 										📅 {new Date(article.publishedAt).toLocaleDateString('ko-KR')}
-									</span>
-								)}
-								{/* FinBERT 감정 배지 */}
-								{sentiment && (
-									<span
-										className={`px-3 py-1 rounded-full text-sm font-medium ${
-											sentiment.label === 'positive'
-												? 'bg-green-100 text-green-600'
-												: sentiment.label === 'negative'
-												? 'bg-red-100 text-red-600'
-												: 'bg-gray-100 text-gray-600'
-										}`}
-										title={`신뢰도: ${(sentiment.confidence * 100).toFixed(1)}%`}
-									>
-										{sentiment.korean_label}
 									</span>
 								)}
 							</div>

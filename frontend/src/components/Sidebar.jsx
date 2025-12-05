@@ -101,20 +101,6 @@ export default function Sidebar({ isOpen, onClose }) {
 									</span>
 								)}
 							</button>
-
-							{/* 일일퀘스트 */}
-							<button 
-								onClick={() => {
-									navigate('/quests');
-									onClose();
-								}}
-								className="w-full flex items-center gap-4 px-4 py-4 text-left text-gray-700 hover:bg-[#F5F7FA] rounded-lg transition-all ease-in-out duration-150 active:scale-[0.98]"
-							>
-								<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-									<path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-								</svg>
-								<span className="text-sm font-medium">일일퀘스트</span>
-							</button>
 						</div>
 					</div>
 				</div>

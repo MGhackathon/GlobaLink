@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { translateText, summarizeText, translateFullArticle } from '../api/translateAPI.js';
-import { analyzeSentiment } from '../api/backendAPI.js';
 import { useScrollAnimation } from '../hooks/useScrollAnimation.js';
 import { useBookmark } from '../contexts/BookmarkContext.jsx';
 
@@ -19,8 +18,6 @@ export default function MultilingualNewsCard({
 	const [isTranslating, setIsTranslating] = useState(true);
 	const [showFullTranslation, setShowFullTranslation] = useState(false);
 	const [fullTranslation, setFullTranslation] = useState(null);
-	const [sentiment, setSentiment] = useState(null);
-	const [isAnalyzingSentiment, setIsAnalyzingSentiment] = useState(false);
 	const [ref, isVisible] = useScrollAnimation(delay);
 	const { toggleBookmark, isBookmarked } = useBookmark();
 	
@@ -28,7 +25,7 @@ export default function MultilingualNewsCard({
 	const articleId = url || `${title}-${source?.name || source}`;
 	const bookmarked = isBookmarked(articleId);
 
-	// 컴포넌트 마운트 시 번역 및 감성 분석 실행
+	// 컴포넌트 마운트 시 번역 실행
 	useEffect(() => {
 		const translateContent = async () => {
 			setIsTranslating(true);
@@ -52,22 +49,7 @@ export default function MultilingualNewsCard({
 			}
 		};
 
-		const analyzeSentimentContent = async () => {
-			setIsAnalyzingSentiment(true);
-			try {
-				const result = await analyzeSentiment(title, description);
-				if (result.success && result.sentiment) {
-					setSentiment(result.sentiment);
-				}
-			} catch (error) {
-				console.error('감성 분석 오류:', error);
-			} finally {
-				setIsAnalyzingSentiment(false);
-			}
-		};
-
 		translateContent();
-		analyzeSentimentContent();
 	}, [title, description]);
 
 	// 전체 번역 보기
@@ -136,40 +118,6 @@ export default function MultilingualNewsCard({
 					</div>
 				)}
 				<div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-				
-				{/* 호재/악재 배지 */}
-				{sentiment && (
-					<div className="absolute top-3 left-3 z-10">
-						<div 
-							className={`
-								px-3 py-1.5 rounded-full font-bold text-sm shadow-lg backdrop-blur-sm
-								flex items-center gap-1.5 transition-all duration-300
-								${sentiment.label === 'positive' 
-									? 'bg-green-500/90 text-white border border-green-400' 
-									: sentiment.label === 'negative'
-									? 'bg-red-500/90 text-white border border-red-400'
-									: 'bg-gray-500/90 text-white border border-gray-400'
-								}
-							`}
-							title={`신뢰도: ${(sentiment.confidence * 100).toFixed(1)}%`}
-						>
-							{sentiment.label === 'positive' && '📈'}
-							{sentiment.label === 'negative' && '📉'}
-							{sentiment.label === 'neutral' && '➖'}
-							<span>{sentiment.korean_label}</span>
-						</div>
-					</div>
-				)}
-				
-				{/* 감성 분석 중 표시 */}
-				{isAnalyzingSentiment && (
-					<div className="absolute top-3 left-3 z-10">
-						<div className="px-3 py-1.5 rounded-full bg-gray-500/80 text-white text-sm font-medium backdrop-blur-sm flex items-center gap-2">
-							<div className="animate-spin h-3 w-3 border-2 border-white border-t-transparent rounded-full"></div>
-							<span>분석중...</span>
-						</div>
-					</div>
-				)}
 				
 				{/* 북마크 버튼 */}
 				<button
