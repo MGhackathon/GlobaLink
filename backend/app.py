@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from processor import NewsProcessingService
 from sentiment_analyzer import get_sentiment_analyzer
 from chatbot import get_chatbot
+from recommender import ArticleRecommender
 import traceback
 
 # 환경변수 로드
@@ -18,6 +19,14 @@ CORS(app)  # CORS 허용
 news_service = NewsProcessingService()
 sentiment_analyzer = get_sentiment_analyzer()
 chatbot = get_chatbot()
+
+# 추천 시스템 초기화
+try:
+    recommender = ArticleRecommender()
+    print("✅ 추천 시스템 초기화 완료")
+except Exception as e:
+    print(f"⚠️  추천 시스템 초기화 실패: {e}")
+    recommender = None
 
 @app.route('/api/scrape', methods=['POST'])
 def scrape_article():
@@ -210,12 +219,85 @@ def chat():
             'error': f'서버 오류: {str(e)}'
         }), 500
 
+@app.route('/api/recommend', methods=['GET', 'POST'])
+def recommend_articles():
+    """기사 추천 API"""
+    try:
+        if recommender is None:
+            return jsonify({
+                'success': False,
+                'error': '추천 시스템이 초기화되지 않았습니다'
+            }), 503
+        
+        # GET 또는 POST 요청 처리
+        if request.method == 'GET':
+            article_id = request.args.get('article_id')
+            top_n = int(request.args.get('top_n', 5))
+            min_similarity = float(request.args.get('min_similarity', 0.3))
+            category = request.args.get('category')
+        else:
+            data = request.get_json() or {}
+            article_id = data.get('article_id')
+            top_n = data.get('top_n', 5)
+            min_similarity = data.get('min_similarity', 0.3)
+            category = data.get('category')
+        
+        if not article_id:
+            return jsonify({
+                'success': False,
+                'error': 'article_id가 필요합니다'
+            }), 400
+        
+        # 기준 기사 정보
+        base_article = recommender.get_article_info(article_id)
+        if not base_article:
+            return jsonify({
+                'success': False,
+                'error': f'기사를 찾을 수 없습니다: {article_id}'
+            }), 404
+        
+        # 추천 수행
+        if category:
+            recommendations = recommender.recommend_by_category(
+                article_id=article_id,
+                category=category,
+                top_n=top_n,
+                min_similarity=min_similarity
+            )
+        else:
+            recommendations = recommender.recommend(
+                article_id=article_id,
+                top_n=top_n,
+                min_similarity=min_similarity
+            )
+        
+        return jsonify({
+            'success': True,
+            'base_article': {
+                'article_id': base_article.get('article_id'),
+                'title': base_article.get('title'),
+                'category': base_article.get('category'),
+                'url': base_article.get('url')
+            },
+            'recommendations': recommendations,
+            'count': len(recommendations)
+        })
+        
+    except Exception as e:
+        print(f"추천 API 오류: {e}")
+        print(traceback.format_exc())
+        return jsonify({
+            'success': False,
+            'error': f'서버 오류: {str(e)}'
+        }), 500
+
 @app.route('/api/health', methods=['GET'])
 def health_check():
     """서버 상태 확인"""
     return jsonify({
         'status': 'healthy',
-        'message': 'News Processing API is running'
+        'message': 'News Processing API is running',
+        'recommender_available': recommender is not None
     })
 
 @app.route('/', methods=['GET'])
@@ -230,6 +312,7 @@ def index():
             'POST /api/process': '전체 기사 처리',
             'POST /api/sentiment': '뉴스 감성 분석 (호재/악재)',
             'POST /api/chat': 'AI 챗봇 대화',
+            'GET/POST /api/recommend': '유사 기사 추천',
             'GET /api/health': '서버 상태 확인'
         },
         'example': {

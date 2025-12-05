@@ -6,4 +6,6 @@ beautifulsoup4==4.12.2
 lxml==4.9.3
 python-dotenv==1.0.0
 transformers==4.35.2
-torch==2.1.1
+torch>=2.6.0
+tqdm
+numpy

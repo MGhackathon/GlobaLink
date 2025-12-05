@@ -34,7 +34,7 @@ logger.info(f"로그 파일: {os.path.abspath(log_file)}")
 
 sys.stdout.reconfigure(encoding='utf-8')
 
-# 매경 카테고리 매핑 (한글명: 슬러그)
+# 매경 카테고리 매핑 
 MK_CATEGORIES = {
     "경제": "economy",
     "정치": "politics",
@@ -50,14 +50,14 @@ MK_CATEGORIES = {
 
 
 class MKCrawler:
-    """매경 뉴스 크롤러 (번호 기반 크롤링 지원)"""
+    """매경 뉴스 크롤러 """
     
     def __init__(self, delay: float = 0.5, max_retries: int = 3, backoff_factor: float = 2.0):
         """
         Args:
             delay: 요청 간 대기 시간 (초, 서버 부하 방지)
             max_retries: 최대 재시도 횟수 (429 등 에러 시)
-            backoff_factor: 재시도 시 대기 시간 배수 (지수 백오프)
+            backoff_factor: 재시도 시 대기 시간 배수 
         """
         self.base_url = "https://www.mk.co.kr"
         self.delay = delay
