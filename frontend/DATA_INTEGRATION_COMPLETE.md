@@ -475,3 +475,4 @@ const itNews = MOCK_SHORTGEUL_DATA.filter(item => item.category === 'IT');
 - ⏳ Shorts: 영상 대기 중
 
 **테스트해보세요!** 🚀
+

@@ -228,3 +228,4 @@ python summarizer.py --input ../DB/crawling/mk_news_it_20251205_171909.json --ou
 2. **비용 관리**: 대량 요약 전 소량 테스트 권장
 3. **본문 길이**: 8000자 이상은 자동으로 잘립니다
 4. **요청 제한**: OpenAI API 플랜에 따라 조절하세요
+
