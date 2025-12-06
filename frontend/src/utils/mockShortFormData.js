@@ -12,7 +12,7 @@ export const MOCK_SHORTGEUL_DATA = [
 			{
 				type: 'cover',
 				title: 'AI인재 처우 주요국 꼴찌수준… 1만1000명 해외로 떠났다',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/06/20251206_01110102000004_L00.jpg'
+				image: '/cover/1.jpg'
 			},
 			{
 				type: 'summary',
@@ -44,7 +44,7 @@ export const MOCK_SHORTGEUL_DATA = [
 			{
 				type: 'cover',
 				title: 'AI 넘어 ASI 가리킨 손정의…이재명 대통령과 70분간 협력논의',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.5e5a70c5b4c34ccaa3800383e6206c39_R.jpg'
+				image: '/cover/2.jpg'
 			},
 			{
 				type: 'summary',
@@ -76,7 +76,7 @@ export const MOCK_SHORTGEUL_DATA = [
 			{
 				type: 'cover',
 				title: 'AWS, 차세대 컴퓨팅칩 그래비톤5 공개',
-				image: 'https://pimg.mk.co.kr/news/cms/202512/05/news-p.v1.20251205.ea5d1370fe9a49c097ffc1dc01e6952d_R.jpg'
+				image: '/cover/3.jpg'
 			},
 			{
 				type: 'summary',
@@ -108,7 +108,7 @@ export const MOCK_SHORTGEUL_DATA = [
 			{
 				type: 'cover',
 				title: '테크리더의 3인3색 AI 전략',
-				image: 'https://static.mk.co.kr/facebook_mknews.jpg'
+				image: '/cover/5.jpg'
 			},
 			{
 				type: 'summary',
@@ -141,7 +141,7 @@ export const MOCK_SHORTGEUL_DATA = [
 			{
 				type: 'cover',
 				title: '광고',
-				image: 'gradient-ad'
+				image: '/cover/5.jpg'
 			}
 		],
 		source: 'GlobaLink AD',
